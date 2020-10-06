@@ -1,5 +1,5 @@
 <template>
-  <v-card outlined color="transparent">
+  <v-card flat color="transparent">
     <v-card-title class="font-weight-bold">Featured Itineraries</v-card-title>
     <v-card-text>
       <v-row dense>

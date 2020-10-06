@@ -61,6 +61,7 @@
                     class="text-capitalize"
                     large
                     rounded
+                    :to="{ name: 'feed-page' }"
                     >Sign In</v-btn
                   >
                 </div>
