@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app :style="{ backgroundColor: '#ECEFF3' }">
     <v-app-bar app color="secondary" fixed style="z-index: 5" dark>
       <v-toolbar-title class="mr-5">
         <custom-router-link :to="{ name: 'feed-page' }">
@@ -22,6 +22,7 @@
     </v-app-bar>
     <v-main>
       <router-view></router-view>
+      <generic-basic-footer></generic-basic-footer>
     </v-main>
   </v-app>
 </template>
@@ -29,8 +30,13 @@
 <script>
 import CustomRouterLink from "@/components/custom/RouterLink";
 import MainLayoutToolbarAccountButtonMenu from "@/components/main-layout/ToolbarAccountButtonMenu";
+import GenericBasicFooter from "@/components/generic/footer/Basic";
 export default {
   name: "main-layout",
-  components: { MainLayoutToolbarAccountButtonMenu, CustomRouterLink },
+  components: {
+    GenericBasicFooter,
+    MainLayoutToolbarAccountButtonMenu,
+    CustomRouterLink,
+  },
 };
 </script>
