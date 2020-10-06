@@ -12,7 +12,11 @@
         <span :class="`${isScrollingDown ? 'primary--text' : ''}`">Buddy </span>
       </v-toolbar-title>
       <v-spacer> </v-spacer>
-      <v-btn color="primary" depressed class="text-capitalize white--text"
+      <v-btn
+        color="primary"
+        depressed
+        class="text-capitalize white--text"
+        :to="{ name: 'sign-in-page' }"
         >Sign In</v-btn
       >
       <v-btn

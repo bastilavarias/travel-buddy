@@ -6,8 +6,13 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "home",
+    name: "home-page",
     component: () => import("../pages/Home"),
+  },
+  {
+    path: "/sign-in",
+    name: "sign-in-page",
+    component: () => import("../pages/SignIn"),
   },
 ];
 
