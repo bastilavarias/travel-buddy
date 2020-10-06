@@ -22,7 +22,12 @@
       <span class="caption secondary--text">Sept 22, 2020 - Sept 25, 2020</span>
     </v-card-text>
     <v-card-actions>
-      <v-btn color="primary" :disabled="isRated"> Review </v-btn>
+      <v-btn
+        color="primary"
+        :disabled="isRated"
+        :to="{ name: 'itinerary-post-details-page' }"
+        >View</v-btn
+      >
       <div class="flex-grow-1"></div>
       <span
         v-if="!isRated"

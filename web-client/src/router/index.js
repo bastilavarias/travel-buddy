@@ -7,26 +7,37 @@ const routes = [
   {
     path: "/",
     name: "home-page",
-    component: () => import("../pages/Home"),
+    component: () => import("@/pages/Home"),
   },
   {
     path: "/sign-in",
     name: "sign-in-page",
-    component: () => import("../pages/SignIn"),
+    component: () => import("@/pages/SignIn"),
   },
   {
     path: "/signup",
     name: "signup-page",
-    component: () => import("../pages/Signup"),
+    component: () => import("@/pages/Signup"),
   },
   {
     path: "/feed",
-    component: () => import("../layouts/Main"),
+    component: () => import("@/layouts/Main"),
     children: [
       {
         path: "",
         name: "feed-page",
-        component: () => import("../pages/Feed"),
+        component: () => import("@/pages/Feed"),
+      },
+    ],
+  },
+  {
+    path: "/itinerary-post-details",
+    component: () => import("@/layouts/Main"),
+    children: [
+      {
+        path: "",
+        name: "itinerary-post-details-page",
+        component: () => import("@/pages/itinerary/PostDetails"),
       },
     ],
   },

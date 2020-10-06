@@ -29,3 +29,8 @@
 .cursor-pointer {
     cursor: pointer;
 }
+
+.text-content {
+    background-color: #ECEFF3;
+    padding: 10px;
+}
