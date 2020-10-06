@@ -1,0 +1,40 @@
+module.exports = [
+    {
+        name: "development",
+        type: "postgres",
+        host: process.env.DATABASE_HOST,
+        port: parseInt(process.env.DATABASE_PORT),
+        username: process.env.DATABASE_USERNAME,
+        password: process.env.DATABASE_PASSWORD,
+        database: process.env.DATABASE_NAME,
+        synchronize: true,
+        logging: true,
+        entities: ["src/database/entities/**/*.ts"],
+        migrations: ["src/database/migrations/**/*.ts"],
+        subscribers: ["src/database/subscribers/**/*.ts"],
+        cli: {
+            entitiesDir: "src/database/entities",
+            migrationsDir: "src/database/migrations",
+            subscribersDir: "src/database/subscribers",
+        },
+    },
+    {
+        name: "production",
+        type: "postgres",
+        host: process.env.DATABASE_HOST,
+        port: parseInt(process.env.DATABASE_PORT),
+        username: process.env.DATABASE_USERNAME,
+        password: process.env.DATABASE_PASSWORD,
+        database: process.env.DATABASE_NAME,
+        synchronize: true, // switch this to false once you have the initial tables created and use migrations instead
+        logging: true,
+        entities: ["dist/database/entities/**/*.js"],
+        migrations: ["dist/database/migrations/**/*.js"],
+        subscribers: ["dist/database/subscribers/**/*.js"],
+        cli: {
+            entitiesDir: "dist/database/entities",
+            migrationsDir: "dist/database/migrations",
+            subscribersDir: "dist/database/subscribers",
+        },
+    },
+];
