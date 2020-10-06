@@ -1,13 +1,10 @@
 <template>
-  <v-card
-    outlined
-    :class="`${className} custom-shadow`"
-    :width="width ? width : '100%'"
-  >
+  <v-card outlined :class="`${className}`" :width="width ? width : '100%'">
     <v-list-item two-line>
       <v-list-item-avatar :size="75">
         <v-img
-          src="https://bastilavarias.github.io/assets/img/sebastian-lavarias.5c3a8fdd.png"
+          src="https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg"
+          lazy-src="https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg"
         ></v-img>
       </v-list-item-avatar>
       <v-list-item-content>
@@ -19,27 +16,17 @@
           >Sebastian L.</v-list-item-title
         >
         <v-list-item-subtitle>
-          <span class="d-flex align-start">
-            <span class="primary--text caption mr-1"> ({{ rating }}) </span>
-            <v-rating
-              v-model="rating"
-              color="primary"
-              background-color="grey"
-              dense
-              hover
-              size="15"
-              readonly
-              class="mr-1"
-            ></v-rating>
-            <span class="grey--text caption mr-2"> (63) </span>
-          </span>
+          <v-chip small class="mr-1">
+            <v-icon color="primary" small left>mdi-star</v-icon>
+            <span class="primary--text">5.0</span>
+          </v-chip>
         </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
     <v-divider></v-divider>
     <v-card-text>
       <div class="mb-5">
-        <template v-for="n in 6">
+        <template v-for="n in 5">
           <v-chip label small class="ma-1 text-uppercase">{{
             `Skill #${n}`
           }}</v-chip>
@@ -68,7 +55,7 @@ export default {
   },
   data() {
     return {
-      rating: 4,
+      rating: 5,
     };
   },
 };
