@@ -7,9 +7,15 @@
       style="z-index: 5"
       dark
     >
-      <v-toolbar-title class="font-weight-bold white--text">
-        Travel
-        <span :class="`${isScrollingDown ? 'primary--text' : ''}`">Buddy </span>
+      <v-toolbar-title>
+        <custom-router-link :to="{ name: 'home-page' }">
+          <span class="font-weight-bold white--text">
+            Travel
+            <span :class="`${isScrollingDown ? 'primary--text' : ''}`"
+              >Buddy
+            </span>
+          </span>
+        </custom-router-link>
       </v-toolbar-title>
       <v-spacer> </v-spacer>
       <v-btn
@@ -23,6 +29,7 @@
         :color="isScrollingDown ? 'white' : 'primary'"
         text
         class="text-capitalize white--text"
+        :to="{ name: 'signup-page' }"
         >Signup</v-btn
       >
     </v-app-bar>
@@ -50,8 +57,10 @@ import HomePageFeaturedItinerariesCard from "@/components/home-page/FeaturedItin
 import HomePageTopTourGuidesCard from "@/components/home-page/TopTourGuidesCard";
 import GenericBasicFooter from "@/components/generic/footer/Basic";
 import CommonUtilities from "@/common/utilities";
+import CustomRouterLink from "@/components/custom/RouterLink";
 export default {
   components: {
+    CustomRouterLink,
     GenericBasicFooter,
     HomePageTopTourGuidesCard,
     HomePageFeaturedItinerariesCard,
