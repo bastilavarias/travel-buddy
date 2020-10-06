@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app :style="{ backgroundColor: '#ECEFF3' }">
     <v-app-bar color="secondary" fixed style="z-index: 5" dark>
       <v-toolbar-title>
         <custom-router-link :to="{ name: 'home-page' }">
@@ -61,6 +61,7 @@
                     class="text-capitalize"
                     large
                     rounded
+                    :to="{ name: 'feed-page' }"
                     >Sign In</v-btn
                   >
                 </div>

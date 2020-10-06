@@ -1,6 +1,8 @@
 <template>
   <v-card flat color="transparent">
-    <v-card-title class="font-weight-bold">Featured Itineraries</v-card-title>
+    <v-card-title class="font-weight-bold"
+      >Discover More Itineraries</v-card-title
+    >
     <v-card-text>
       <v-row dense>
         <template v-for="n in 8">
@@ -16,7 +18,7 @@
 <script>
 import GenericItineraryDetailsPreviewCard from "@/components/generic/card/ItineraryDetailsPreview";
 export default {
-  name: "home-page-featured-itineraries-card",
+  name: "feed-page-discover-more-itineraries-card",
   components: { GenericItineraryDetailsPreviewCard },
 };
 </script>
