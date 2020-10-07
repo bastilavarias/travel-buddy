@@ -41,6 +41,17 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/itinerary-checkout",
+    component: () => import("@/layouts/Main"),
+    children: [
+      {
+        path: "",
+        name: "itinerary-checkout-page",
+        component: () => import("@/pages/itinerary/Checkout"),
+      },
+    ],
+  },
 ];
 
 const router = new VueRouter({

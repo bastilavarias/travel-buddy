@@ -17,7 +17,11 @@
       </div>
     </v-card-text>
     <v-card-actions>
-      <v-btn block color="primary" class="text-capitalize"
+      <v-btn
+        block
+        color="primary"
+        class="text-capitalize"
+        :to="{ name: 'itinerary-checkout-page' }"
         >Book Now (&#8369; 999.999)</v-btn
       >
     </v-card-actions>
