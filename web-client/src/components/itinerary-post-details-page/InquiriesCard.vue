@@ -20,8 +20,8 @@
 </template>
 
 <script>
-import ItineraryPostDetailsInquiryMedia from "@/components/generic/list-item/ItineraryPostDetailsInquiry";
-import ItineraryPostDetailsInquiryReplyMedia from "@/components/generic/list-item/ItineraryPostDetailsInquiryReply";
+import ItineraryPostDetailsInquiryMedia from "@/components/generic/media/ItineraryPostDetailsInquiry";
+import ItineraryPostDetailsInquiryReplyMedia from "@/components/generic/media/ItineraryPostDetailsInquiryReply";
 export default {
   name: "itinerary-post-details-page-inquiries-card",
   components: {

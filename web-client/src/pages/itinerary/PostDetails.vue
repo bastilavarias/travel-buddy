@@ -17,6 +17,9 @@
             <v-col cols="12">
               <itinerary-post-details-page-inquiries-card></itinerary-post-details-page-inquiries-card>
             </v-col>
+            <v-col cols="12">
+              <itinerary-post-details-page-reviews-card></itinerary-post-details-page-reviews-card>
+            </v-col>
           </v-row>
         </v-col>
         <v-col cols="12" md="3">
@@ -37,8 +40,10 @@ import ItineraryPostDetailsPageContentCard from "@/components/itinerary-post-det
 import ItineraryPostDetailsPageBookButtonCard from "@/components/itinerary-post-details-page/BookButtonCard";
 import ItineraryPostDetailsPageInquiriesCard from "@/components/itinerary-post-details-page/InquiriesCard";
 import ItineraryPostDetailsPageTableCard from "@/components/itinerary-post-details-page/ItineraryTableCard";
+import ItineraryPostDetailsPageReviewsCard from "@/components/itinerary-post-details-page/ReviewsCard";
 export default {
   components: {
+    ItineraryPostDetailsPageReviewsCard,
     ItineraryPostDetailsPageTableCard,
     ItineraryPostDetailsPageInquiriesCard,
     ItineraryPostDetailsPageBookButtonCard,
