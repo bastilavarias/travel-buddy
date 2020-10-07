@@ -29,3 +29,13 @@
 .cursor-pointer {
     cursor: pointer;
 }
+
+.text-content {
+    background-color: #F0F2F5;
+}
+
+.sticky-container {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 5rem;
+}

@@ -33,7 +33,9 @@
       <span class="caption secondary--text">3 Days</span>
     </v-card-text>
     <v-card-actions>
-      <v-btn color="primary"> View </v-btn>
+      <v-btn color="primary" :to="{ name: 'itinerary-post-details-page' }">
+        View
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>
