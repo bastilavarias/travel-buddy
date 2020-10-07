@@ -72,6 +72,7 @@
 </template>
 <script>
 import { StripeElements } from "vue-stripe-checkout";
+import CommonUtilities from "@/common/utilities";
 
 export default {
   components: { StripeElements },
@@ -84,6 +85,7 @@ export default {
       charge: null,
     };
   },
+  mixins: [CommonUtilities],
   methods: {
     submit() {
       this.$refs.elementsRef.submit();
@@ -101,9 +103,6 @@ export default {
     sendTokenToServer(charge) {
       // Send to charge to your backend server to be processed
       // Documentation here: https://stripe.com/docs/api/charges/create
-    },
-    goBack() {
-      this.$router.go(-1);
     },
   },
 };
