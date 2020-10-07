@@ -1,12 +1,11 @@
 <template>
-  <div>
+  <div :style="{ position: 'relative', height: '35rem' }">
     <carousel
       :items="1"
       :nav="false"
       :free-drag="false"
       autoplay
       :autoplay-timeout="5000"
-      :style="{ position: 'relative', height: '35rem' }"
     >
       <v-img
         :src="require(`@/assets/home-page/backpackers.jpg`)"
