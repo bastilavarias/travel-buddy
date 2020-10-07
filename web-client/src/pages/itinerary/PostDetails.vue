@@ -9,6 +9,11 @@
         <v-col cols="12" md="9">
           <v-row>
             <v-col cols="12">
+              <v-btn @click="goBack" fab color="white" small>
+                <v-icon>mdi-chevron-left</v-icon>
+              </v-btn>
+            </v-col>
+            <v-col cols="12">
               <itinerary-post-details-page-content-card></itinerary-post-details-page-content-card>
             </v-col>
             <v-col cols="12">
@@ -49,6 +54,7 @@ import ItineraryPostDetailsPageInquiriesCard from "@/components/itinerary-post-d
 import ItineraryPostDetailsPageTableCard from "@/components/itinerary-post-details-page/ItineraryTableCard";
 import ItineraryPostDetailsPageReviewsCard from "@/components/itinerary-post-details-page/ReviewsCard";
 import ItineraryPostDetailsPageTourGuideInformationCard from "@/components/itinerary-post-details-page/TourGuideInformationCard";
+import CommonUtilities from "@/common/utilities";
 export default {
   components: {
     ItineraryPostDetailsPageTourGuideInformationCard,
@@ -59,6 +65,7 @@ export default {
     ItineraryPostDetailsPageContentCard,
     ItineraryPostDetailsPageHeader,
   },
+  mixins: [CommonUtilities],
   data() {
     return {
       height: 0,
