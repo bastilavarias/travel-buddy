@@ -26,39 +26,18 @@
               <v-textarea outlined single-line label="Description"></v-textarea>
             </v-col>
             <v-col cols="12">
-              <v-autocomplete
+              <v-text-field
+                type="number"
                 outlined
                 single-line
-                label="Tour Guide"
-                :items="sampleTourGuides"
-              >
-                <template v-slot:item="{ item }">
-                  <v-list-item three-line>
-                    <v-list-item-avatar color="secondary" :size="65">
-                      <v-img :src="item.image" :lazy-src="item.image"></v-img>
-                    </v-list-item-avatar>
-                    <v-list-item-content>
-                      <v-list-item-subtitle>
-                        <v-icon small class="mr-1"
-                          >mdi-map-marker-outline</v-icon
-                        >
-                        <span>
-                          {{ item.location }}
-                        </span>
-                      </v-list-item-subtitle>
-                      <v-list-item-title class="font-weight-bold">{{
-                        item.name
-                      }}</v-list-item-title>
-                      <v-list-item-subtitle>
-                        <v-chip small>
-                          <v-icon color="primary" small left>mdi-star</v-icon>
-                          <span class="primary--text">5.0</span>
-                        </v-chip>
-                      </v-list-item-subtitle>
-                    </v-list-item-content>
-                  </v-list-item>
-                </template>
-              </v-autocomplete>
+                label="Maximum Pax *"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12">
+              <custom-image-input
+                label="Images *"
+                multiple
+              ></custom-image-input>
             </v-col>
             <v-col cols="12">
               <div class="d-flex justify-space-between align-center">
@@ -150,8 +129,10 @@ import CustomTooltipButton from "@/components/custom/TooltipButton";
 import CommonUtilities from "@/common/utilities";
 import ItineraryManagementPageTransportationCombobox from "@/components/itinerary-management-page/TransportationCombobox";
 import ItineraryManagementPageActivityCombobox from "@/components/itinerary-management-page/ActivityCombobox";
+import CustomImageInput from "@/components/custom/ImageInput";
 export default {
   components: {
+    CustomImageInput,
     ItineraryManagementPageActivityCombobox,
     ItineraryManagementPageTransportationCombobox,
     CustomTooltipButton,
@@ -213,15 +194,6 @@ export default {
           transportation: "Transportation",
           lodging: "Lodging",
           activities: ["Activity 1", "Activity 2"],
-        },
-      ],
-      sampleTourGuides: [
-        {
-          image:
-            "https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg",
-          name: "Cardo D.",
-          rating: 4.5,
-          location: "Manila, Philippines",
         },
       ],
       isDayFormDialogOpen: false,
