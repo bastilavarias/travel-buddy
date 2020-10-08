@@ -72,6 +72,22 @@ const routes = [
           },
         ],
       },
+      {
+        path: "tour-guide-management",
+        component: () => import("@/layouts/Sub"),
+        children: [
+          {
+            path: "",
+            name: "tour-guide-management/table",
+            component: () => import("@/pages/tour-guide-management/Table"),
+          },
+          {
+            path: "record",
+            name: "tour-guide-management/record",
+            component: () => import("@/pages/tour-guide-management/Record"),
+          },
+        ],
+      },
     ],
   },
 ];
