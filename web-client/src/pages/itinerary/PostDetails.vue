@@ -17,9 +17,6 @@
               <itinerary-post-details-page-content-card></itinerary-post-details-page-content-card>
             </v-col>
             <v-col cols="12">
-              <itinerary-post-details-page-tour-guide-information-card></itinerary-post-details-page-tour-guide-information-card>
-            </v-col>
-            <v-col cols="12">
               <itinerary-post-details-page-table-card></itinerary-post-details-page-table-card>
             </v-col>
             <v-col cols="12">
@@ -53,11 +50,9 @@ import ItineraryPostDetailsPageBookButtonCard from "@/components/itinerary-post-
 import ItineraryPostDetailsPageInquiriesCard from "@/components/itinerary-post-details-page/InquiriesCard";
 import ItineraryPostDetailsPageTableCard from "@/components/itinerary-post-details-page/ItineraryTableCard";
 import ItineraryPostDetailsPageReviewsCard from "@/components/itinerary-post-details-page/ReviewsCard";
-import ItineraryPostDetailsPageTourGuideInformationCard from "@/components/itinerary-post-details-page/TourGuideInformationCard";
 import CommonUtilities from "@/common/utilities";
 export default {
   components: {
-    ItineraryPostDetailsPageTourGuideInformationCard,
     ItineraryPostDetailsPageReviewsCard,
     ItineraryPostDetailsPageTableCard,
     ItineraryPostDetailsPageInquiriesCard,
