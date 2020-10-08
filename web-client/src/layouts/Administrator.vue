@@ -31,6 +31,19 @@
       </v-list-item>
       <v-divider></v-divider>
       <v-list flat>
+        <v-list-item
+          :to="{ name: 'booking-management-page/table' }"
+          active-class="primary--text"
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-book</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>
+            <v-badge color="primary" dot inline class="mt-0">
+              Manage Bookings
+            </v-badge>
+          </v-list-item-title>
+        </v-list-item>
         <template v-for="(action, index) in actions">
           <v-list-item
             :key="index"
@@ -73,10 +86,6 @@ export default {
           text: "Manage Accounts",
           icon: "mdi-account",
           to: { name: "account-management-page/table" },
-        },
-        {
-          text: "Manage Bookings",
-          icon: "mdi-book",
         },
       ],
     };

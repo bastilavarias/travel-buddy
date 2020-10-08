@@ -8,6 +8,7 @@
         @click="action"
         :to="to"
         :exact-active-class="exactActiveClass"
+        :disabled="disabled"
         ><v-icon>{{ icon }}</v-icon></v-btn
       >
     </template>
@@ -29,6 +30,10 @@ export default {
     },
     color: {
       type: String,
+      required: false,
+    },
+    disabled: {
+      type: Boolean,
       required: false,
     },
     action: {
