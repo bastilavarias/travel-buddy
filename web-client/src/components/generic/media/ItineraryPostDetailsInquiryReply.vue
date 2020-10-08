@@ -4,9 +4,7 @@
       <div class="d-flex align-start justify-space-between mb-2">
         <div class="mr-2">
           <div class="px-4 py-3">
-            <div class="caption mb-2">
-              Sebastian Curtis T. Lavarias - 6 hrs ago
-            </div>
+            <div class="caption mb-2">Cardo Dalisay - 6 hrs ago</div>
             <div class="subtitle-2 text-justify">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore
               obcaecati qui temporibus. Distinctio, eveniet illum non obcaecati
@@ -16,7 +14,7 @@
         </div>
         <v-avatar :size="40">
           <v-img
-            src="https://bastilavarias.github.io/assets/img/sebastian-lavarias.5c3a8fdd.png"
+            src="https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg"
           ></v-img>
         </v-avatar>
       </div>
