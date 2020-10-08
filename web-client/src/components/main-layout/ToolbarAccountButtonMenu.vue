@@ -75,9 +75,14 @@ export default {
     return {
       actions: [
         {
-          title: "Administrator",
+          title: "Administrator Panel",
           icon: "mdi-view-dashboard-outline",
           to: { name: "booking-management-page/table" },
+        },
+        {
+          title: "Tour Guide Panel",
+          icon: "mdi-view-dashboard-outline",
+          to: { name: "tour-guide-personal-bookings-page/table" },
         },
         {
           title: "Sign Out",
