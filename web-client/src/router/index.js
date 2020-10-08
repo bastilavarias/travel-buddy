@@ -104,6 +104,22 @@ const routes = [
           },
         ],
       },
+      {
+        path: "booking-management",
+        component: () => import("@/layouts/Sub"),
+        children: [
+          {
+            path: "",
+            name: "booking-management-page/table",
+            component: () => import("@/pages/booking-management/Table"),
+          },
+          {
+            path: "form",
+            name: "booking-management-page/form",
+            component: () => import("@/pages/booking-management/Form"),
+          },
+        ],
+      },
     ],
   },
 ];
