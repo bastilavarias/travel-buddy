@@ -2,7 +2,15 @@
   <section>
     <v-container>
       <v-card outlined>
-        <v-card-title class="font-weight-bold"> Tour Guide List </v-card-title>
+        <v-card-title>
+          <span class="font-weight-bold">Account List</span>
+          <div class="flex-grow-1"></div>
+          <custom-tooltip-button
+            icon="mdi-plus"
+            text="Create new Account"
+            :to="{ name: 'account-management-page/form' }"
+          ></custom-tooltip-button>
+        </v-card-title>
         <v-data-table :headers="tableHeaders" :items="sampleItems">
           <template v-slot:top>
             <v-card-text>
@@ -34,18 +42,23 @@
               {{ item.name }}
             </span>
           </template>
-          <template v-slot:item.rating="{ item }">
-            <generic-rating-chip></generic-rating-chip>
+          <template v-slot:item.isActive="{ item }">
+            <generic-account-status-chip
+              :is-active="item.isActive"
+            ></generic-account-status-chip>
           </template>
           <template v-slot:item.actions="{ item }">
             <custom-tooltip-button
-              icon="mdi-file-find"
-              text="View Record"
-              :to="{ name: 'tour-guide-management-page/record' }"
+              icon="mdi-stop"
+              text="Disable Account"
+            ></custom-tooltip-button>
+            <custom-tooltip-button
+              icon="mdi-pencil-outline"
+              text="Edit Account"
             ></custom-tooltip-button>
             <custom-tooltip-button
               icon="mdi-delete-outline"
-              text="Delete Record"
+              text="Delete Account"
             ></custom-tooltip-button>
           </template>
         </v-data-table>
@@ -57,8 +70,13 @@
 <script>
 import CustomTooltipButton from "@/components/custom/TooltipButton";
 import GenericRatingChip from "@/components/generic/chip/Rating";
+import GenericAccountStatusChip from "@/components/generic/chip/AccountStatus";
 export default {
-  components: { GenericRatingChip, CustomTooltipButton },
+  components: {
+    GenericAccountStatusChip,
+    GenericRatingChip,
+    CustomTooltipButton,
+  },
   data() {
     return {
       tableHeaders: [
@@ -74,23 +92,13 @@ export default {
           sortable: true,
         },
         {
-          text: "Email",
-          value: "email",
-          sortable: true,
-        },
-        {
-          text: "Location",
-          value: "location",
+          text: "Type",
+          value: "type",
           sortable: false,
         },
         {
-          text: "Contact No.",
-          value: "contactNumber",
-          sortable: false,
-        },
-        {
-          text: "Rating",
-          value: "rating",
+          text: "Status",
+          value: "isActive",
           sortable: false,
         },
         {
@@ -105,25 +113,22 @@ export default {
           image:
             "https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg",
           name: "Cardo D.",
-          email: "cardodalisay@gmail.com",
-          location: "Manila, Philippines",
-          contactNumber: "09999999999",
+          type: "Tour Guide",
+          isActive: true,
         },
         {
           image:
             "https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg",
           name: "Cardo D.",
-          email: "cardodalisay@gmail.com",
-          location: "Manila, Philippines",
-          contactNumber: "09999999999",
+          type: "Tour Guide",
+          isActive: true,
         },
         {
           image:
             "https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg",
           name: "Cardo D.",
-          email: "cardodalisay@gmail.com",
-          location: "Manila, Philippines",
-          contactNumber: "09999999999",
+          type: "Client",
+          isActive: false,
         },
       ],
     };

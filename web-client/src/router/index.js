@@ -78,13 +78,29 @@ const routes = [
         children: [
           {
             path: "",
-            name: "tour-guide-management/table",
+            name: "tour-guide-management-page/table",
             component: () => import("@/pages/tour-guide-management/Table"),
           },
           {
             path: "record",
-            name: "tour-guide-management/record",
+            name: "tour-guide-management-page/record",
             component: () => import("@/pages/tour-guide-management/Record"),
+          },
+        ],
+      },
+      {
+        path: "account-management",
+        component: () => import("@/layouts/Sub"),
+        children: [
+          {
+            path: "",
+            name: "account-management-page/table",
+            component: () => import("@/pages/account-management/Table"),
+          },
+          {
+            path: "form",
+            name: "account-management-page/form",
+            component: () => import("@/pages/account-management/Form"),
           },
         ],
       },
