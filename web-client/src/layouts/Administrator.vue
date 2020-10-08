@@ -67,6 +67,7 @@ export default {
         {
           text: "Manage Tour Guides",
           icon: "mdi-account-cowboy-hat",
+          to: { name: "tour-guide-management/table" },
         },
         {
           text: "Manage Accounts",

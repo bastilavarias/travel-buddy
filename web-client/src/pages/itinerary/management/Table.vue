@@ -54,6 +54,7 @@
     </v-container>
   </section>
 </template>
+
 <script>
 import CustomTooltipButton from "@/components/custom/TooltipButton";
 export default {
