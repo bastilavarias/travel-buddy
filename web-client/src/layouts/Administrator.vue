@@ -35,8 +35,7 @@
           <v-list-item
             :key="index"
             :to="action.to"
-            exact
-            exact-active-class="primary--text"
+            active-class="primary--text"
           >
             <v-list-item-icon>
               <v-icon>{{ action.icon }}</v-icon>
@@ -63,7 +62,7 @@ export default {
         {
           text: "Manage Itineraries",
           icon: "mdi-beach",
-          to: { name: "itinerary-management-page" },
+          to: { name: "itinerary-management-page/table" },
         },
         {
           text: "Manage Tour Guides",

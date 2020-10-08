@@ -58,8 +58,19 @@ const routes = [
     children: [
       {
         path: "itinerary-management",
-        name: "itinerary-management-page",
-        component: () => import("@/pages/itinerary/management/Table"),
+        component: () => import("@/layouts/Sub"),
+        children: [
+          {
+            path: "",
+            name: "itinerary-management-page/table",
+            component: () => import("@/pages/itinerary/management/Table"),
+          },
+          {
+            path: "form",
+            name: "itinerary-management-page/form",
+            component: () => import("@/pages/itinerary/management/Form"),
+          },
+        ],
       },
     ],
   },

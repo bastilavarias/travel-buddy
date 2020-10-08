@@ -7,7 +7,8 @@
           <div class="flex-grow-1"></div>
           <custom-tooltip-button
             icon="mdi-plus"
-            text="Create New Itinerary"
+            text="Create new Itinerary"
+            :to="{ name: 'itinerary-management-page/form' }"
           ></custom-tooltip-button>
         </v-card-title>
         <v-data-table :headers="tableHeaders" :items="sampleItems">
@@ -99,7 +100,7 @@ export default {
           tourGuide: {
             image:
               "https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg",
-            name: "Cardo Dalisay",
+            name: "Cardo D.",
           },
         },
         {
@@ -113,7 +114,7 @@ export default {
           tourGuide: {
             image:
               "https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg",
-            name: "Cardo Dalisay",
+            name: "Cardo D.",
           },
         },
         {
@@ -127,7 +128,7 @@ export default {
           tourGuide: {
             image:
               "https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg",
-            name: "Cardo Dalisay",
+            name: "Cardo D.",
           },
         },
       ],
