@@ -122,6 +122,17 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/tour-guide/my",
+    component: () => import("@/layouts/TourGuide"),
+    children: [
+      {
+        path: "",
+        name: "tour-guide-personal-bookings-page/table",
+        component: () => import("@/pages/TourGuidePersonalBookingsTable"),
+      },
+    ],
+  },
 ];
 
 const router = new VueRouter({

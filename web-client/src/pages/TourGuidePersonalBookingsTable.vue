@@ -3,7 +3,7 @@
     <v-container>
       <v-card outlined>
         <v-card-title>
-          <span class="font-weight-bold"> Booking List </span>
+          <span class="font-weight-bold"> My Booking List </span>
           <div class="flex-grow-1"></div>
           <v-chip>
             <v-icon left>mdi-tune</v-icon>
@@ -33,6 +33,9 @@
           </template>
           <template v-slot:item.customNumber="{ item }">
             <span class="font-weight-bold">{{ item.customNumber }}</span>
+          </template>
+          <template v-slot:item.date.from="{ item }">
+            <span>{{ item.date.from }} - {{ item.date.to }}</span>
           </template>
           <template v-slot:item.client="{ item }">
             <span>
@@ -66,14 +69,6 @@
               :is-done="item.isDone"
             ></generic-booking-status-chip>
           </template>
-          <template v-slot:item.action="{ item }">
-            <custom-tooltip-button
-              icon="mdi-pencil-outline"
-              text="Edit Booking"
-              :to="{ name: 'booking-management-page/form' }"
-              :disabled="item.isDone"
-            ></custom-tooltip-button>
-          </template>
         </v-data-table>
       </v-card>
     </v-container>
@@ -84,19 +79,25 @@
 import CustomTooltipButton from "@/components/custom/TooltipButton";
 import GenericBookingStatusChip from "@/components/generic/chip/BookingStatus";
 export default {
+  name: "tour-guide-personal-bookings",
   components: { GenericBookingStatusChip, CustomTooltipButton },
   data() {
     return {
       tableHeaders: [
         {
-          text: "Booked Date",
-          value: "createdAt",
-          sortable: true,
-        },
-        {
           text: "Booking #",
           value: "customNumber",
           sortable: false,
+        },
+        {
+          text: "Itinerary Name",
+          value: "itineraryName",
+          sortable: false,
+        },
+        {
+          text: "Date",
+          value: "date.from",
+          sortable: true,
         },
         {
           text: "Client",
@@ -104,19 +105,8 @@ export default {
           sortable: false,
         },
         {
-          text: "Tour Guide",
-          value: "tourGuide",
-          sortable: false,
-        },
-        {
           text: "Status",
           value: "status",
-          sortable: false,
-        },
-        {
-          text: "Action",
-          value: "action",
-          align: "right",
           sortable: false,
         },
       ],
@@ -124,28 +114,32 @@ export default {
         {
           createdAt: "12:35 PM - September 05, 2020",
           customNumber: "BOOKING-1800-1-114-2126",
-          client: {
-            image:
-              "https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg",
-            name: "Cardo D.",
+          itineraryName: "Itinerary Name",
+          date: {
+            from: "March 25, 2020",
+            to: "March 28, 2020",
           },
-          isDone: true,
-          tourGuide: {
-            image:
-              "https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg",
-            name: "Cardo D.",
-          },
-        },
-        {
-          createdAt: "12:35 PM - September 05, 2020",
-          customNumber: "BOOKING-1800-1-114-2126",
           client: {
             image:
               "https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg",
             name: "Cardo D.",
           },
           isDone: false,
-          tourGuide: null,
+        },
+        {
+          createdAt: "12:35 PM - September 05, 2020",
+          customNumber: "BOOKING-1800-1-114-2126",
+          itineraryName: "Itinerary Name",
+          date: {
+            from: "March 25, 2020",
+            to: "March 28, 2020",
+          },
+          client: {
+            image:
+              "https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg",
+            name: "Cardo D.",
+          },
+          isDone: true,
         },
       ],
     };
