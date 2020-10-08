@@ -22,7 +22,7 @@
         color="primary"
         class="text-capitalize"
         :to="{ name: 'itinerary-checkout-page' }"
-        >Book Now (&#8369; 999.999)</v-btn
+        >Checkout (&#8369; 999.999)</v-btn
       >
     </v-card-actions>
   </v-card>
