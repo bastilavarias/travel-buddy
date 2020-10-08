@@ -22,7 +22,8 @@
                       >Itinerary Name</v-list-item-title
                     >
                     <v-list-item-subtitle
-                      >3 Days | 11 Activities</v-list-item-subtitle
+                      ><span class="font-weight-bold">3 Days</span> | 11
+                      Activities</v-list-item-subtitle
                     >
                     <v-list-item-subtitle>
                       <v-chip small class="mr-1">
@@ -33,6 +34,29 @@
                     >
                   </v-list-item-content>
                 </v-list-item>
+                <v-card-text>
+                  <v-row dense>
+                    <v-col cols="12">
+                      <v-alert dense text type="success">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit. Dolor, reiciendis?
+                      </v-alert>
+                      <v-alert dense text type="error">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit. Dolor, reiciendis?
+                      </v-alert>
+                    </v-col>
+                    <v-col cols="12">
+                      <itinerary-post-details-page-date-picker
+                        label="Date"
+                      ></itinerary-post-details-page-date-picker>
+                    </v-col>
+                  </v-row>
+                </v-card-text>
+              </v-card>
+            </v-col>
+            <v-col cols="12">
+              <v-card outlined>
                 <v-card-text>
                   <v-row dense>
                     <v-col cols="12">
@@ -73,9 +97,10 @@
 <script>
 import { StripeElements } from "vue-stripe-checkout";
 import CommonUtilities from "@/common/utilities";
+import ItineraryPostDetailsPageDatePicker from "@/components/itinerary-post-details-page/DatePicker";
 
 export default {
-  components: { StripeElements },
+  components: { ItineraryPostDetailsPageDatePicker, StripeElements },
   data() {
     return {
       publishableKey: process.env.VUE_APP_STRIPE_PUBLISHABLE_KEY,

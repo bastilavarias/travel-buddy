@@ -10,10 +10,10 @@
       <v-list-item-content>
         <v-list-item-subtitle class="caption">
           <v-icon class="mr-1" small>mdi-map-marker-outline</v-icon>
-          <span>Tondo, Manila</span>
+          <span>España, Manila</span>
         </v-list-item-subtitle>
         <v-list-item-title class="primary--text font-weight-bold"
-          >Sebastian L.</v-list-item-title
+          >Cardo D.</v-list-item-title
         >
         <v-list-item-subtitle>
           <v-chip small class="mr-1">

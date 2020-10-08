@@ -52,6 +52,87 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/administrator",
+    component: () => import("@/layouts/Administrator"),
+    children: [
+      {
+        path: "itinerary-management",
+        component: () => import("@/layouts/Sub"),
+        children: [
+          {
+            path: "",
+            name: "itinerary-management-page/table",
+            component: () => import("@/pages/itinerary/management/Table"),
+          },
+          {
+            path: "form",
+            name: "itinerary-management-page/form",
+            component: () => import("@/pages/itinerary/management/Form"),
+          },
+        ],
+      },
+      {
+        path: "tour-guide-management",
+        component: () => import("@/layouts/Sub"),
+        children: [
+          {
+            path: "",
+            name: "tour-guide-management-page/table",
+            component: () => import("@/pages/tour-guide-management/Table"),
+          },
+          {
+            path: "record",
+            name: "tour-guide-management-page/record",
+            component: () => import("@/pages/tour-guide-management/Record"),
+          },
+        ],
+      },
+      {
+        path: "account-management",
+        component: () => import("@/layouts/Sub"),
+        children: [
+          {
+            path: "",
+            name: "account-management-page/table",
+            component: () => import("@/pages/account-management/Table"),
+          },
+          {
+            path: "form",
+            name: "account-management-page/form",
+            component: () => import("@/pages/account-management/Form"),
+          },
+        ],
+      },
+      {
+        path: "booking-management",
+        component: () => import("@/layouts/Sub"),
+        children: [
+          {
+            path: "",
+            name: "booking-management-page/table",
+            component: () => import("@/pages/booking-management/Table"),
+          },
+          {
+            path: "form",
+            name: "booking-management-page/form",
+            component: () => import("@/pages/booking-management/Form"),
+          },
+        ],
+      },
+    ],
+  },
+  {
+    path: "/tour-guide/my",
+    component: () => import("@/layouts/TourGuide"),
+    children: [
+      {
+        path: "",
+        name: "tour-guide-personal-bookings-page/table",
+        component: () => import("@/pages/TourGuidePersonalBookingsTable"),
+      },
+    ],
+  },
 ];
 
 const router = new VueRouter({
