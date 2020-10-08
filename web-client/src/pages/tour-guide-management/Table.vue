@@ -24,6 +24,7 @@
               </v-row>
             </v-card-text>
           </template>
+
           <template v-slot:item.image="{ item }">
             <v-avatar :size="25" color="secondary" class="mr-1">
               <v-img :src="item.image" :lazy-src="item.image"></v-img>
