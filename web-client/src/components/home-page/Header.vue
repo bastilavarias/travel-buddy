@@ -108,11 +108,6 @@ export default {
       ],
     };
   },
-  methods: {
-    goToContent() {
-      // this.$vuetify.goTo("#tour-guides-content", {});
-    },
-  },
 };
 </script>
 
