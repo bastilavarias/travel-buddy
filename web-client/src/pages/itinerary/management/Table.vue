@@ -12,6 +12,26 @@
           ></custom-tooltip-button>
         </v-card-title>
         <v-data-table :headers="tableHeaders" :items="sampleItems">
+          <template v-slot:top>
+            <v-card-text>
+              <v-row dense>
+                <v-col cols="12" md="10">
+                  <v-text-field
+                    hide-details
+                    single-line
+                    label="Search"
+                    outlined
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12" md="2">
+                  <v-btn color="secondary" block x-large>
+                    <span class="text-capitalize mr-1">Search</span>
+                    <v-icon>mdi-magnify</v-icon>
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </template>
           <template v-slot:item.details="{ item }">
             <span
               >{{ item.details.dayCount }} Days |
