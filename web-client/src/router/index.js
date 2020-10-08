@@ -52,6 +52,17 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/administrator",
+    component: () => import("@/layouts/Administrator"),
+    children: [
+      {
+        path: "itinerary-management",
+        name: "itinerary-management-page",
+        component: () => import("@/pages/itinerary/management/Table"),
+      },
+    ],
+  },
 ];
 
 const router = new VueRouter({
