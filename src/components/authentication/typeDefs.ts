@@ -18,3 +18,11 @@ export interface IAuthenticationServiceSignupInput {
 
 export interface IAuthenticationServiceSignupResult
   extends IAuthenticationResult {}
+
+export interface IAuthenticationServiceSignInInput {
+  email: string;
+  password: string;
+}
+
+export interface IAuthenticationServiceSignInResult
+  extends IAuthenticationResult {}
