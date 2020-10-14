@@ -44,15 +44,21 @@
                     color="primary"
                     filled
                     rounded
+                    v-model="form.email"
+                    :rules="[formRules.email]"
+                    :error="!!signInError.email"
+                    :error-messages="signInError.email"
                   ></v-text-field>
-                  <v-text-field
+                  <custom-password-text-field
                     filled
                     rounded
                     label="Password"
                     single-line
-                    color="primary"
-                    type="password"
-                  ></v-text-field>
+                    :password.sync="form.password"
+                    :rules="[formRules.password]"
+                    :error="!!signInError.password"
+                    :error-messages="signInError.password"
+                  ></custom-password-text-field>
                   <p class="caption primary--text mb-9">Forgot Password?</p>
                   <v-btn
                     block
@@ -61,10 +67,15 @@
                     class="text-capitalize"
                     large
                     rounded
-                    :to="{ name: 'feed-page' }"
+                    @click="signIn"
+                    :loading="isSignInStart"
+                    :disabled="!isSignInFormValid"
                     >Sign In</v-btn
                   >
                 </div>
+                <p class="text-center caption my-15">
+                  Or, Sign In with Socials
+                </p>
               </v-col>
             </v-row>
           </v-container>
@@ -78,9 +89,50 @@
 <script>
 import CommonUtilities from "@/common/utilities";
 import GenericBasicFooter from "@/components/generic/footer/Basic";
+import CustomPasswordTextField from "@/components/custom/PasswordTextField";
 import CustomRouterLink from "@/components/custom/RouterLink";
+import { AUTHENTICATION_SIGN_IN } from "@/store/types/authentication";
+const defaultSignInForm = {
+  email: "",
+  password: "",
+};
 export default {
-  components: { CustomRouterLink, GenericBasicFooter },
+  components: { CustomRouterLink, CustomPasswordTextField, GenericBasicFooter },
   mixins: [CommonUtilities],
+  data() {
+    return {
+      form: Object.assign({}, defaultSignInForm),
+      defaultSignInForm,
+      formRules: {
+        email: (value) => !!value || "Email should not be empty.",
+        password: (value) => !!value || "Password should not be empty.",
+      },
+      isSignInStart: false,
+      signInError: {
+        email: "",
+        password: "",
+      },
+    };
+  },
+  computed: {
+    isSignInFormValid() {
+      const { email, password } = this.form;
+      return email && password;
+    },
+  },
+  methods: {
+    async signIn() {
+      this.isSignInStart = true;
+      const { token, error } = await this.$store.dispatch(
+        AUTHENTICATION_SIGN_IN,
+        this.form
+      );
+      this.isSignInStart = false;
+      if (token) {
+        return await this.$router.push({ name: "feed-page" });
+      }
+      this.signInError = error;
+    },
+  },
 };
 </script>

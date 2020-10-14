@@ -1,4 +1,5 @@
 import {
+  AUTHENTICATION_SIGN_IN,
   AUTHENTICATION_SIGNUP,
   SET_AUTHENTICATION,
 } from "@/store/types/authentication";
@@ -26,6 +27,17 @@ const authenticationStore = {
         const result = await authenticationApiService.signup(input);
         const token = result.data.token ? result.data.token : "";
         tokenService.save(token);
+        return { token, error: { email: "" } };
+      } catch (error) {
+        return { token: "", error: error.response.data };
+      }
+    },
+
+    async [AUTHENTICATION_SIGN_IN]({ commit }, input) {
+      try {
+        const result = await authenticationApiService.signIn(input);
+        const token = result.data.token ? result.data.token : "";
+        commit(SET_AUTHENTICATION, token);
         return { token, error: { email: "" } };
       } catch (error) {
         return { token: "", error: error.response.data };
