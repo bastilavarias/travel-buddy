@@ -1,5 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import { REFRESH_AUTHENTICATION_SERVICE } from "@/store/types/authentication";
+import store from "@/store";
 
 Vue.use(VueRouter);
 
@@ -29,6 +31,9 @@ const routes = [
         component: () => import("@/pages/Feed"),
       },
     ],
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/itinerary-post-details",
@@ -40,6 +45,9 @@ const routes = [
         component: () => import("@/pages/itinerary/PostDetails"),
       },
     ],
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/itinerary-checkout",
@@ -51,6 +59,9 @@ const routes = [
         component: () => import("@/pages/itinerary/Checkout"),
       },
     ],
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/administrator",
@@ -121,6 +132,9 @@ const routes = [
         ],
       },
     ],
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/tour-guide/my",
@@ -132,6 +146,9 @@ const routes = [
         component: () => import("@/pages/TourGuidePersonalBookingsTable"),
       },
     ],
+    meta: {
+      requiresAuth: true,
+    },
   },
 ];
 
@@ -139,6 +156,21 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach(async (to, from, next) => {
+  await store.dispatch(REFRESH_AUTHENTICATION_SERVICE);
+  const authentication = store.state.authentication;
+  const isAuthenticated = authentication.isAuthenticated;
+  const isProtectedRoute = to.matched.some(
+    (record) => record.meta.requiresAuth
+  );
+  const publicRoutes = ["home-page", "sign-in-page", "signup-page"];
+  if (isProtectedRoute && !isAuthenticated)
+    return next({ name: "sign-in-page" });
+  if (publicRoutes.includes(to.name) && isAuthenticated)
+    return next({ name: "feed-page" });
+  next();
 });
 
 export default router;

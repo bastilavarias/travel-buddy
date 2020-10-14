@@ -8,6 +8,10 @@ const authenticationApiService = {
   async signIn(input) {
     return await apiService.post("/authentication/sign-in", input);
   },
+
+  async refreshToken() {
+    return await apiService.get("/authentication/refresh-token");
+  },
 };
 
 export default authenticationApiService;
