@@ -1,0 +1,4 @@
+export const GENERIC_FETCH_NATIONALITIES = "generic/FETCH_NATIONALITIES";
+export const GENERIC_SET_NATIONALITIES = "generic/SET_NATIONALITIES";
+export const GENERIC_FETCH_SEXES = "generic/FETCH_SEXES";
+export const GENERIC_SET_SEXES = "generic/SET_SEXES";

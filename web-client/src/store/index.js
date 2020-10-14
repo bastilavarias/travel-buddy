@@ -1,15 +1,13 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
+import genericStore from "@/store/modules/generic";
+import authenticationStore from "@/store/modules/authentication";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
   modules: {
-  }
-})
+    generic: genericStore,
+    authentication: authenticationStore,
+  },
+});

@@ -9,6 +9,9 @@
     :error="error"
     :error-messages="errorMessages"
     :rules="rules"
+    :filled="filled"
+    :rounded="rounded"
+    :single-line="singleLine"
   ></v-text-field>
 </template>
 
@@ -17,6 +20,18 @@ export default {
   name: "custom-password-text-field",
   props: {
     outlined: {
+      type: Boolean,
+      required: false,
+    },
+    filled: {
+      type: Boolean,
+      required: false,
+    },
+    rounded: {
+      type: Boolean,
+      required: false,
+    },
+    singleLine: {
       type: Boolean,
       required: false,
     },
