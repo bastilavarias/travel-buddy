@@ -1,10 +1,13 @@
 import {
   AUTHENTICATION_SIGN_IN,
   AUTHENTICATION_SIGNUP,
+  PURGE_AUTHENTICATION,
+  REFRESH_AUTHENTICATION_SERVICE,
   SET_AUTHENTICATION,
 } from "@/store/types/authentication";
 import tokenService from "@/services/token";
 import authenticationApiService from "@/services/api/modules/authentication";
+import apiService from "@/services/api";
 
 const authenticationStore = {
   state: {
@@ -18,6 +21,12 @@ const authenticationStore = {
       tokenService.save(token);
       state.isAuthenticated = true;
       state.credentials = tokenService.decode();
+    },
+
+    [PURGE_AUTHENTICATION](state) {
+      tokenService.remove();
+      state.isAuthenticated = false;
+      state.credentials = {};
     },
   },
 
@@ -41,6 +50,21 @@ const authenticationStore = {
         return { token, error: { email: "" } };
       } catch (error) {
         return { token: "", error: error.response.data };
+      }
+    },
+
+    async [REFRESH_AUTHENTICATION_SERVICE]({ commit }) {
+      if (tokenService.get()) {
+        apiService.setHeader();
+        try {
+          const result = await authenticationApiService.refreshToken();
+          const { token } = result.data;
+          commit(SET_AUTHENTICATION, token);
+        } catch (error) {
+          commit(PURGE_AUTHENTICATION);
+        }
+      } else {
+        commit(PURGE_AUTHENTICATION);
       }
     },
   },

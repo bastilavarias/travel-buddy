@@ -58,11 +58,24 @@
           </v-list-item-action-text>
         </v-list-item>
       </template>
+      <v-list-item>
+        <v-list-item-title
+          class="font-weight-bold cursor-pointer"
+          @click="signOut"
+          >Sign Out</v-list-item-title
+        >
+        <v-list-item-action-text>
+          <v-icon color="secondary">mdi-logout</v-icon>
+        </v-list-item-action-text>
+      </v-list-item>
     </v-card>
   </v-menu>
 </template>
 
 <script>
+import { PURGE_AUTHENTICATION } from "@/store/types/authentication";
+import "@/style/global.css";
+
 export default {
   name: "main-layout-toolbar-account-button-menu",
   props: {
@@ -84,13 +97,15 @@ export default {
           icon: "mdi-view-dashboard-outline",
           to: { name: "tour-guide-personal-bookings-page/table" },
         },
-        {
-          title: "Sign Out",
-          icon: "mdi-logout",
-          to: { name: "home-page" },
-        },
       ],
     };
+  },
+
+  methods: {
+    async signOut() {
+      await this.$store.commit(PURGE_AUTHENTICATION);
+      await this.$router.push({ name: "sign-in-page" });
+    },
   },
 };
 </script>

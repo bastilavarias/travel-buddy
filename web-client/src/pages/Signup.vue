@@ -142,41 +142,6 @@
                         </div>
                       </v-col>
                     </v-row>
-                    <div class="my-15">
-                      <p class="caption">Or, Sign In with Social Accounts</p>
-                      <div class="d-flex align-center">
-                        <v-btn
-                          color="#3B5998"
-                          depressed
-                          rounded
-                          dark
-                          class="mr-5"
-                        >
-                          <v-icon class="mr-2">mdi-facebook</v-icon>
-                          <span class="text-capitalize"
-                            >Signup with Facebook</span
-                          >
-                        </v-btn>
-                        <v-btn
-                          color="#DB4437"
-                          depressed
-                          rounded
-                          dark
-                          class="mr-5"
-                        >
-                          <v-icon class="mr-2">mdi-google</v-icon>
-                          <span class="text-capitalize"
-                            >Signup with Google</span
-                          >
-                        </v-btn>
-                        <v-btn color="#1DA1F2" depressed rounded dark>
-                          <v-icon class="mr-2">mdi-twitter</v-icon>
-                          <span class="text-capitalize"
-                            >Signup with Twitter</span
-                          >
-                        </v-btn>
-                      </div>
-                    </div>
                     <p class="caption">
                       Have an account?
                       <span class="primary--text font-weight-bold"
