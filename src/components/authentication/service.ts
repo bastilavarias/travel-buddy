@@ -1,4 +1,5 @@
 import {
+  IAuthenticationServiceRefreshTokenResult,
   IAuthenticationServiceSignInInput,
   IAuthenticationServiceSignInResult,
   IAuthenticationServiceSignupInput,
@@ -89,6 +90,23 @@ const authenticationService = {
       result.error.password = `Password is not valid.`;
       return result;
     }
+    // @ts-ignore
+    delete gotAccountDetails.password;
+    const generatedJsonWebToken = jsonwebtoken.sign(
+      JSON.stringify(gotAccountDetails),
+      <jsonwebtoken.Secret>process.env.JWT_SECRET_OR_KEY
+    );
+    result.token = `Bearer ${generatedJsonWebToken}`;
+    return result;
+  },
+
+  async refreshToken(
+    accountID: number
+  ): Promise<IAuthenticationServiceRefreshTokenResult> {
+    const result = {
+      token: "",
+    };
+    const gotAccountDetails = await accountModel.getDetailsByID(accountID);
     // @ts-ignore
     delete gotAccountDetails.password;
     const generatedJsonWebToken = jsonwebtoken.sign(

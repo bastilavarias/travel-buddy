@@ -73,9 +73,6 @@
                     >Sign In</v-btn
                   >
                 </div>
-                <p class="text-center caption my-15">
-                  Or, Sign In with Socials
-                </p>
               </v-col>
             </v-row>
           </v-container>

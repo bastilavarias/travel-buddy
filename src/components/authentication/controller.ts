@@ -32,6 +32,18 @@ const authenticationController = {
       response.status(400).json(error);
     }
   },
+
+  async refreshToken(request: Request, response: Response) {
+    try {
+      // @ts-ignore
+      const accountID: number = request.user.id;
+      const result = await authenticationService.refreshToken(accountID);
+      response.status(200).json(result);
+    } catch (error) {
+      console.log(error);
+      response.status(400).json(error);
+    }
+  },
 };
 
 export default authenticationController;
