@@ -1,8 +1,8 @@
 import Database from "../index";
 import Nationality from "../entities/Nationality";
-// import Sex from "../entities/Sex";
+import Sex from "../entities/Sex";
 import nationalities from "./modules/nationalities";
-// import sexes from "./modules/sexes";
+import sexes from "./modules/sexes";
 
 const generateSeeds = async () => {
   const connection = await Database.init();
@@ -13,13 +13,13 @@ const generateSeeds = async () => {
     .values(nationalities)
     .onConflict(`("name") do nothing`)
     .execute();
-  // await connection
-  //     .createQueryBuilder()
-  //     .insert()
-  //     .into(Sex)
-  //     .values(sexes)
-  //     .onConflict(`("name") do nothing`)
-  //     .execute();
+  await connection
+    .createQueryBuilder()
+    .insert()
+    .into(Sex)
+    .values(sexes)
+    .onConflict(`("name") do nothing`)
+    .execute();
 };
 
 generateSeeds()
