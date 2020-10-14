@@ -26,3 +26,7 @@ export interface IAuthenticationServiceSignInInput {
 
 export interface IAuthenticationServiceSignInResult
   extends IAuthenticationResult {}
+
+export interface IAuthenticationServiceRefreshTokenResult {
+  token: string;
+}
