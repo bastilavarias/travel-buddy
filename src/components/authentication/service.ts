@@ -1,4 +1,6 @@
 import {
+  IAuthenticationServiceSignInInput,
+  IAuthenticationServiceSignInResult,
   IAuthenticationServiceSignupInput,
   IAuthenticationServiceSignupResult,
 } from "./typeDefs";
@@ -52,6 +54,45 @@ const authenticationService = {
     delete savedAccountDetails.password;
     const generatedJsonWebToken = jsonwebtoken.sign(
       JSON.stringify(savedAccountDetails),
+      <jsonwebtoken.Secret>process.env.JWT_SECRET_OR_KEY
+    );
+    result.token = `Bearer ${generatedJsonWebToken}`;
+    return result;
+  },
+
+  async signIn(
+    input: IAuthenticationServiceSignInInput
+  ): Promise<IAuthenticationServiceSignInResult> {
+    const result = {
+      token: "",
+      error: {
+        email: "",
+        password: "",
+      },
+    };
+    const isEmail = validator.isEmail(input.email);
+    if (!isEmail) {
+      result.error.email = `${input.email} is not valid email.`;
+      return result;
+    }
+    const gotAccountDetails = await accountModel.getDetailsByEmail(input.email);
+    const isEmailExists = !!gotAccountDetails;
+    if (!isEmailExists) {
+      result.error.email = `${input.email} is not exists.`;
+      return result;
+    }
+    const isPlainTextPasswordValid = utilityService.validateHashPassword(
+      input.password,
+      gotAccountDetails.password
+    );
+    if (!isPlainTextPasswordValid) {
+      result.error.password = `Password is not valid.`;
+      return result;
+    }
+    // @ts-ignore
+    delete gotAccountDetails.password;
+    const generatedJsonWebToken = jsonwebtoken.sign(
+      JSON.stringify(gotAccountDetails),
       <jsonwebtoken.Secret>process.env.JWT_SECRET_OR_KEY
     );
     result.token = `Bearer ${generatedJsonWebToken}`;
