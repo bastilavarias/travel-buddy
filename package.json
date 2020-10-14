@@ -9,7 +9,7 @@
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:web-client\"",
     "dev:server": "nodemon --exec ts-node src/server.ts",
     "dev:web-client": "npm run serve --prefix web-client",
-    "generate:development-seeds": "ts-node src/components/database/seeds/index.ts",
+    "generate:development-seeds": "ts-node src/database/seeds/index.ts",
     "generate:production-seeds": "node dist/database/seeds/index.js",
     "start": "node dist/server.js"
   },
