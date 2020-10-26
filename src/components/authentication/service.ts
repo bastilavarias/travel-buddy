@@ -11,7 +11,10 @@ import utilityService from "../utility/service";
 import accountModel from "../account/model";
 import jsonwebtoken from "jsonwebtoken";
 import { IAccountModelSaveDetailsInput } from "../account/typeDefs";
-import { IProfileModelSaveDetailsInput } from "../profile/typeDefs";
+import {
+  IProfileModelSaveDetailsInput,
+  IProfileModelSaveImageDetailsInput,
+} from "../profile/typeDefs";
 
 const authenticationService = {
   async signup(
@@ -34,12 +37,23 @@ const authenticationService = {
       result.error.email = `${input.email} is already exists.`;
       return result;
     }
+
+    const imageSaveDetailsInput: IProfileModelSaveImageDetailsInput = {
+      url: "",
+      publicID: "",
+      // @ts-ignore
+      data: null,
+    };
+    const savedImageDetails = await profileModel.saveImageDetails(
+      imageSaveDetailsInput
+    );
     const profileSaveDetailsInput: IProfileModelSaveDetailsInput = {
       firstName: input.firstName,
       lastName: input.lastName,
       nationality: input.nationality,
       birthDate: input.birthDate,
       sex: input.sex,
+      imageID: savedImageDetails.id,
     };
     const savedProfileDetails = await profileModel.saveDetails(
       profileSaveDetailsInput

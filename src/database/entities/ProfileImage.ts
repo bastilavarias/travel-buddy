@@ -5,12 +5,12 @@ export default class ProfileImage extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column("text", { nullable: false })
+  @Column("text", { nullable: true })
   url: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   publicID: string;
 
-  @Column("bytea", { nullable: false })
+  @Column("bytea", { nullable: true })
   data: Buffer;
 }
