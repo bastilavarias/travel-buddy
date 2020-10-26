@@ -1,5 +1,6 @@
 import Account from "../../database/entities/Account";
 import { AccountModelSaveDetailsInput } from "./typeDefs";
+import AccountType from "../../database/entities/AccountType";
 
 const accountModel = {
   async getDetailsByEmail(email: string): Promise<Account> {
@@ -27,6 +28,10 @@ const accountModel = {
       profile: { id: profileID },
     }).save();
     return this.getDetailsByID(gotDetails.id);
+  },
+
+  async fetchTypes(): Promise<AccountType[]> {
+    return await AccountType.find();
   },
 };
 
