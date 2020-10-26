@@ -1,5 +1,5 @@
 import Account from "../../database/entities/Account";
-import { AccountModelSaveDetailsInput } from "./typeDefs";
+import { IAccountModelSaveDetailsInput } from "./typeDefs";
 import AccountType from "../../database/entities/AccountType";
 
 const accountModel = {
@@ -19,13 +19,13 @@ const accountModel = {
     return gotDetails!;
   },
 
-  async saveDetails(input: AccountModelSaveDetailsInput): Promise<Account> {
-    const { email, password, type, profileID } = input;
+  async saveDetails(input: IAccountModelSaveDetailsInput): Promise<Account> {
+    const { email, password, accountTypeID, profileID } = input;
     const gotDetails = await Account.create({
       email,
       password,
-      type,
       profile: { id: profileID },
+      type: { id: accountTypeID },
     }).save();
     return this.getDetailsByID(gotDetails.id);
   },

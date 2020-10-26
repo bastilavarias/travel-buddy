@@ -1,16 +1,27 @@
 import Profile from "../../database/entities/Profile";
-import { ProfileModelSaveDetailsInput } from "./typeDefs";
+import {
+  IProfileModelSaveDetailsInput,
+  IProfileModelSaveImageDetailsInput,
+} from "./typeDefs";
+import ProfileImage from "../../database/entities/ProfileImage";
 
 const profileModel = {
-  async saveDetails(input: ProfileModelSaveDetailsInput): Promise<Profile> {
-    const { firstName, lastName, nationality, birthDate, sex } = input;
+  async saveDetails(input: IProfileModelSaveDetailsInput): Promise<Profile> {
+    const { firstName, lastName, nationality, birthDate, sex, imageID } = input;
     return await Profile.create({
       firstName,
       lastName,
       nationality,
       birthDate,
       sex,
+      image: { id: imageID },
     }).save();
+  },
+
+  async saveImageDetails(
+    input: IProfileModelSaveImageDetailsInput
+  ): Promise<ProfileImage> {
+    return await ProfileImage.create(input).save();
   },
 };
 

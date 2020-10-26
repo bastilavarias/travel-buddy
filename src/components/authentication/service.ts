@@ -10,6 +10,8 @@ import profileModel from "../profile/model";
 import utilityService from "../utility/service";
 import accountModel from "../account/model";
 import jsonwebtoken from "jsonwebtoken";
+import { IAccountModelSaveDetailsInput } from "../account/typeDefs";
+import { IProfileModelSaveDetailsInput } from "../profile/typeDefs";
 
 const authenticationService = {
   async signup(
@@ -32,7 +34,7 @@ const authenticationService = {
       result.error.email = `${input.email} is already exists.`;
       return result;
     }
-    const profileSaveDetailsInput = {
+    const profileSaveDetailsInput: IProfileModelSaveDetailsInput = {
       firstName: input.firstName,
       lastName: input.lastName,
       nationality: input.nationality,
@@ -42,10 +44,11 @@ const authenticationService = {
     const savedProfileDetails = await profileModel.saveDetails(
       profileSaveDetailsInput
     );
-    const accountSaveDetailsInput = {
+    const clientTypeID = 1;
+    const accountSaveDetailsInput: IAccountModelSaveDetailsInput = {
       email: input.email,
       password: utilityService.hashPassword(input.password),
-      type: "client",
+      accountTypeID: clientTypeID,
       profileID: savedProfileDetails.id,
     };
     const savedAccountDetails = await accountModel.saveDetails(

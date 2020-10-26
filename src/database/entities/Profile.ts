@@ -2,10 +2,12 @@ import {
   BaseEntity,
   Column,
   Entity,
+  JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import Account from "./Account";
+import ProfileImage from "./ProfileImage";
 
 @Entity()
 export default class Profile extends BaseEntity {
@@ -31,4 +33,8 @@ export default class Profile extends BaseEntity {
 
   @OneToOne(() => Account, (account) => account.profile)
   account: Account;
+
+  @OneToOne(() => ProfileImage)
+  @JoinColumn()
+  image: ProfileImage;
 }
