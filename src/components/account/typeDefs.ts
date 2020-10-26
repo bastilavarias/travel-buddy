@@ -1,3 +1,16 @@
+import { IProfileSoftDetails } from "../profile/typeDefs";
+import AccountType from "../../database/entities/AccountType";
+
+interface IBaseAccount {
+  firstName: string;
+  lastName: string;
+  nationality: string;
+  email: string;
+  password?: string;
+  birthDate: Date;
+  sex: string;
+}
+
 export interface IAccountModelSaveDetailsInput {
   email: string;
   password: string;
@@ -5,20 +18,21 @@ export interface IAccountModelSaveDetailsInput {
   accountTypeID: number;
 }
 
-export interface IAccountServiceCreateNewInput {
-  firstName: string;
-  lastName: string;
-  nationality: string;
-  email: string;
-  birthDate: Date;
-  sex: string;
+export interface IAccountServiceCreateNewInput extends IBaseAccount {
   typeID: number;
   image: Express.Multer.File;
 }
 
 export interface IAccountServiceCreateNewResult {
-  account?: Account;
+  account?: IAccountSoftDetails;
   error: {
     email: string;
   };
+}
+
+export interface IAccountSoftDetails extends IBaseAccount {
+  typeID?: number;
+  profileID?: number;
+  type: AccountType;
+  profile: IProfileSoftDetails;
 }

@@ -74,8 +74,14 @@ const accountService = {
     const savedAccountDetails = await accountModel.saveDetails(
       accountSaveDetailsInput
     );
+    const gotAccount = await accountModel.getSoftDetails(
+      savedAccountDetails.id
+    );
+    gotAccount.profile = await profileModel.getSoftDetails(
+      gotAccount.profileID!
+    );
     // @ts-ignore
-    result.account! = await accountModel.getDetailsByID(savedAccountDetails.id);
+    result.account! = gotAccount;
     return result;
   },
 };

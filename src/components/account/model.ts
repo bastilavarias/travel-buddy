@@ -1,6 +1,7 @@
 import Account from "../../database/entities/Account";
-import { IAccountModelSaveDetailsInput } from "./typeDefs";
+import { IAccountModelSaveDetailsInput, IAccountSoftDetails } from "./typeDefs";
 import AccountType from "../../database/entities/AccountType";
+import { getRepository } from "typeorm";
 
 const accountModel = {
   async getDetailsByEmail(email: string): Promise<Account> {
@@ -16,7 +17,33 @@ const accountModel = {
       where: { id: accountID },
       relations: ["profile"],
     });
+    // @ts-ignore
+    delete gotDetails?.password;
     return gotDetails!;
+  },
+
+  async getSoftDetails(accountID: number): Promise<IAccountSoftDetails> {
+    const gotDetails: IAccountSoftDetails = <IAccountSoftDetails>(
+      await getRepository(Account)
+        .createQueryBuilder("account")
+        .select([
+          "id",
+          "email",
+          `"createdAt"`,
+          `"typeId" as "typeID"`,
+          `"profileId" as "profileID"`,
+        ])
+        .where("account.id = :id", { id: accountID })
+        .getRawOne()
+    );
+    gotDetails.type = await this.getType(gotDetails.typeID!);
+    delete gotDetails.typeID;
+    return gotDetails!;
+  },
+
+  async getType(typeID: number): Promise<AccountType> {
+    const foundType = await AccountType.findOne(typeID);
+    return foundType!;
   },
 
   async saveDetails(input: IAccountModelSaveDetailsInput): Promise<Account> {
