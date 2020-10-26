@@ -80,8 +80,8 @@ const accountService = {
     gotAccount.profile = await profileModel.getSoftDetails(
       gotAccount.profileID!
     );
-    // @ts-ignore
-    result.account! = gotAccount;
+    delete gotAccount.profileID;
+    result.account = gotAccount;
     return result;
   },
 };

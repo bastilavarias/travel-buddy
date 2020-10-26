@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import accountService from "./service";
 import { IAccountServiceCreateNewInput } from "./typeDefs";
+import utilityService from "../utility/service";
 
 const accountController = {
   async fetchTypes(_request: Request, response: Response) {
@@ -17,6 +18,9 @@ const accountController = {
       const input: IAccountServiceCreateNewInput = request.body;
       input.image = request.file;
       const result = await accountService.createNew(input);
+      if (utilityService.checkErrorIfValid(result.error)) throw result.error;
+      // @ts-ignore
+      delete result.error;
       response.status(200).json(result);
     } catch (error) {
       console.log(error);
