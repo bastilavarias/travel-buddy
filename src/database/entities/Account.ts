@@ -3,10 +3,12 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import Profile from "./Profile";
+import AccountType from "./AccountType";
 
 @Entity()
 export default class Account extends BaseEntity {
@@ -19,9 +21,6 @@ export default class Account extends BaseEntity {
   @Column("text", { nullable: false })
   password: string;
 
-  @Column({ nullable: false })
-  type: string;
-
   @Column("timestamp with time zone", {
     nullable: false,
     default: () => "CURRENT_TIMESTAMP",
@@ -31,4 +30,7 @@ export default class Account extends BaseEntity {
   @OneToOne(() => Profile, (profile) => profile.account)
   @JoinColumn()
   profile: Profile;
+
+  @ManyToOne(() => AccountType)
+  type: AccountType;
 }
