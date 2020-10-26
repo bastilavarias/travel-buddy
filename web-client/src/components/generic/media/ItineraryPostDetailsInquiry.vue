@@ -38,7 +38,6 @@
                 <v-col cols="12">
                   <v-textarea
                     label="Type your reply here"
-                    single-line
                     outlined
                   ></v-textarea>
                 </v-col>

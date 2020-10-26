@@ -16,7 +16,6 @@
         v-bind="attrs"
         v-on="on"
         outlined
-        single-line
       ></v-text-field>
     </template>
     <v-date-picker

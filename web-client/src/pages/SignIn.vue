@@ -40,7 +40,6 @@
                 <div>
                   <v-text-field
                     label="Email"
-                    single-line
                     color="primary"
                     filled
                     rounded
@@ -53,7 +52,6 @@
                     filled
                     rounded
                     label="Password"
-                    single-line
                     :password.sync="form.password"
                     :rules="[formRules.password]"
                     :error="!!signInError.password"

@@ -12,7 +12,7 @@
         :value="formattedDate"
         :label="label"
         :filled="filled"
-        :single-line="singleLine"
+        :="singleLine"
         :rounded="rounded"
         readonly
         v-bind="attrs"

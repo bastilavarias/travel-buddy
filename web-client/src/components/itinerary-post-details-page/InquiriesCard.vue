@@ -32,7 +32,7 @@
           </v-btn>
         </v-card-title>
         <v-card-text>
-          <v-textarea outlined single-line label="Inquiry"></v-textarea>
+          <v-textarea outlined label="Inquiry"></v-textarea>
         </v-card-text>
         <v-card-actions>
           <v-btn color="secondary" block class="text-capitalize">Post</v-btn>

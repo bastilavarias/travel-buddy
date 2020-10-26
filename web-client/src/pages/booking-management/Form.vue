@@ -47,7 +47,6 @@
             <v-col cols="12" md="8">
               <v-text-field
                 label="Client Name"
-                single-line
                 outlined
                 readonly
                 value="Client Name"
@@ -56,7 +55,6 @@
             <v-col cols="12" md="4">
               <v-text-field
                 label="Client Email"
-                single-line
                 outlined
                 readonly
                 value="Client Email"
@@ -65,7 +63,6 @@
             <v-col cols="12">
               <v-autocomplete
                 label="Tour Guide Name"
-                single-line
                 outlined
                 :items="sampleTourGuides"
               >

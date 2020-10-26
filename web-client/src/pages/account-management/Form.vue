@@ -18,28 +18,16 @@
               <span class="subtitle-1">Personal Information</span>
             </v-col>
             <v-col cols="12" md="6">
-              <v-text-field
-                outlined
-                single-line
-                label="First Name *"
-              ></v-text-field>
+              <v-text-field outlined label="First Name *"></v-text-field>
             </v-col>
             <v-col cols="12" md="6">
-              <v-text-field
-                outlined
-                single-line
-                label="Last Name *"
-              ></v-text-field>
+              <v-text-field outlined label="Last Name *"></v-text-field>
             </v-col>
             <v-col cols="12" md="8">
-              <v-autocomplete
-                outlined
-                single-line
-                label="Location"
-              ></v-autocomplete>
+              <v-autocomplete outlined label="Location"></v-autocomplete>
             </v-col>
             <v-col cols="12" md="4">
-              <v-select outlined single-line label="Gender"></v-select>
+              <v-select outlined label="Gender"></v-select>
             </v-col>
             <v-col cols="12">
               <account-management-page-birth-date-picker
@@ -54,10 +42,10 @@
               <span class="subtitle-1">Sign In Credentials</span>
             </v-col>
             <v-col cols="12">
-              <v-select outlined single-line label="Account Type *"></v-select>
+              <v-select outlined label="Account Type *"></v-select>
             </v-col>
             <v-col cols="12">
-              <v-text-field outlined single-line label="Email *"></v-text-field>
+              <v-text-field outlined label="Email *"></v-text-field>
             </v-col>
 
             <v-col cols="12">

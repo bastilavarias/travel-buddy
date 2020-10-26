@@ -58,7 +58,6 @@
               <v-col cols="12" md="10">
                 <v-text-field
                   hide-details
-                  single-line
                   rounded
                   filled
                   label="Search by Destination or Tour Guide Name"

@@ -6,7 +6,6 @@
     hide-selected
     :label="label"
     persistent-hint
-    single-line
     outlined
     class="text-capitalize"
     clearable

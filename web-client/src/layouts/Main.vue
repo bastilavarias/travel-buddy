@@ -10,7 +10,6 @@
       </v-toolbar-title>
       <v-text-field
         hide-details
-        single-line
         label="Search"
         rounded
         dense
