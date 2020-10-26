@@ -11,7 +11,7 @@
     :rules="rules"
     :filled="filled"
     :rounded="rounded"
-    :single-line="singleLine"
+    :="singleLine"
   ></v-text-field>
 </template>
 
