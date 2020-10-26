@@ -18,18 +18,16 @@
             <v-col cols="12">
               <v-text-field
                 outlined
-                single-line
                 label="Itinerary Name (E.g, 4 Nights in Amazing Paris) *"
               ></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-textarea outlined single-line label="Description"></v-textarea>
+              <v-textarea outlined label="Description"></v-textarea>
             </v-col>
             <v-col cols="12">
               <v-text-field
                 type="number"
                 outlined
-                single-line
                 label="Maximum Pax *"
               ></v-text-field>
             </v-col>
@@ -91,14 +89,10 @@
         <v-card-text>
           <v-row dense>
             <v-col cols="12">
-              <v-text-field outlined single-line label="Day *"></v-text-field>
+              <v-text-field outlined label="Day *"></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-autocomplete
-                outlined
-                single-line
-                label="Destination *"
-              ></v-autocomplete>
+              <v-autocomplete outlined label="Destination *"></v-autocomplete>
             </v-col>
             <v-col cols="12">
               <itinerary-management-page-transportation-combobox
@@ -106,7 +100,7 @@
               ></itinerary-management-page-transportation-combobox>
             </v-col>
             <v-col cols="12">
-              <v-text-field outlined single-line label="Lodging"></v-text-field>
+              <v-text-field outlined label="Lodging"></v-text-field>
             </v-col>
             <v-col cols="12">
               <itinerary-management-page-activity-combobox

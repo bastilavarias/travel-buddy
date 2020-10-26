@@ -8,7 +8,6 @@
     multiple
     persistent-hint
     small-chips
-    single-line
     outlined
     class="text-capitalize"
   >

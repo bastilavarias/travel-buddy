@@ -17,7 +17,6 @@
         >Sign In</v-btn
       >
     </v-app-bar>
-
     <v-main>
       <v-row no-gutters>
         <v-col md="2" class="d-none d-md-block">
@@ -44,7 +43,6 @@
                           filled
                           rounded
                           label="First Name *"
-                          single-line
                           v-model="form.firstName"
                         ></v-text-field>
                       </v-col>
@@ -53,7 +51,6 @@
                           filled
                           rounded
                           label="Last Name *"
-                          single-line
                           v-model="form.lastName"
                         ></v-text-field>
                       </v-col>
@@ -62,7 +59,6 @@
                           filled
                           rounded
                           label="Nationality *"
-                          single-line
                           :loading="isFetchGenericNationalitiesStart"
                           :items="genericNationalities"
                           item-text="label"
@@ -75,7 +71,6 @@
                           filled
                           rounded
                           label="Email *"
-                          single-line
                           type="email"
                           v-model="form.email"
                           :error="!!signupError.email"
@@ -95,7 +90,6 @@
                           filled
                           rounded
                           label="Sex *"
-                          single-line
                           :loading="isFetchGenericSexesStart"
                           :items="genericSexes"
                           item-text="label"
@@ -144,9 +138,11 @@
                     </v-row>
                     <p class="caption">
                       Have an account?
-                      <span class="primary--text font-weight-bold"
-                        >Sign In here</span
-                      >
+                      <custom-router-link :to="{ name: 'sign-in-page' }">
+                        <span class="primary--text font-weight-bold"
+                          >Sign In here.</span
+                        >
+                      </custom-router-link>
                     </p>
                   </v-card-text>
                 </v-card>
