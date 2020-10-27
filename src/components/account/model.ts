@@ -83,6 +83,14 @@ const accountModel = {
       .where(`account."isDeleted" = :isDeleted`, { isDeleted: false })
       .getRawMany();
   },
+
+  async updateActiveStatus(
+    accountID: number,
+    status: boolean
+  ): Promise<IAccountSoftDetails> {
+    await Account.update({ id: accountID }, { isActive: status });
+    return await this.getSoftDetails(accountID);
+  },
 };
 
 export default accountModel;

@@ -110,6 +110,11 @@ const accountService = {
       })
     );
   },
+
+  async disable(accountID: number): Promise<IAccountSoftDetails> {
+    const disabledStatus = false;
+    return await accountModel.updateActiveStatus(accountID, disabledStatus);
+  },
 };
 
 export default accountService;

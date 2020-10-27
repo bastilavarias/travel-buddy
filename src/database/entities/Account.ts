@@ -28,10 +28,10 @@ export default class Account extends BaseEntity {
   createdAt: Date;
 
   @Column("boolean", { nullable: false, default: false })
-  isDeleted: string;
+  isDeleted: boolean;
 
   @Column("boolean", { nullable: false, default: true })
-  isActive: string;
+  isActive: boolean;
 
   @OneToOne(() => Profile, (profile) => profile.account)
   @JoinColumn()
