@@ -25,6 +25,7 @@
                     label="Search"
                     outlined
                     v-model="search"
+                    clearable
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" md="2">
@@ -63,6 +64,14 @@
             <custom-tooltip-button
               icon="mdi-stop"
               text="Disable Account"
+              :action="() => openDisableAccountAlertDialog(item)"
+              v-if="item.isActive"
+            ></custom-tooltip-button>
+            <custom-tooltip-button
+              icon="mdi-play"
+              text="Enable Account"
+              :action="() => openEnableAccountAlertDialog()"
+              v-if="!item.isActive"
             ></custom-tooltip-button>
             <custom-tooltip-button
               icon="mdi-pencil-outline"
@@ -76,6 +85,20 @@
         </v-data-table>
       </v-card>
     </v-container>
+    <custom-alert-dialog
+      :is-open.sync="isDisableAccountAlertDialogOpen"
+      type="error"
+      title="Disable Account"
+      text="Are you sure you want to disable this account?"
+      :loading="isDisableAccountStart"
+      :action="() => disableAccount()"
+    ></custom-alert-dialog>
+    <custom-alert-dialog
+      :is-open.sync="isEnableAccountAlertDialogOpen"
+      type="success"
+      title="Enable Account"
+      text="Are you sure you want to enable this account?"
+    ></custom-alert-dialog>
   </section>
 </template>
 
@@ -83,10 +106,12 @@
 import CustomTooltipButton from "@/components/custom/TooltipButton";
 import GenericRatingChip from "@/components/generic/chip/Rating";
 import GenericAccountStatusChip from "@/components/generic/chip/AccountStatus";
-import { FETCH_ACCOUNTS_DETAILS } from "@/store/types/account";
+import { DISABLE_ACCOUNT, FETCH_ACCOUNTS_DETAILS } from "@/store/types/account";
 import commonUtilities from "@/common/utilities";
+import CustomAlertDialog from "@/components/custom/AlertDialog";
 export default {
   components: {
+    CustomAlertDialog,
     GenericAccountStatusChip,
     GenericRatingChip,
     CustomTooltipButton,
@@ -126,6 +151,10 @@ export default {
       accounts: [],
       isFetchAccountsStart: false,
       search: "",
+      isDisableAccountAlertDialogOpen: false,
+      isEnableAccountAlertDialogOpen: false,
+      selectedAccount: {},
+      isDisableAccountStart: false,
     };
   },
 
@@ -146,6 +175,31 @@ export default {
       this.isFetchAccountsStart = true;
       this.accounts = await this.$store.dispatch(FETCH_ACCOUNTS_DETAILS);
       this.isFetchAccountsStart = false;
+    },
+    async openDisableAccountAlertDialog(account) {
+      this.isDisableAccountAlertDialogOpen = true;
+      this.selectedAccount = account;
+    },
+    async openEnableAccountAlertDialog() {
+      this.isEnableAccountAlertDialogOpen = true;
+    },
+    async disableAccount() {
+      this.isDisableAccountStart = true;
+      const isDisabled = await this.$store.dispatch(
+        DISABLE_ACCOUNT,
+        this.selectedAccount.id
+      );
+      this.isDisableAccountStart = false;
+      if (isDisabled) {
+        this.accounts = this.accounts.map((account) => {
+          if (account.id === this.selectedAccount.id) {
+            account.isActive = false;
+          }
+          return account;
+        });
+        this.selectedAccount = {};
+        this.isDisableAccountAlertDialogOpen = false;
+      }
     },
   },
 
