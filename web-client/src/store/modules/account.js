@@ -1,5 +1,6 @@
 import {
   CREATE_NEW_ACCOUNT,
+  DISABLE_ACCOUNT,
   FETCH_ACCOUNT_TYPES,
   FETCH_ACCOUNTS_DETAILS,
   SET_ACCOUNT_TYPES,
@@ -57,11 +58,19 @@ const accountStore = {
       }
     },
 
-    async [FETCH_ACCOUNTS_DETAILS](_) {
+    async [FETCH_ACCOUNTS_DETAILS]() {
       try {
         return await accountApiService.fetchDetails();
       } catch (_) {
         return [];
+      }
+    },
+
+    async [DISABLE_ACCOUNT](_, accountID) {
+      try {
+        return await accountApiService.disable(accountID);
+      } catch (error) {
+        return false;
       }
     },
   },

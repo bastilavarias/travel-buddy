@@ -13,6 +13,10 @@ const accountApiService = {
     const result = await apiService.get("/account/details");
     return result.data || [];
   },
+  async disable(accountID) {
+    const result = await apiService.put(`/account/disable/${accountID}`);
+    return !result.data.isActive || {};
+  },
 };
 
 export default accountApiService;
