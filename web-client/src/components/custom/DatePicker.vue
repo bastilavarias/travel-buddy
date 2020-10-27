@@ -12,8 +12,8 @@
         :value="formattedDate"
         :label="label"
         :filled="filled"
-        :="singleLine"
         :rounded="rounded"
+        :outlined="outlined"
         readonly
         v-bind="attrs"
         v-on="on"
@@ -43,7 +43,7 @@ export default {
       type: Boolean,
       required: false,
     },
-    singleLine: {
+    outlined: {
       type: Boolean,
       required: false,
     },

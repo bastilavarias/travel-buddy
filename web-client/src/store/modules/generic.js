@@ -1,7 +1,7 @@
 import genericApiService from "@/services/api/modules/generic";
 import {
-  GENERIC_FETCH_NATIONALITIES,
-  GENERIC_FETCH_SEXES,
+  FETCH_GENERIC_NATIONALITIES,
+  FETCH_GENERIC_SEXES,
   GENERIC_SET_NATIONALITIES,
   GENERIC_SET_SEXES,
 } from "@/store/types/generic";
@@ -20,22 +20,22 @@ const genericStore = {
     },
   },
   actions: {
-    async [GENERIC_FETCH_NATIONALITIES]({ commit }) {
+    async [FETCH_GENERIC_NATIONALITIES]({ commit }) {
       try {
         const result = await genericApiService.fetchNationalities();
         const nationalities = result ? result.data : [];
         commit(GENERIC_SET_NATIONALITIES, nationalities);
-      } catch (errors) {
-        throw new Error(`[RWV] ApiService ${errors}`);
+      } catch (error) {
+        throw new Error(`[RWV] ApiService ${error}`);
       }
     },
-    async [GENERIC_FETCH_SEXES]({ commit }) {
+    async [FETCH_GENERIC_SEXES]({ commit }) {
       try {
         const result = await genericApiService.fetchSexes();
         const sexes = result ? result.data : [];
         commit(GENERIC_SET_SEXES, sexes);
-      } catch (errors) {
-        throw new Error(`[RWV] ApiService ${errors}`);
+      } catch (error) {
+        throw new Error(`[RWV] ApiService ${error}`);
       }
     },
   },

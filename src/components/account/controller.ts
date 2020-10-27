@@ -15,8 +15,16 @@ const accountController = {
 
   async createNew(request: Request, response: Response) {
     try {
-      const input: IAccountServiceCreateNewInput = request.body;
-      input.image = request.file;
+      const input: IAccountServiceCreateNewInput = {
+        firstName: request.body.firstName || "",
+        lastName: request.body.lastName || "",
+        nationality: request.body.nationality || "",
+        email: request.body.email || "",
+        birthDate: request.body.birthDate || "",
+        sex: request.body.sex || "",
+        image: request.file || null,
+        typeID: request.body.typeID || null,
+      };
       const result = await accountService.createNew(input);
       if (utilityService.checkErrorIfValid(result.error)) throw result.error;
       // @ts-ignore
