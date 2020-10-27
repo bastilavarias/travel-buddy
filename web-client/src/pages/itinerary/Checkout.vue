@@ -96,7 +96,7 @@
 </template>
 <script>
 import { StripeElements } from "vue-stripe-checkout";
-import CommonUtilities from "@/common/utilities";
+import commonUtilities from "@/common/utilities";
 import ItineraryPostDetailsPageDatePicker from "@/components/itinerary-post-details-page/DatePicker";
 
 export default {
@@ -110,7 +110,7 @@ export default {
       charge: null,
     };
   },
-  mixins: [CommonUtilities],
+  mixins: [commonUtilities],
   methods: {
     submit() {
       this.$refs.elementsRef.submit();

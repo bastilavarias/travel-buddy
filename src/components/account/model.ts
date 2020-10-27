@@ -36,6 +36,8 @@ const accountModel = {
           `"createdAt"`,
           `"typeId" as "typeID"`,
           `"profileId" as "profileID"`,
+          `"isDeleted"`,
+          `"isActive"`,
         ])
         .where("account.id = :id", { id: accountID })
         .getRawOne()
@@ -75,7 +77,7 @@ const accountModel = {
         `"createdAt"`,
         `"profileId" as "profileID"`,
         `"isDeleted"`,
-        `"isDisabled"`,
+        `"isActive"`,
         `"typeId" as "typeID"`,
       ])
       .where(`account."isDeleted" = :isDeleted`, { isDeleted: false })

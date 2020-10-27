@@ -106,11 +106,11 @@
 </template>
 <script>
 import CustomTooltipButton from "@/components/custom/TooltipButton";
-import CommonUtilities from "@/common/utilities";
+import commonUtilities from "@/common/utilities";
 import GenericBookingStatusChip from "@/components/generic/chip/BookingStatus";
 export default {
   components: { GenericBookingStatusChip, CustomTooltipButton },
-  mixins: [CommonUtilities],
+  mixins: [commonUtilities],
   data() {
     return {
       sampleTourGuides: [

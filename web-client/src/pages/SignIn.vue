@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import CommonUtilities from "@/common/utilities";
+import commonUtilities from "@/common/utilities";
 import GenericBasicFooter from "@/components/generic/footer/Basic";
 import CustomPasswordTextField from "@/components/custom/PasswordTextField";
 import CustomRouterLink from "@/components/custom/RouterLink";
@@ -93,7 +93,7 @@ const defaultSignInForm = {
 };
 export default {
   components: { CustomRouterLink, CustomPasswordTextField, GenericBasicFooter },
-  mixins: [CommonUtilities],
+  mixins: [commonUtilities],
   data() {
     return {
       form: Object.assign({}, defaultSignInForm),

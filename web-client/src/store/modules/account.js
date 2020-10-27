@@ -1,6 +1,7 @@
 import {
   CREATE_NEW_ACCOUNT,
   FETCH_ACCOUNT_TYPES,
+  FETCH_ACCOUNTS_DETAILS,
   SET_ACCOUNT_TYPES,
 } from "@/store/types/account";
 import accountApiService from "@/services/api/modules/account";
@@ -17,15 +18,6 @@ const accountStore = {
   },
 
   actions: {
-    async [FETCH_ACCOUNT_TYPES]({ commit }) {
-      try {
-        const types = await accountApiService.fetchTypes();
-        commit(SET_ACCOUNT_TYPES, types);
-      } catch (error) {
-        throw new Error(`[RWV] ApiService ${error}`);
-      }
-    },
-
     async [CREATE_NEW_ACCOUNT](
       _,
       {
@@ -53,6 +45,23 @@ const accountStore = {
         return { account: createdNewAccount, error: {} };
       } catch (error) {
         return { account: {}, error: error.response.data };
+      }
+    },
+
+    async [FETCH_ACCOUNT_TYPES]({ commit }) {
+      try {
+        const types = await accountApiService.fetchTypes();
+        commit(SET_ACCOUNT_TYPES, types);
+      } catch (error) {
+        throw new Error(`[RWV] ApiService ${error}`);
+      }
+    },
+
+    async [FETCH_ACCOUNTS_DETAILS](_) {
+      try {
+        return await accountApiService.fetchDetails();
+      } catch (_) {
+        return [];
       }
     },
   },

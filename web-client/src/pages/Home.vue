@@ -56,7 +56,7 @@ import HomePageHeader from "@/components/home-page/Header";
 import HomePageFeaturedItinerariesCard from "@/components/home-page/FeaturedItinerariesCard";
 import HomePageTopTourGuidesCard from "@/components/home-page/TopTourGuidesCard";
 import GenericBasicFooter from "@/components/generic/footer/Basic";
-import CommonUtilities from "@/common/utilities";
+import commonUtilities from "@/common/utilities";
 import CustomRouterLink from "@/components/custom/RouterLink";
 export default {
   components: {
@@ -66,6 +66,6 @@ export default {
     HomePageFeaturedItinerariesCard,
     HomePageHeader,
   },
-  mixins: [CommonUtilities],
+  mixins: [commonUtilities],
 };
 </script>

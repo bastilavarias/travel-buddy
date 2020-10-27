@@ -9,6 +9,6 @@ accountRouter.post(
   accountController.createNew
 );
 accountRouter.get("/types", accountController.fetchTypes);
-accountRouter.get("/soft-details", accountController.fetchSoftDetails);
+accountRouter.get("/details", accountController.fetchDetails);
 
 export default accountRouter;

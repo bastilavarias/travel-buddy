@@ -1,4 +1,4 @@
-const CommonUtilities = {
+const commonUtilities = {
   data() {
     return {
       isScrollingDown: false,
@@ -15,9 +15,11 @@ const CommonUtilities = {
         this.isScrollingDown = false;
       };
     },
-
     goBack() {
       this.$router.go(-1);
+    },
+    formatName(firstName, lastName) {
+      return `${firstName} ${lastName}`;
     },
   },
 
@@ -26,4 +28,4 @@ const CommonUtilities = {
   },
 };
 
-export default CommonUtilities;
+export default commonUtilities;

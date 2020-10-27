@@ -96,7 +96,7 @@ const accountService = {
     return await accountModel.fetchTypes();
   },
 
-  async fetchSoftDetails(): Promise<IAccountSoftDetails[]> {
+  async fetchDetails(): Promise<IAccountSoftDetails[]> {
     const gotRawDetails = await accountModel.fetchRawDetails();
     return await Promise.all(
       gotRawDetails.map(async (rawAccount) => {

@@ -36,9 +36,9 @@ const accountController = {
     }
   },
 
-  async fetchSoftDetails(_request: Request, response: Response) {
+  async fetchDetails(_request: Request, response: Response) {
     try {
-      const details = await accountService.fetchSoftDetails();
+      const details = await accountService.fetchDetails();
       response.status(200).json(details);
     } catch (error) {
       response.status(400).json(error);

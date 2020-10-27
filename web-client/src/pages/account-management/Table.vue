@@ -11,7 +11,11 @@
             :to="{ name: 'account-management-page/form' }"
           ></custom-tooltip-button>
         </v-card-title>
-        <v-data-table :headers="tableHeaders" :items="sampleItems">
+        <v-data-table
+          :headers="accountTableHeaders"
+          :items="searchedAccounts"
+          :loading="isFetchAccountsStart"
+        >
           <template v-slot:top>
             <v-card-text>
               <v-row dense>
@@ -20,6 +24,7 @@
                     hide-details
                     label="Search"
                     outlined
+                    v-model="search"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" md="2">
@@ -33,12 +38,20 @@
           </template>
           <template v-slot:item.image="{ item }">
             <v-avatar :size="25" color="secondary" class="mr-1">
-              <v-img :src="item.image" :lazy-src="item.image"></v-img>
+              <v-img
+                :src="item.profile.image.url"
+                :lazy-src="item.profile.image.url"
+              ></v-img>
             </v-avatar>
           </template>
           <template v-slot:item.name="{ item }">
             <span class="text-capitalize">
-              {{ item.name }}
+              {{ formatName(item.profile.firstName, item.profile.lastName) }}
+            </span>
+          </template>
+          <template v-slot:item.type="{ item }">
+            <span class="text-capitalize">
+              {{ item.type.label }}
             </span>
           </template>
           <template v-slot:item.isActive="{ item }">
@@ -70,15 +83,18 @@
 import CustomTooltipButton from "@/components/custom/TooltipButton";
 import GenericRatingChip from "@/components/generic/chip/Rating";
 import GenericAccountStatusChip from "@/components/generic/chip/AccountStatus";
+import { FETCH_ACCOUNTS_DETAILS } from "@/store/types/account";
+import commonUtilities from "@/common/utilities";
 export default {
   components: {
     GenericAccountStatusChip,
     GenericRatingChip,
     CustomTooltipButton,
   },
+  mixins: [commonUtilities],
   data() {
     return {
-      tableHeaders: [
+      accountTableHeaders: [
         {
           text: "",
           value: "image",
@@ -107,30 +123,34 @@ export default {
           sortable: false,
         },
       ],
-      sampleItems: [
-        {
-          image:
-            "https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg",
-          name: "Cardo D.",
-          type: "Tour Guide",
-          isActive: true,
-        },
-        {
-          image:
-            "https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg",
-          name: "Cardo D.",
-          type: "Tour Guide",
-          isActive: true,
-        },
-        {
-          image:
-            "https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg",
-          name: "Cardo D.",
-          type: "Client",
-          isActive: false,
-        },
-      ],
+      accounts: [],
+      isFetchAccountsStart: false,
+      search: "",
     };
+  },
+
+  computed: {
+    searchedAccounts() {
+      if (this.search === "") return this.accounts;
+      return this.accounts.filter((account) => {
+        const { firstName, lastName } = account.profile;
+        const keyword = this.search.toLowerCase();
+        if (firstName.toLowerCase().includes(keyword)) return account;
+        if (lastName.toLowerCase().includes(keyword)) return account;
+      });
+    },
+  },
+
+  methods: {
+    async fetchAccounts() {
+      this.isFetchAccountsStart = true;
+      this.accounts = await this.$store.dispatch(FETCH_ACCOUNTS_DETAILS);
+      this.isFetchAccountsStart = false;
+    },
+  },
+
+  async created() {
+    await this.fetchAccounts();
   },
 };
 </script>
