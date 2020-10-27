@@ -1,7 +1,7 @@
 import { IProfileSoftDetails } from "../profile/typeDefs";
 import AccountType from "../../database/entities/AccountType";
 
-interface IBaseAccount {
+interface IBaseAccountInput {
   firstName: string;
   lastName: string;
   nationality: string;
@@ -18,7 +18,7 @@ export interface IAccountModelSaveDetailsInput {
   accountTypeID: number;
 }
 
-export interface IAccountServiceCreateNewInput extends IBaseAccount {
+export interface IAccountServiceCreateNewInput extends IBaseAccountInput {
   typeID: number;
   image: Express.Multer.File;
 }
@@ -30,9 +30,20 @@ export interface IAccountServiceCreateNewResult {
   };
 }
 
-export interface IAccountSoftDetails extends IBaseAccount {
+export interface IAccountSoftDetails extends IBaseAccountInput {
   typeID?: number;
   profileID?: number;
   type: AccountType;
   profile: IProfileSoftDetails;
+}
+
+export interface IAccountRawDetails {
+  id: number;
+  email: string;
+  password: string;
+  createdAt: number;
+  profileID: number;
+  isDeleted: boolean;
+  isDisabled: boolean;
+  typeID: number;
 }

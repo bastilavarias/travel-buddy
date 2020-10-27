@@ -4,6 +4,7 @@ import {
   IAccountModelSaveDetailsInput,
   IAccountServiceCreateNewInput,
   IAccountServiceCreateNewResult,
+  IAccountSoftDetails,
 } from "./typeDefs";
 import validator from "validator";
 import {
@@ -16,10 +17,6 @@ import cloudinaryService from "../cloudinary/service";
 import { ICloudinaryFileMeta } from "../cloudinary/typeDefs";
 
 const accountService = {
-  async fetchTypes(): Promise<AccountType[]> {
-    return await accountModel.fetchTypes();
-  },
-
   async createNew(
     input: IAccountServiceCreateNewInput
   ): Promise<IAccountServiceCreateNewResult> {
@@ -33,7 +30,9 @@ const accountService = {
       result.error.email = `${input.email} is not valid email.`;
       return result;
     }
-    const gotAccountDetails = await accountModel.getDetailsByEmail(input.email);
+    const gotAccountDetails = await accountModel.getPartialDetailsByEmail(
+      input.email
+    );
     const isEmailExists = !!gotAccountDetails;
     if (isEmailExists) {
       result.error.email = `${input.email} is already exists.`;
@@ -91,6 +90,25 @@ const accountService = {
     delete gotAccount.profileID;
     result.account = gotAccount;
     return result;
+  },
+
+  async fetchTypes(): Promise<AccountType[]> {
+    return await accountModel.fetchTypes();
+  },
+
+  async fetchSoftDetails(): Promise<IAccountSoftDetails[]> {
+    const gotRawDetails = await accountModel.fetchRawDetails();
+    return await Promise.all(
+      gotRawDetails.map(async (rawAccount) => {
+        const account: IAccountSoftDetails = await accountModel.getSoftDetails(
+          rawAccount.id
+        );
+        account.profile = await profileModel.getSoftDetails(
+          rawAccount.profileID
+        );
+        return account;
+      })
+    );
   },
 };
 

@@ -4,15 +4,6 @@ import { IAccountServiceCreateNewInput } from "./typeDefs";
 import utilityService from "../utility/service";
 
 const accountController = {
-  async fetchTypes(_request: Request, response: Response) {
-    try {
-      const sexes = await accountService.fetchTypes();
-      response.status(200).json(sexes);
-    } catch (error) {
-      response.status(400).json(error);
-    }
-  },
-
   async createNew(request: Request, response: Response) {
     try {
       const input: IAccountServiceCreateNewInput = {
@@ -32,6 +23,24 @@ const accountController = {
       response.status(200).json(result);
     } catch (error) {
       console.log(error);
+      response.status(400).json(error);
+    }
+  },
+
+  async fetchTypes(_request: Request, response: Response) {
+    try {
+      const types = await accountService.fetchTypes();
+      response.status(200).json(types);
+    } catch (error) {
+      response.status(400).json(error);
+    }
+  },
+
+  async fetchSoftDetails(_request: Request, response: Response) {
+    try {
+      const details = await accountService.fetchSoftDetails();
+      response.status(200).json(details);
+    } catch (error) {
       response.status(400).json(error);
     }
   },

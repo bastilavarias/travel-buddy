@@ -27,6 +27,12 @@ export default class Account extends BaseEntity {
   })
   createdAt: Date;
 
+  @Column({ nullable: false, default: false })
+  isDeleted: string;
+
+  @Column({ nullable: false, default: false })
+  isDisabled: string;
+
   @OneToOne(() => Profile, (profile) => profile.account)
   @JoinColumn()
   profile: Profile;
