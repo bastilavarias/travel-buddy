@@ -13,6 +13,7 @@ import {
 import profileModel from "../profile/model";
 import utilityService from "../utility/service";
 import cloudinaryService from "../cloudinary/service";
+import { ICloudinaryFileMeta } from "../cloudinary/typeDefs";
 
 const accountService = {
   async fetchTypes(): Promise<AccountType[]> {
@@ -38,11 +39,18 @@ const accountService = {
       result.error.email = `${input.email} is already exists.`;
       return result;
     }
-    const uploadFolder = "accounts";
-    const uploadedImageMeta = await cloudinaryService.upload(
-      input.image,
-      uploadFolder
-    );
+    let uploadedImageMeta: ICloudinaryFileMeta = {
+      url: "",
+      publicID: "",
+      fileName: "",
+    };
+    if (input.image) {
+      const uploadFolder = "accounts";
+      uploadedImageMeta = await cloudinaryService.upload(
+        input.image,
+        uploadFolder
+      );
+    }
     const imageSaveDetailsInput: IProfileModelSaveImageDetailsInput = {
       url: uploadedImageMeta.url,
       fileName: uploadedImageMeta.fileName,

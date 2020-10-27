@@ -5,7 +5,7 @@
     outlined
     prepend-icon=""
     :multiple="multiple"
-    v-model="files"
+    v-model="imagesLocal"
   >
     <template v-slot:selection="{ index, text }">
       <v-chip v-if="index < 2" color="secondary" dark label small>
@@ -16,7 +16,7 @@
         v-else-if="index === 2"
         class="overline grey--text text--darken-3 mx-2"
       >
-        +{{ files.length - 2 }} File(s)
+        +{{ images.length - 2 }} File(s)
       </span>
     </template>
   </v-file-input>
@@ -25,12 +25,11 @@
 <script>
 export default {
   name: "custom-image-input",
-  data() {
-    return {
-      files: [],
-    };
-  },
+
   props: {
+    images: {
+      required: false,
+    },
     label: {
       type: String,
       required: false,
@@ -38,6 +37,22 @@ export default {
     multiple: {
       type: Boolean,
       required: false,
+    },
+  },
+
+  data() {
+    return {
+      imagesLocal: this.images,
+    };
+  },
+
+  watch: {
+    images(val) {
+      this.imagesLocal = val;
+    },
+
+    imagesLocal(val) {
+      this.$emit("update:images", val);
     },
   },
 };

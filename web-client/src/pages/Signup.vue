@@ -161,8 +161,8 @@ import CustomRouterLink from "@/components/custom/RouterLink";
 import GenericBasicFooter from "@/components/generic/footer/Basic";
 import CustomDatePicker from "@/components/custom/DatePicker";
 import {
-  GENERIC_FETCH_NATIONALITIES,
-  GENERIC_FETCH_SEXES,
+  FETCH_GENERIC_NATIONALITIES,
+  FETCH_GENERIC_SEXES,
 } from "@/store/types/generic";
 import CustomPasswordTextField from "@/components/custom/PasswordTextField";
 import { AUTHENTICATION_SIGNUP } from "@/store/types/authentication";
@@ -235,12 +235,12 @@ export default {
   methods: {
     async fetchGenericNationalities() {
       this.isFetchGenericNationalitiesStart = true;
-      await this.$store.dispatch(GENERIC_FETCH_NATIONALITIES);
+      await this.$store.dispatch(FETCH_GENERIC_NATIONALITIES);
       this.isFetchGenericNationalitiesStart = false;
     },
     async fetchGenericSexes() {
       this.isFetchGenericSexesStart = true;
-      await this.$store.dispatch(GENERIC_FETCH_SEXES);
+      await this.$store.dispatch(FETCH_GENERIC_SEXES);
       this.isFetchGenericSexesStart = false;
     },
     async signup() {
