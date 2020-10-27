@@ -3,12 +3,12 @@ import accountController from "./controller";
 import multer from "../../multer";
 const accountRouter = express.Router();
 
-accountRouter.get("/types", accountController.fetchTypes);
-
 accountRouter.post(
   "/create-new",
   multer.single("image"),
   accountController.createNew
 );
+accountRouter.get("/types", accountController.fetchTypes);
+accountRouter.get("/soft-details", accountController.fetchSoftDetails);
 
 export default accountRouter;

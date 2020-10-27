@@ -31,7 +31,9 @@ const authenticationService = {
       result.error.email = `${input.email} is not valid email.`;
       return result;
     }
-    const gotAccountDetails = await accountModel.getDetailsByEmail(input.email);
+    const gotAccountDetails = await accountModel.getPartialDetailsByEmail(
+      input.email
+    );
     const isEmailExists = !!gotAccountDetails;
     if (isEmailExists) {
       result.error.email = `${input.email} is already exists.`;
@@ -93,7 +95,9 @@ const authenticationService = {
       result.error.email = `${input.email} is not valid email.`;
       return result;
     }
-    const gotAccountDetails = await accountModel.getDetailsByEmail(input.email);
+    const gotAccountDetails = await accountModel.getPartialDetailsByEmail(
+      input.email
+    );
     const isEmailExists = !!gotAccountDetails;
     if (!isEmailExists) {
       result.error.email = `${input.email} is not exists.`;
@@ -123,7 +127,9 @@ const authenticationService = {
     const result = {
       token: "",
     };
-    const gotAccountDetails = await accountModel.getDetailsByID(accountID);
+    const gotAccountDetails = await accountModel.getPartialDetailsByID(
+      accountID
+    );
     // @ts-ignore
     delete gotAccountDetails.password;
     const generatedJsonWebToken = jsonwebtoken.sign(

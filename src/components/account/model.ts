@@ -1,10 +1,14 @@
 import Account from "../../database/entities/Account";
-import { IAccountModelSaveDetailsInput, IAccountSoftDetails } from "./typeDefs";
+import {
+  IAccountModelSaveDetailsInput,
+  IAccountRawDetails,
+  IAccountSoftDetails,
+} from "./typeDefs";
 import AccountType from "../../database/entities/AccountType";
 import { getRepository } from "typeorm";
 
 const accountModel = {
-  async getDetailsByEmail(email: string): Promise<Account> {
+  async getPartialDetailsByEmail(email: string): Promise<Account> {
     const gotDetails = await Account.findOne({
       where: { email },
       relations: ["profile"],
@@ -12,7 +16,7 @@ const accountModel = {
     return gotDetails!;
   },
 
-  async getDetailsByID(accountID: number): Promise<Account> {
+  async getPartialDetailsByID(accountID: number): Promise<Account> {
     const gotDetails = await Account.findOne({
       where: { id: accountID },
       relations: ["profile"],
@@ -54,11 +58,28 @@ const accountModel = {
       profile: { id: profileID },
       type: { id: accountTypeID },
     }).save();
-    return this.getDetailsByID(gotDetails.id);
+    return this.getPartialDetailsByID(gotDetails.id);
   },
 
   async fetchTypes(): Promise<AccountType[]> {
     return await AccountType.find();
+  },
+
+  async fetchRawDetails(): Promise<IAccountRawDetails[]> {
+    return await getRepository(Account)
+      .createQueryBuilder("account")
+      .select([
+        "id",
+        "email",
+        "password",
+        `"createdAt"`,
+        `"profileId" as "profileID"`,
+        `"isDeleted"`,
+        `"isDisabled"`,
+        `"typeId" as "typeID"`,
+      ])
+      .where(`account."isDeleted" = :isDeleted`, { isDeleted: false })
+      .getRawMany();
   },
 };
 
