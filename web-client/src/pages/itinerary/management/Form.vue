@@ -120,7 +120,7 @@
 
 <script>
 import CustomTooltipButton from "@/components/custom/TooltipButton";
-import CommonUtilities from "@/common/utilities";
+import commonUtilities from "@/common/utilities";
 import ItineraryManagementPageTransportationCombobox from "@/components/itinerary-management-page/TransportationCombobox";
 import ItineraryManagementPageActivityCombobox from "@/components/itinerary-management-page/ActivityCombobox";
 import CustomImageInput from "@/components/custom/ImageInput";
@@ -193,6 +193,6 @@ export default {
       isDayFormDialogOpen: false,
     };
   },
-  mixins: [CommonUtilities],
+  mixins: [commonUtilities],
 };
 </script>

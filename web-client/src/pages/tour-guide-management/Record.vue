@@ -90,7 +90,7 @@
 </template>
 <script>
 import CustomTooltipButton from "@/components/custom/TooltipButton";
-import CommonUtilities from "@/common/utilities";
+import commonUtilities from "@/common/utilities";
 import CustomLabelAndContent from "@/components/custom/LabelAndContent";
 import GenericRatingChip from "@/components/generic/chip/Rating";
 export default {
@@ -99,7 +99,7 @@ export default {
     CustomLabelAndContent,
     CustomTooltipButton,
   },
-  mixins: [CommonUtilities],
+  mixins: [commonUtilities],
   data() {
     return {
       tableHeaders: [

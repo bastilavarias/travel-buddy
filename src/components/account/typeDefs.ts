@@ -35,6 +35,8 @@ export interface IAccountSoftDetails extends IBaseAccountInput {
   profileID?: number;
   type: AccountType;
   profile: IProfileSoftDetails;
+  isDeleted: boolean;
+  isActive: boolean;
 }
 
 export interface IAccountRawDetails {

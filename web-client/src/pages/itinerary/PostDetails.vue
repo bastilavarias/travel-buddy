@@ -50,7 +50,7 @@ import ItineraryPostDetailsPageBookButtonCard from "@/components/itinerary-post-
 import ItineraryPostDetailsPageInquiriesCard from "@/components/itinerary-post-details-page/InquiriesCard";
 import ItineraryPostDetailsPageTableCard from "@/components/itinerary-post-details-page/ItineraryTableCard";
 import ItineraryPostDetailsPageReviewsCard from "@/components/itinerary-post-details-page/ReviewsCard";
-import CommonUtilities from "@/common/utilities";
+import commonUtilities from "@/common/utilities";
 export default {
   components: {
     ItineraryPostDetailsPageReviewsCard,
@@ -60,7 +60,7 @@ export default {
     ItineraryPostDetailsPageContentCard,
     ItineraryPostDetailsPageHeader,
   },
-  mixins: [CommonUtilities],
+  mixins: [commonUtilities],
   data() {
     return {
       height: 0,
