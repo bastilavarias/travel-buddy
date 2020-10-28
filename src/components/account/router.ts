@@ -25,5 +25,10 @@ accountRouter.put(
   passport.authenticate("jwt", { session: false }),
   accountController.disable
 );
+accountRouter.put(
+  "/enable/:accountID",
+  passport.authenticate("jwt", { session: false }),
+  accountController.disable
+);
 
 export default accountRouter;
