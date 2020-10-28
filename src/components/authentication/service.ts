@@ -39,7 +39,6 @@ const authenticationService = {
       result.error.email = `${input.email} is already exists.`;
       return result;
     }
-
     const imageSaveDetailsInput: IProfileModelSaveImageDetailsInput = {
       url: "",
       publicID: "",
@@ -101,6 +100,11 @@ const authenticationService = {
     const isEmailExists = !!gotAccountDetails;
     if (!isEmailExists) {
       result.error.email = `${input.email} is not exists.`;
+      return result;
+    }
+    const isAccountDisabled = !gotAccountDetails.isActive;
+    if (isAccountDisabled) {
+      result.error.email = `Account was disabled. Please contact the administrator to enable your account.`;
       return result;
     }
     const isPlainTextPasswordValid = utilityService.validateHashPassword(
