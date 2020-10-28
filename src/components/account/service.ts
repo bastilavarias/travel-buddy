@@ -115,6 +115,11 @@ const accountService = {
     const disabledStatus = false;
     return await accountModel.updateActiveStatus(accountID, disabledStatus);
   },
+
+  async enable(accountID: number): Promise<IAccountSoftDetails> {
+    const enabledStatus = false;
+    return await accountModel.updateActiveStatus(accountID, enabledStatus);
+  },
 };
 
 export default accountService;
