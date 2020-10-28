@@ -81,6 +81,7 @@ const accountModel = {
         `"typeId" as "typeID"`,
       ])
       .where(`account."isDeleted" = :isDeleted`, { isDeleted: false })
+      .orderBy(`account."createdAt"`, "DESC")
       .getRawMany();
   },
 

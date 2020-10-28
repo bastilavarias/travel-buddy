@@ -70,7 +70,7 @@
             <custom-tooltip-button
               icon="mdi-play"
               text="Enable Account"
-              :action="() => openEnableAccountAlertDialog()"
+              :action="() => openEnableAccountAlertDialog(item)"
               v-if="!item.isActive"
             ></custom-tooltip-button>
             <custom-tooltip-button
@@ -98,6 +98,7 @@
       type="success"
       title="Enable Account"
       text="Are you sure you want to enable this account?"
+      :action="() => enableAccount()"
     ></custom-alert-dialog>
   </section>
 </template>
@@ -106,7 +107,11 @@
 import CustomTooltipButton from "@/components/custom/TooltipButton";
 import GenericRatingChip from "@/components/generic/chip/Rating";
 import GenericAccountStatusChip from "@/components/generic/chip/AccountStatus";
-import { DISABLE_ACCOUNT, FETCH_ACCOUNTS_DETAILS } from "@/store/types/account";
+import {
+  DISABLE_ACCOUNT,
+  ENABLE_ACCOUNT,
+  FETCH_ACCOUNTS_DETAILS,
+} from "@/store/types/account";
 import commonUtilities from "@/common/utilities";
 import CustomAlertDialog from "@/components/custom/AlertDialog";
 export default {
@@ -155,6 +160,7 @@ export default {
       isEnableAccountAlertDialogOpen: false,
       selectedAccount: {},
       isDisableAccountStart: false,
+      isEnableAccountStart: false,
     };
   },
 
@@ -180,8 +186,9 @@ export default {
       this.isDisableAccountAlertDialogOpen = true;
       this.selectedAccount = account;
     },
-    async openEnableAccountAlertDialog() {
+    async openEnableAccountAlertDialog(account) {
       this.isEnableAccountAlertDialogOpen = true;
+      this.selectedAccount = account;
     },
     async disableAccount() {
       this.isDisableAccountStart = true;
@@ -199,6 +206,24 @@ export default {
         });
         this.selectedAccount = {};
         this.isDisableAccountAlertDialogOpen = false;
+      }
+    },
+    async enableAccount() {
+      this.isEnableAccountStart = true;
+      const isEnabled = await this.$store.dispatch(
+        ENABLE_ACCOUNT,
+        this.selectedAccount.id
+      );
+      this.isEnableAccountStart = false;
+      if (isEnabled) {
+        this.accounts = this.accounts.map((account) => {
+          if (account.id === this.selectedAccount.id) {
+            account.isActive = true;
+          }
+          return account;
+        });
+        this.selectedAccount = {};
+        this.isEnableAccountAlertDialogOpen = false;
       }
     },
   },

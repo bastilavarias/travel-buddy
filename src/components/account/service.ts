@@ -117,7 +117,7 @@ const accountService = {
   },
 
   async enable(accountID: number): Promise<IAccountSoftDetails> {
-    const enabledStatus = false;
+    const enabledStatus = true;
     return await accountModel.updateActiveStatus(accountID, enabledStatus);
   },
 };
