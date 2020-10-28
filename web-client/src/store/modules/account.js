@@ -1,6 +1,7 @@
 import {
   CREATE_NEW_ACCOUNT,
   DISABLE_ACCOUNT,
+  ENABLE_ACCOUNT,
   FETCH_ACCOUNT_TYPES,
   FETCH_ACCOUNTS_DETAILS,
   SET_ACCOUNT_TYPES,
@@ -69,6 +70,14 @@ const accountStore = {
     async [DISABLE_ACCOUNT](_, accountID) {
       try {
         return await accountApiService.disable(accountID);
+      } catch (error) {
+        return false;
+      }
+    },
+
+    async [ENABLE_ACCOUNT](_, accountID) {
+      try {
+        return await accountApiService.enable(accountID);
       } catch (error) {
         return false;
       }

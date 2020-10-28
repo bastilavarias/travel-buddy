@@ -17,6 +17,10 @@ const accountApiService = {
     const result = await apiService.put(`/account/disable/${accountID}`);
     return !result.data.isActive || {};
   },
+  async enable(accountID) {
+    const result = await apiService.put(`/account/enable/${accountID}`);
+    return result.data.isActive || {};
+  },
 };
 
 export default accountApiService;
