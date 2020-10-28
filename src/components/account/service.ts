@@ -71,7 +71,9 @@ const accountService = {
     const savedProfileDetails = await profileModel.saveDetails(
       profileSaveDetailsInput
     );
-    const defaultPassword = `${input.lastName}-${input.birthDate}`;
+    const defaultPassword = `${input.lastName.toUpperCase()}-${
+      input.birthDate
+    }`;
     const accountSaveDetailsInput: IAccountModelSaveDetailsInput = {
       email: input.email,
       password: utilityService.hashPassword(defaultPassword),
