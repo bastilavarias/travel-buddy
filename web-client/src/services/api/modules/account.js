@@ -15,11 +15,15 @@ const accountApiService = {
   },
   async disable(accountID) {
     const result = await apiService.put(`/account/disable/${accountID}`);
-    return !result.data.isActive || {};
+    return !result.data.isActive || false;
   },
   async enable(accountID) {
     const result = await apiService.put(`/account/enable/${accountID}`);
-    return result.data.isActive || {};
+    return result.data.isActive || false;
+  },
+  async delete(accountID) {
+    const result = await apiService.delete(`/account/delete/${accountID}`);
+    return result.data.isDeleted || false;
   },
 };
 

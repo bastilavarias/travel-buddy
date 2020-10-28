@@ -9,6 +9,7 @@
         :to="to"
         :exact-active-class="exactActiveClass"
         :disabled="disabled"
+        :loading="loading"
         ><v-icon>{{ icon }}</v-icon></v-btn
       >
     </template>
@@ -47,6 +48,10 @@ export default {
     },
     exactActiveClass: {
       type: String,
+      required: false,
+    },
+    loading: {
+      type: Boolean,
       required: false,
     },
   },

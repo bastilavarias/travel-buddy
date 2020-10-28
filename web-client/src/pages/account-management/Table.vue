@@ -8,7 +8,14 @@
           <custom-tooltip-button
             icon="mdi-plus"
             text="Create new Account"
+            :disabled="isFetchAccountsStart"
             :to="{ name: 'account-management-page/form' }"
+          ></custom-tooltip-button>
+          <custom-tooltip-button
+            icon="mdi-refresh"
+            text="Refresh List"
+            :loading="isFetchAccountsStart"
+            :action="() => fetchAccounts()"
           ></custom-tooltip-button>
         </v-card-title>
         <v-data-table
@@ -19,20 +26,15 @@
           <template v-slot:top>
             <v-card-text>
               <v-row dense>
-                <v-col cols="12" md="10">
+                <v-col cols="12">
                   <v-text-field
                     hide-details
                     label="Search"
                     outlined
                     v-model="search"
                     clearable
+                    :disabled="isFetchAccountsStart"
                   ></v-text-field>
-                </v-col>
-                <v-col cols="12" md="2">
-                  <v-btn color="secondary" block x-large>
-                    <span class="text-capitalize mr-1">Search</span>
-                    <v-icon>mdi-magnify</v-icon>
-                  </v-btn>
                 </v-col>
               </v-row>
             </v-card-text>
@@ -62,8 +64,13 @@
           </template>
           <template v-slot:item.actions="{ item }">
             <custom-tooltip-button
+              icon="mdi-pencil-outline"
+              text="Edit Account"
+            ></custom-tooltip-button>
+            <custom-tooltip-button
               icon="mdi-stop"
               text="Disable Account"
+              :disabled="isAccountTypeAdministrator(item.type)"
               :action="() => openDisableAccountAlertDialog(item)"
               v-if="item.isActive"
             ></custom-tooltip-button>
@@ -74,12 +81,10 @@
               v-if="!item.isActive"
             ></custom-tooltip-button>
             <custom-tooltip-button
-              icon="mdi-pencil-outline"
-              text="Edit Account"
-            ></custom-tooltip-button>
-            <custom-tooltip-button
               icon="mdi-delete-outline"
               text="Delete Account"
+              :action="() => openDeleteAccountAlertDialog(item)"
+              :disabled="isAccountTypeAdministrator(item.type)"
             ></custom-tooltip-button>
           </template>
         </v-data-table>
@@ -100,6 +105,13 @@
       text="Are you sure you want to enable this account?"
       :action="() => enableAccount()"
     ></custom-alert-dialog>
+    <custom-alert-dialog
+      :is-open.sync="isDeleteAccountAlertDialogOpen"
+      type="error"
+      title="Delete Account"
+      text="Are you sure you want to delete this account?"
+      :action="() => deleteAccount()"
+    ></custom-alert-dialog>
   </section>
 </template>
 
@@ -108,6 +120,7 @@ import CustomTooltipButton from "@/components/custom/TooltipButton";
 import GenericRatingChip from "@/components/generic/chip/Rating";
 import GenericAccountStatusChip from "@/components/generic/chip/AccountStatus";
 import {
+  DELETE_ACCOUNT,
   DISABLE_ACCOUNT,
   ENABLE_ACCOUNT,
   FETCH_ACCOUNTS_DETAILS,
@@ -158,9 +171,11 @@ export default {
       search: "",
       isDisableAccountAlertDialogOpen: false,
       isEnableAccountAlertDialogOpen: false,
+      isDeleteAccountAlertDialogOpen: false,
       selectedAccount: {},
       isDisableAccountStart: false,
       isEnableAccountStart: false,
+      isDeleteAccountStart: false,
     };
   },
 
@@ -188,6 +203,10 @@ export default {
     },
     async openEnableAccountAlertDialog(account) {
       this.isEnableAccountAlertDialogOpen = true;
+      this.selectedAccount = account;
+    },
+    async openDeleteAccountAlertDialog(account) {
+      this.isDeleteAccountAlertDialogOpen = true;
       this.selectedAccount = account;
     },
     async disableAccount() {
@@ -225,6 +244,24 @@ export default {
         this.selectedAccount = {};
         this.isEnableAccountAlertDialogOpen = false;
       }
+    },
+    async deleteAccount() {
+      this.isDeleteAccountStart = true;
+      const isDeleted = await this.$store.dispatch(
+        DELETE_ACCOUNT,
+        this.selectedAccount.id
+      );
+      this.isDeleteAccountStart = false;
+      if (isDeleted) {
+        this.accounts = this.accounts.filter(
+          (account) => account.id !== this.selectedAccount.id
+        );
+        this.selectedAccount = {};
+        this.isDeleteAccountAlertDialogOpen = false;
+      }
+    },
+    isAccountTypeAdministrator(type) {
+      return type.name === "administrator";
     },
   },
 
