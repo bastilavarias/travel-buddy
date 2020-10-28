@@ -122,6 +122,11 @@ const accountService = {
     const enabledStatus = true;
     return await accountModel.updateActiveStatus(accountID, enabledStatus);
   },
+
+  async delete(accountID: number): Promise<IAccountSoftDetails> {
+    const deletedStatus = true;
+    return await accountModel.updateDeleteStatus(accountID, deletedStatus);
+  },
 };
 
 export default accountService;
