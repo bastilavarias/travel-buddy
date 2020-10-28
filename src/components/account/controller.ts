@@ -64,6 +64,16 @@ const accountController = {
       response.status(400).json(error);
     }
   },
+
+  async delete(request: Request, response: Response) {
+    try {
+      const accountID = parseInt(request.params.accountID);
+      const details = await accountService.delete(accountID);
+      response.status(200).json(details);
+    } catch (error) {
+      response.status(400).json(error);
+    }
+  },
 };
 
 export default accountController;

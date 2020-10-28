@@ -30,5 +30,10 @@ accountRouter.put(
   passport.authenticate("jwt", { session: false }),
   accountController.enable
 );
+accountRouter.delete(
+  "/delete/:accountID",
+  passport.authenticate("jwt", { session: false }),
+  accountController.delete
+);
 
 export default accountRouter;

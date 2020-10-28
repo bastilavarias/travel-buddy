@@ -92,6 +92,14 @@ const accountModel = {
     await Account.update({ id: accountID }, { isActive: status });
     return await this.getSoftDetails(accountID);
   },
+
+  async updateDeleteStatus(
+    accountID: number,
+    status: boolean
+  ): Promise<IAccountSoftDetails> {
+    await Account.update({ id: accountID }, { isDeleted: status });
+    return await this.getSoftDetails(accountID);
+  },
 };
 
 export default accountModel;
