@@ -2,10 +2,12 @@ import genericApiService from "@/services/api/modules/generic";
 import {
   FETCH_GENERIC_NATIONALITIES,
   FETCH_GENERIC_SEXES,
+  FETCH_GENERIC_TRANSPORTATION,
   SEARCH_GENERIC_DESTINATIONS,
   SET_GENERIC_DESTINATIONS,
   SET_GENERIC_NATIONALITIES,
   SET_GENERIC_SEXES,
+  SET_GENERIC_TRANSPORTATION,
 } from "@/store/types/generic";
 
 const genericStore = {
@@ -13,6 +15,7 @@ const genericStore = {
     nationalities: [],
     sexes: [],
     destinations: [],
+    transportation: [],
   },
   mutations: {
     [SET_GENERIC_NATIONALITIES](state, nationalities) {
@@ -23,6 +26,9 @@ const genericStore = {
     },
     [SET_GENERIC_DESTINATIONS](state, destinations) {
       state.destinations = destinations;
+    },
+    [SET_GENERIC_TRANSPORTATION](state, transportation) {
+      state.transportation = transportation;
     },
   },
   actions: {
@@ -50,6 +56,15 @@ const genericStore = {
         commit(SET_GENERIC_DESTINATIONS, destinations);
       } catch (error) {
         commit(SET_GENERIC_DESTINATIONS, []);
+        throw new Error(`[RWV] ApiService ${error}`);
+      }
+    },
+    async [FETCH_GENERIC_TRANSPORTATION]({ commit }) {
+      try {
+        const transportation = await genericApiService.fetchTransportation();
+        commit(SET_GENERIC_TRANSPORTATION, transportation);
+      } catch (error) {
+        commit(SET_GENERIC_TRANSPORTATION, []);
         throw new Error(`[RWV] ApiService ${error}`);
       }
     },

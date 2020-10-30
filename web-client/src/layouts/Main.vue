@@ -15,6 +15,7 @@
         dense
         filled
         append-icon="mdi-magnify"
+        single-line
       ></v-text-field>
       <v-spacer> </v-spacer>
       <main-layout-toolbar-account-button-menu></main-layout-toolbar-account-button-menu>
