@@ -92,7 +92,11 @@
               <v-text-field outlined label="Day *"></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-autocomplete outlined label="Destination *"></v-autocomplete>
+              <custom-destination-search-autocomplete
+                :destination.sync="form.destination"
+                outlined
+                label="Destination *"
+              ></custom-destination-search-autocomplete>
             </v-col>
             <v-col cols="12">
               <itinerary-management-page-transportation-combobox
@@ -124,8 +128,15 @@ import commonUtilities from "@/common/utilities";
 import ItineraryManagementPageTransportationCombobox from "@/components/itinerary-management-page/TransportationCombobox";
 import ItineraryManagementPageActivityCombobox from "@/components/itinerary-management-page/ActivityCombobox";
 import CustomImageInput from "@/components/custom/ImageInput";
+import CustomDestinationSearchAutocomplete from "@/components/custom/DestinationSearchAutocomplete";
+
+const defaultItineraryForm = {
+  destination: "",
+};
+
 export default {
   components: {
+    CustomDestinationSearchAutocomplete,
     CustomImageInput,
     ItineraryManagementPageActivityCombobox,
     ItineraryManagementPageTransportationCombobox,
@@ -191,6 +202,8 @@ export default {
         },
       ],
       isDayFormDialogOpen: false,
+      form: Object.assign({}, defaultItineraryForm),
+      defaultItineraryForm,
     };
   },
   mixins: [commonUtilities],

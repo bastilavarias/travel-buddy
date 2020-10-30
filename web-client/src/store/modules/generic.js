@@ -2,39 +2,54 @@ import genericApiService from "@/services/api/modules/generic";
 import {
   FETCH_GENERIC_NATIONALITIES,
   FETCH_GENERIC_SEXES,
-  GENERIC_SET_NATIONALITIES,
-  GENERIC_SET_SEXES,
+  SEARCH_GENERIC_DESTINATIONS,
+  SET_GENERIC_DESTINATIONS,
+  SET_GENERIC_NATIONALITIES,
+  SET_GENERIC_SEXES,
 } from "@/store/types/generic";
 
 const genericStore = {
   state: {
     nationalities: [],
     sexes: [],
+    destinations: [],
   },
   mutations: {
-    [GENERIC_SET_NATIONALITIES](state, nationalities) {
+    [SET_GENERIC_NATIONALITIES](state, nationalities) {
       state.nationalities = nationalities;
     },
-    [GENERIC_SET_SEXES](state, sexes) {
+    [SET_GENERIC_SEXES](state, sexes) {
       state.sexes = sexes;
+    },
+    [SET_GENERIC_DESTINATIONS](state, destinations) {
+      state.destinations = destinations;
     },
   },
   actions: {
     async [FETCH_GENERIC_NATIONALITIES]({ commit }) {
       try {
-        const result = await genericApiService.fetchNationalities();
-        const nationalities = result ? result.data : [];
-        commit(GENERIC_SET_NATIONALITIES, nationalities);
+        const nationalities = await genericApiService.fetchNationalities();
+        commit(SET_GENERIC_NATIONALITIES, nationalities);
       } catch (error) {
+        commit(SET_GENERIC_NATIONALITIES, []);
         throw new Error(`[RWV] ApiService ${error}`);
       }
     },
     async [FETCH_GENERIC_SEXES]({ commit }) {
       try {
-        const result = await genericApiService.fetchSexes();
-        const sexes = result ? result.data : [];
-        commit(GENERIC_SET_SEXES, sexes);
+        const sexes = await genericApiService.fetchSexes();
+        commit(SET_GENERIC_SEXES, sexes);
       } catch (error) {
+        commit(SET_GENERIC_SEXES, []);
+        throw new Error(`[RWV] ApiService ${error}`);
+      }
+    },
+    async [SEARCH_GENERIC_DESTINATIONS]({ commit }, query) {
+      try {
+        const destinations = await genericApiService.searchDestinations(query);
+        commit(SET_GENERIC_DESTINATIONS, destinations);
+      } catch (error) {
+        commit(SET_GENERIC_DESTINATIONS, []);
         throw new Error(`[RWV] ApiService ${error}`);
       }
     },
