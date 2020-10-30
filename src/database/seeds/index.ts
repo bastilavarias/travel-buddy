@@ -7,6 +7,8 @@ import AccountType from "../entities/AccountType";
 import accountTypes from "./modules/accountTypes";
 import Destination from "../entities/Destination";
 import destinations from "./modules/destinations";
+import Transportation from "../entities/Transportation";
+import transportation from "./modules/transportation";
 
 const generateSeeds = async () => {
   const connection = await Database.init();
@@ -36,6 +38,13 @@ const generateSeeds = async () => {
     .insert()
     .into(Destination)
     .values(destinations)
+    .onConflict(`("name") do nothing`)
+    .execute();
+  await connection
+    .createQueryBuilder()
+    .insert()
+    .into(Transportation)
+    .values(transportation)
     .onConflict(`("name") do nothing`)
     .execute();
 };
