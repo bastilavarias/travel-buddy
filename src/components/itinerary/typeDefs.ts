@@ -1,5 +1,4 @@
 import { ICloudinaryFileMeta } from "../cloudinary/typeDefs";
-import ItineraryPostDayDestination from "../../database/entities/ItineraryPostDayDestination";
 import ItineraryPostImage from "../../database/entities/ItineraryPostImage";
 
 interface IItineraryPostBaseInput {
@@ -21,19 +20,14 @@ export interface IItineraryPostServiceCreateInput
 }
 
 export interface IItineraryPostDayInput extends IItineraryDayBaseInput {
-  destination: IItineraryPostDestinationInput;
+  destination: string;
   activities: string[];
-}
-
-export interface IItineraryPostDestinationInput {
-  name: string;
-  country: string;
 }
 
 export interface IItineraryPostModelSaveDayInput
   extends IItineraryDayBaseInput {
   postID: number;
-  destinationID: number;
+  destination: string;
 }
 
 export interface IItineraryPostModelSaveDetails
@@ -57,5 +51,5 @@ export interface IItinerarySoftDetails extends IItineraryPostBaseInput {
 
 export interface IItineraryDaySoftDetails extends IItineraryDayBaseInput {
   id: number;
-  destination: ItineraryPostDayDestination;
+  destination: string;
 }

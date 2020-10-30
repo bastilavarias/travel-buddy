@@ -5,11 +5,9 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import ItineraryPost from "./ItineraryPost";
-import ItineraryPostDayDestination from "./ItineraryPostDayDestination";
 import ItineraryPostDayActivity from "./ItineraryPostDayActivity";
 
 @Entity()
@@ -21,6 +19,9 @@ export default class ItineraryPostDay extends BaseEntity {
   day: number;
 
   @Column({ nullable: false })
+  destination: string;
+
+  @Column({ nullable: false })
   transportation: string;
 
   @Column({ nullable: false })
@@ -28,10 +29,6 @@ export default class ItineraryPostDay extends BaseEntity {
 
   @ManyToOne(() => ItineraryPost)
   post: ItineraryPost;
-
-  @OneToOne(() => ItineraryPostDayDestination)
-  @JoinColumn()
-  destination: ItineraryPostDayDestination;
 
   @OneToMany(() => ItineraryPostDayActivity, (activity) => activity.day)
   @JoinColumn()

@@ -30,13 +30,9 @@ const itineraryService = {
   async addDays(postID: number, days: IItineraryPostDayInput[]) {
     await Promise.all(
       days.map(async (item) => {
-        const savedDayDestination = await itineraryModel.saveDayDestination(
-          item.destination.name,
-          item.destination.country
-        );
         const saveDayInput: IItineraryPostModelSaveDayInput = {
           postID,
-          destinationID: savedDayDestination.id,
+          destination: item.destination,
           day: item.day,
           transportation: item.transportation,
           lodging: item.lodging,
