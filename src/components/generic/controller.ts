@@ -22,8 +22,17 @@ const genericController = {
 
   async fetchDestinations(_request: Request, response: Response) {
     try {
-      const sexes = await genericService.fetchDestinations();
-      response.status(200).json(sexes);
+      const destinations = await genericService.fetchDestinations();
+      response.status(200).json(destinations);
+    } catch (errors) {
+      response.status(400).json(errors);
+    }
+  },
+
+  async fetchTransportation(_request: Request, response: Response) {
+    try {
+      const transportation = await genericService.fetchTransportation();
+      response.status(200).json(transportation);
     } catch (errors) {
       response.status(400).json(errors);
     }
