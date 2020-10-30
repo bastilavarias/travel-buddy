@@ -19,22 +19,29 @@
               <v-text-field
                 outlined
                 label="Itinerary Name (E.g, 4 Nights in Amazing Paris) *"
+                v-model="form.name"
               ></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-textarea outlined label="Description"></v-textarea>
+              <v-textarea
+                outlined
+                label="Description"
+                v-model="form.description"
+              ></v-textarea>
             </v-col>
             <v-col cols="12">
               <v-text-field
                 type="number"
                 outlined
                 label="Maximum Pax *"
+                v-model="form.pax"
               ></v-text-field>
             </v-col>
             <v-col cols="12">
               <custom-image-input
                 label="Images *"
                 multiple
+                :images.sync="form.images"
               ></custom-image-input>
             </v-col>
             <v-col cols="12">
@@ -74,7 +81,14 @@
         </v-card-text>
         <v-card-actions>
           <div class="flex-grow-1"></div>
-          <v-btn color="primary" class="text-capitalize" block>Create</v-btn>
+          <v-btn
+            color="primary"
+            block
+            :disabled="!isFormValid"
+            @click="createNewItinerary"
+            :loading="isCreateNewItineraryStart"
+            >Create</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-container>
@@ -104,12 +118,15 @@ import CustomDestinationSearchAutocomplete from "@/components/custom/Destination
 import { FETCH_GENERIC_TRANSPORTATION } from "@/store/types/generic";
 import ItineraryManagementPageDayFormDialog from "@/components/itinerary-management-page/DayFormDialog";
 import CustomAlertDialog from "@/components/custom/AlertDialog";
+import { CREATE_NEW_ITINERARY } from "@/store/types/itinerary";
+import commonValidation from "@/common/validation";
 
 const defaultItineraryForm = {
   name: "",
   description: "",
   pax: 0,
   days: [],
+  images: [],
 };
 
 export default {
@@ -164,9 +181,18 @@ export default {
       selectedDay: {},
       dayFormDialogOperation: "add",
       isCustomAlertDialogOpen: false,
+      isCreateNewItineraryStart: false,
     };
   },
-  mixins: [commonUtilities],
+  mixins: [commonUtilities, commonValidation],
+  computed: {
+    isFormValid() {
+      const { name, pax, images, days } = this.form;
+      return (
+        name && pax && parseInt(pax) > 0 && images.length > 0 && days.length > 0
+      );
+    },
+  },
   methods: {
     openAddDayDialog() {
       this.dayFormDialogOperation = "add";
@@ -192,6 +218,20 @@ export default {
       });
       this.selectedDay = {};
       this.isCustomAlertDialogOpen = false;
+    },
+    async createNewItinerary() {
+      this.isCreateNewItineraryStart = true;
+      const createdItinerary = await this.$store.dispatch(
+        CREATE_NEW_ITINERARY,
+        this.form
+      );
+      this.isCreateNewItineraryStart = false;
+      if (this.validateObject(createdItinerary)) {
+        this.clearForm();
+      }
+    },
+    clearForm() {
+      this.form = Object.assign({}, this.defaultItineraryForm);
     },
   },
   async created() {

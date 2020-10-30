@@ -60,15 +60,21 @@
         </template>
       </v-list>
     </v-navigation-drawer>
+    <custom-global-snackbar></custom-global-snackbar>
   </v-app>
 </template>
 
 <script>
 import CustomRouterLink from "@/components/custom/RouterLink";
 import MainLayoutToolbarAccountButtonMenu from "@/components/main-layout/ToolbarAccountButtonMenu";
+import CustomGlobalSnackbar from "@/components/custom/GlobalSnackbar";
 export default {
   name: "administrator-layout",
-  components: { MainLayoutToolbarAccountButtonMenu, CustomRouterLink },
+  components: {
+    CustomGlobalSnackbar,
+    MainLayoutToolbarAccountButtonMenu,
+    CustomRouterLink,
+  },
   data() {
     return {
       actions: [

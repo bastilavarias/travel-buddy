@@ -11,6 +11,7 @@
     placeholder="Search Destination"
     item-text="display_name"
     item-value="display_name"
+    :disabled="isSearchStart"
   >
   </v-autocomplete>
 </template>
