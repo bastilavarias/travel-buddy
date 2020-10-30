@@ -5,7 +5,6 @@ import {
   IItineraryPostModelUpdateDetails,
   IItinerarySoftDetails,
 } from "./typeDefs";
-import ItineraryPostDayDestination from "../../database/entities/ItineraryPostDayDestination";
 import ItineraryPostDayActivity from "../../database/entities/ItineraryPostDayActivity";
 import ItineraryPostDay from "../../database/entities/ItineraryPostDay";
 import ItineraryPost from "../../database/entities/ItineraryPost";
@@ -29,23 +28,13 @@ const itineraryModel = {
     }).save();
   },
 
-  async saveDayDestination(
-    name: string,
-    country: string
-  ): Promise<ItineraryPostDayDestination> {
-    return await ItineraryPostDayDestination.create({
-      name,
-      country,
-    }).save();
-  },
-
   async saveDay(
     input: IItineraryPostModelSaveDayInput
   ): Promise<ItineraryPostDay> {
-    const { postID, destinationID, day, lodging, transportation } = input;
+    const { postID, destination, day, lodging, transportation } = input;
     return await ItineraryPostDay.create({
       post: { id: postID },
-      destination: { id: destinationID },
+      destination,
       day,
       lodging,
       transportation,
@@ -80,7 +69,7 @@ const itineraryModel = {
   async getDays(postID: number): Promise<ItineraryPostDay[]> {
     return await ItineraryPostDay.find({
       where: { post: { id: postID } },
-      relations: ["destination", "activities"],
+      relations: ["activities"],
     });
   },
 
