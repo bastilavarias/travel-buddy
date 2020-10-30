@@ -16,6 +16,11 @@ const genericApiService = {
     const result = await apiService.get(url);
     return result.data || [];
   },
+
+  async fetchTransportation() {
+    const result = await apiService.get("/generic/transportation");
+    return result.data || [];
+  },
 };
 
 export default genericApiService;

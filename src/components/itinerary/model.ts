@@ -77,8 +77,8 @@ const itineraryModel = {
     postID: number,
     input: IItineraryPostModelUpdateDetails
   ): Promise<IItinerarySoftDetails> {
-    const { name, description, pax, date } = input;
-    await ItineraryPost.update(postID, { name, description, pax, date });
+    const { name, description, pax } = input;
+    await ItineraryPost.update(postID, { name, description, pax });
     return await this.getSoftDetails(postID);
   },
 };

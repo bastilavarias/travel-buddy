@@ -1,13 +1,11 @@
 <template>
   <v-combobox
-    v-model="model"
-    :items="items"
+    v-model="activitiesLocal"
     :search-input.sync="search"
     hide-selected
     :label="label"
     multiple
     persistent-hint
-    small-chips
     outlined
     class="text-capitalize"
   >
@@ -21,20 +19,46 @@
         </v-list-item-content>
       </v-list-item>
     </template>
+    <template v-slot:selection="data">
+      <v-chip
+        :key="JSON.stringify(data.item)"
+        v-bind="data.attrs"
+        :input-value="data.selected"
+        :disabled="data.disabled"
+        small
+        color="primary"
+        class="text-uppercase"
+      >
+        {{ data.item }}
+      </v-chip>
+    </template>
   </v-combobox>
 </template>
 <script>
 export default {
   name: "itinerary-management-page-activity-combobox",
-  data: () => ({
-    items: ["Activity 1", "Activity 2", "Activity 3"],
-    model: null,
-    search: null,
-  }),
   props: {
     label: {
       type: String,
       required: false,
+    },
+    activities: {
+      type: Array,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      activitiesLocal: this.activities,
+      search: null,
+    };
+  },
+  watch: {
+    activities(val) {
+      this.activitiesLocal = val;
+    },
+    activitiesLocal(val) {
+      this.$emit("update:activities", val);
     },
   },
 };

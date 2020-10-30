@@ -5,7 +5,6 @@ interface IItineraryPostBaseInput {
   name: string;
   description: string;
   pax: number;
-  date: Date;
 }
 
 interface IItineraryDayBaseInput {

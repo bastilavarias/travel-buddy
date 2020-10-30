@@ -8,6 +8,7 @@ import {
   SET_ACCOUNT_TYPES,
 } from "@/store/types/account";
 import accountApiService from "@/services/api/modules/account";
+import { SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS } from "@/store/types/generic";
 
 const accountStore = {
   state: {
@@ -22,7 +23,7 @@ const accountStore = {
 
   actions: {
     async [CREATE_NEW_ACCOUNT](
-      _,
+      { commit },
       {
         firstName,
         lastName,
@@ -45,8 +46,18 @@ const accountStore = {
         formData.append("typeID", typeID);
         formData.append("image", images[0]);
         const createdNewAccount = await accountApiService.createNew(formData);
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Creating account done!",
+          color: "success",
+        });
         return { account: createdNewAccount, error: {} };
       } catch (error) {
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Something went wrong to the server. Please try again.",
+          color: "error",
+        });
         return { account: {}, error: error.response.data };
       }
     },
@@ -56,38 +67,78 @@ const accountStore = {
         const types = await accountApiService.fetchTypes();
         commit(SET_ACCOUNT_TYPES, types);
       } catch (error) {
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Something went wrong to the server. Please try again.",
+          color: "error",
+        });
         throw new Error(`[RWV] ApiService ${error}`);
       }
     },
 
-    async [FETCH_ACCOUNTS_DETAILS]() {
+    async [FETCH_ACCOUNTS_DETAILS]({ commit }) {
       try {
         return await accountApiService.fetchDetails();
       } catch (_) {
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Something went wrong to the server. Please try again.",
+          color: "error",
+        });
         return [];
       }
     },
 
-    async [DISABLE_ACCOUNT](_, accountID) {
+    async [DISABLE_ACCOUNT]({ commit }, accountID) {
       try {
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Disabling account done!",
+          color: "error",
+        });
         return await accountApiService.disable(accountID);
       } catch (error) {
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Something went wrong to the server. Please try again.",
+          color: "error",
+        });
         return false;
       }
     },
 
-    async [ENABLE_ACCOUNT](_, accountID) {
+    async [ENABLE_ACCOUNT]({ commit }, accountID) {
       try {
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Enabling account done!",
+          color: "success",
+        });
         return await accountApiService.enable(accountID);
       } catch (error) {
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Something went wrong to the server. Please try again.",
+          color: "error",
+        });
         return false;
       }
     },
 
-    async [DELETE_ACCOUNT](_, accountID) {
+    async [DELETE_ACCOUNT]({ commit }, accountID) {
       try {
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Deleting account done!",
+          color: "error",
+        });
         return await accountApiService.delete(accountID);
       } catch (error) {
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Something went wrong to the server. Please try again.",
+          color: "error",
+        });
         return false;
       }
     },

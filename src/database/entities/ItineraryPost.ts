@@ -23,11 +23,6 @@ export default class ItineraryPost extends BaseEntity {
   @Column("int", { nullable: true })
   pax: number;
 
-  @Column("date", {
-    nullable: true,
-  })
-  date: Date;
-
   @Column("timestamp with time zone", {
     nullable: false,
     default: () => "CURRENT_TIMESTAMP",

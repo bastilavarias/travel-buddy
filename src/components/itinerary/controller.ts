@@ -10,7 +10,6 @@ const itineraryController = {
         name: request.body.name || "",
         description: request.body.description || "",
         pax: request.body.pax || 0,
-        date: request.body.date || "",
         days: request.body.days || [],
       };
       const result = await itineraryService.createNew(postID, input);

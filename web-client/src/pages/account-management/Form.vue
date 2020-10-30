@@ -221,7 +221,6 @@ export default {
       this.isCreateAccountStart = false;
       const isCreatedNewAccountValid = this.validateObject(account);
       if (isCreatedNewAccountValid) {
-        alert("New account was created.");
         this.form = Object.assign({}, this.defaultAccountForm);
         this.createAccountError = { email: "" };
         return;

@@ -32,7 +32,6 @@
                     label="Search"
                     outlined
                     v-model="search"
-                    clearable
                     :disabled="isFetchAccountsStart"
                   ></v-text-field>
                 </v-col>

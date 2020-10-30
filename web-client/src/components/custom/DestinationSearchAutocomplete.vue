@@ -8,14 +8,19 @@
     :loading="isSearchStart"
     :filter="(v) => v"
     @keyup="searchDestinations"
+    placeholder="Search Destination"
     item-text="display_name"
     item-value="display_name"
+    :disabled="isSearchStart"
   >
   </v-autocomplete>
 </template>
 
 <script>
-import { SEARCH_GENERIC_DESTINATIONS } from "@/store/types/generic";
+import {
+  SEARCH_GENERIC_DESTINATIONS,
+  SET_GENERIC_DESTINATIONS,
+} from "@/store/types/generic";
 let timeout = null;
 
 export default {
