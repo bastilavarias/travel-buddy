@@ -2,11 +2,19 @@ import apiService from "@/services/api";
 
 const genericApiService = {
   async fetchNationalities() {
-    return await apiService.get("/generic/nationalities");
+    const result = await apiService.get("/generic/nationalities");
+    return result.data || [];
   },
 
   async fetchSexes() {
-    return await apiService.get("/generic/sexes");
+    const result = await apiService.get("/generic/sexes");
+    return result.data || [];
+  },
+
+  async searchDestinations(query) {
+    const url = `https://nominatim.openstreetmap.org/search/${query}?format=json&addressdetails=1&limit=5`;
+    const result = await apiService.get(url);
+    return result.data || [];
   },
 };
 
