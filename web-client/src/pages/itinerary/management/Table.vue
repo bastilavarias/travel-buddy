@@ -83,8 +83,8 @@
             ></custom-tooltip-button>
             <custom-tooltip-button
               icon="mdi-play"
-              text="Disable Itinerary"
-              :action="() => openDisableItineraryAlertDialog(item)"
+              text="Enable Itinerary"
+              :action="() => openEnableItineraryAlertDialog(item)"
               v-if="!item.isActive"
             ></custom-tooltip-button>
             <custom-tooltip-button
@@ -112,6 +112,14 @@
       :loading="isDisableItineraryStart"
       :action="() => disableItinerary()"
     ></custom-alert-dialog>
+    <custom-alert-dialog
+      :is-open.sync="isEnableItineraryAlertDialogOpen"
+      type="success"
+      title="Enable Itinerary"
+      text="Are you sure you want to enable this itinerary?"
+      :loading="isEnableItineraryStart"
+      :action="() => enableItinerary()"
+    ></custom-alert-dialog>
   </section>
 </template>
 
@@ -120,11 +128,13 @@ import CustomTooltipButton from "@/components/custom/TooltipButton";
 import {
   DELETE_ITINERARY,
   DISABLE_ITINERARY,
+  ENABLE_ITINERARY,
   FETCH_ITINERARIES,
   SET_ITINERARIES,
 } from "@/store/types/itinerary";
 import commonUtilities from "@/common/utilities";
 import CustomAlertDialog from "@/components/custom/AlertDialog";
+import { ENABLE_ACCOUNT } from "@/store/types/account";
 export default {
   components: { CustomAlertDialog, CustomTooltipButton },
   data() {
@@ -159,6 +169,8 @@ export default {
       isDeleteItineraryStart: false,
       isDisableItineraryAlertDialogOpen: false,
       isDisableItineraryStart: false,
+      isEnableItineraryAlertDialogOpen: false,
+      isEnableItineraryStart: false,
     };
   },
   mixins: [commonUtilities],
@@ -180,6 +192,10 @@ export default {
     openDisableItineraryAlertDialog(itinerary) {
       this.selectedItinerary = itinerary;
       this.isDisableItineraryAlertDialogOpen = true;
+    },
+    openEnableItineraryAlertDialog(itinerary) {
+      this.selectedItinerary = itinerary;
+      this.isEnableItineraryAlertDialogOpen = true;
     },
     async deleteItinerary() {
       this.isDeleteItineraryStart = true;
@@ -210,10 +226,27 @@ export default {
             itinerary.isActive = false;
           return itinerary;
         });
-        console.log(newItineraries);
         this.$store.commit(SET_ITINERARIES, newItineraries);
         this.selectedItinerary = {};
         this.isDisableItineraryAlertDialogOpen = false;
+      }
+    },
+    async enableItinerary() {
+      this.isEnableItineraryStart = true;
+      const isEnabled = await this.$store.dispatch(
+        ENABLE_ITINERARY,
+        this.selectedItinerary.id
+      );
+      this.isEnableItineraryStart = false;
+      if (isEnabled) {
+        const newItineraries = this.itineraries.map((itinerary) => {
+          if (itinerary.id === this.selectedItinerary.id)
+            itinerary.isActive = true;
+          return itinerary;
+        });
+        this.$store.commit(SET_ITINERARIES, newItineraries);
+        this.selectedItinerary = {};
+        this.isEnableItineraryAlertDialogOpen = false;
       }
     },
   },
