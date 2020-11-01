@@ -96,6 +96,14 @@ const itineraryModel = {
     await ItineraryPost.update(postID, { name, description, pax, price });
     return await this.getSoftDetails(postID);
   },
+
+  async updateDeleteStatus(
+    postID: number,
+    status: boolean
+  ): Promise<IItinerarySoftDetails> {
+    await ItineraryPost.update(postID, { isDeleted: status });
+    return await this.getSoftDetails(postID);
+  },
 };
 
 export default itineraryModel;

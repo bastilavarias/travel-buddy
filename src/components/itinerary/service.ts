@@ -78,6 +78,11 @@ const itineraryService = {
   async fetch(): Promise<IItinerarySoftDetails[]> {
     return await itineraryModel.fetch();
   },
+
+  async delete(postID: number): Promise<IItinerarySoftDetails> {
+    const deletedStatus = true;
+    return await itineraryModel.updateDeleteStatus(postID, deletedStatus);
+  },
 };
 
 export default itineraryService;
