@@ -20,6 +20,7 @@ const itineraryService = {
       name: input.name,
       description: input.description,
       pax: input.pax,
+      price: input.price,
     };
     await itineraryModel.updateDetails(postID, updateDetailsInput);
     await this.addDays(postID, input.days);
@@ -52,6 +53,7 @@ const itineraryService = {
       name: "",
       description: "",
       pax: 0,
+      price: 0,
     };
     const savedDetails = await itineraryModel.saveDetails(saveDetailsInput);
     await Promise.all(
