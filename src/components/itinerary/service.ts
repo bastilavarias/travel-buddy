@@ -83,6 +83,11 @@ const itineraryService = {
     const deletedStatus = true;
     return await itineraryModel.updateDeleteStatus(postID, deletedStatus);
   },
+
+  async disable(postID: number): Promise<IItinerarySoftDetails> {
+    const disableStatus = false;
+    return await itineraryModel.updateActiveStatus(postID, disableStatus);
+  },
 };
 
 export default itineraryService;

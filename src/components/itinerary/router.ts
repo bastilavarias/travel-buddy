@@ -21,5 +21,10 @@ itineraryRouter.delete(
   passport.authenticate("jwt", { session: false }),
   itineraryController.delete
 );
+itineraryRouter.put(
+  "/disable/:postID",
+  passport.authenticate("jwt", { session: false }),
+  itineraryController.disable
+);
 
 export default itineraryRouter;
