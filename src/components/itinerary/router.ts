@@ -16,5 +16,10 @@ itineraryRouter.post(
   itineraryController.uploadImages
 );
 itineraryRouter.get("/", itineraryController.fetch);
+itineraryRouter.delete(
+  "/:postID",
+  passport.authenticate("jwt", { session: false }),
+  itineraryController.delete
+);
 
 export default itineraryRouter;
