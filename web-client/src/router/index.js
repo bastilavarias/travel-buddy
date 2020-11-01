@@ -40,7 +40,7 @@ const routes = [
     component: () => import("@/layouts/Main"),
     children: [
       {
-        path: "",
+        path: ":postID",
         name: "itinerary-post-details-page",
         component: () => import("@/pages/itinerary/PostDetails"),
       },

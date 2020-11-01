@@ -31,7 +31,7 @@
 <script>
 import GenericBookedItineraryDetailsPreviewCard from "@/components/generic/card/BookedItineraryDetailsPreview";
 export default {
-  name: "feed-page-bookings-history-card",
+  name: "feed-page-bookings",
   components: { GenericBookedItineraryDetailsPreviewCard },
 };
 </script>

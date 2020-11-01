@@ -21,6 +21,21 @@ const commonUtilities = {
     formatName(firstName, lastName) {
       return `${firstName} ${lastName}`;
     },
+    formatItineraryDetails(days) {
+      const dayCount = days.length;
+      const destinationCount = days.map((day) => day.destination).length;
+      const activityCount = days
+        .map((day) => day.activities)
+        .map((activities) => activities.length)
+        .reduce((flat, next) => flat + next, 0);
+      return `${dayCount} ${
+        dayCount > 1 ? "Days" : "Day"
+      }, ${destinationCount} ${
+        destinationCount > 1 ? "Destinations" : "Destination"
+      }, and ${activityCount} ${
+        activityCount > 1 ? "Activities" : "Activity"
+      }.`;
+    },
   },
 
   mounted() {

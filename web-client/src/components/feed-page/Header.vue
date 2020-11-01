@@ -1,0 +1,69 @@
+<template>
+  <v-card>
+    <v-tabs v-model="tabStateLocal">
+      <template v-for="(tab, index) in tabSelections">
+        <v-tab :key="index">
+          <v-icon left>{{ tab.icon }}</v-icon>
+          <span class="text-capitalize">{{ tab.text }}</span>
+        </v-tab>
+      </template>
+      <v-spacer></v-spacer>
+      <v-tab>
+        <v-icon left>mdi-clipboard-list</v-icon>
+        <span class="text-capitalize">My Bookings</span>
+      </v-tab>
+    </v-tabs>
+    <v-card-text>
+      <v-row dense>
+        <v-col cols="12" md="10">
+          <v-text-field
+            hide-details
+            rounded
+            filled
+            label="Search"
+          ></v-text-field>
+        </v-col>
+        <v-col cols="12" md="2">
+          <v-btn color="primary" block rounded class="text-capitalize" x-large
+            >Search</v-btn
+          >
+        </v-col>
+      </v-row>
+    </v-card-text>
+  </v-card>
+</template>
+
+<script>
+export default {
+  name: "feed-page-header",
+  props: {
+    tabState: {
+      type: Number | Boolean,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      tabStateLocal: this.tabState,
+      tabSelections: [
+        {
+          icon: "mdi-beach",
+          text: "Itineraries",
+        },
+        {
+          icon: "mdi-account-cowboy-hat",
+          text: "Tour Guides",
+        },
+      ],
+    };
+  },
+  watch: {
+    tabState(val) {
+      this.tabStateLocal = val;
+    },
+    tabStateLocal(val) {
+      this.$emit("update:tabState", val);
+    },
+  },
+};
+</script>

@@ -3,17 +3,20 @@
     <v-img
       class="white--text align-end"
       height="200px"
-      src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+      :src="firstImageUrl"
+      :lazy-src="firstImageUrl"
     >
       <v-card-title class="caption">
-        <span>
+        <span class="text-truncate">
           <v-icon color="white" small class="mr-1">mdi-map-marker</v-icon>
-          <span>Lorem ipsum dolor sit amet.</span>
+          <span class="text-capitalize">{{ firstDestination }}</span>
         </span>
       </v-card-title>
     </v-img>
     <v-card-text>
-      <h2 class="subtitle-2 secondary--text">Itinerary Name</h2>
+      <h2 class="subtitle-2 secondary--text text-capitalize mb-2" v-if="name">
+        {{ name }}
+      </h2>
       <div class="d-flex align-center">
         <v-chip small class="mr-1">
           <v-icon color="primary" small left>mdi-star</v-icon>
@@ -27,13 +30,18 @@
       </div>
     </v-card-text>
     <v-card-text>
-      <h2 class="subtitle-2 font-weight-bold secondary--text">
-        &#8369; 999.999
+      <h2 class="subtitle-2 font-weight-bold secondary--text" v-if="price">
+        &#8369; {{ price }}
       </h2>
-      <span class="caption secondary--text">3 Days</span>
+      <span class="caption secondary--text text-truncate">{{
+        formatItineraryDetails(days)
+      }}</span>
     </v-card-text>
     <v-card-actions>
-      <v-btn color="primary" :to="{ name: 'itinerary-post-details-page' }">
+      <v-btn
+        color="primary"
+        :to="{ name: 'itinerary-post-details-page', params: { postID } }"
+      >
         View
       </v-btn>
     </v-card-actions>
@@ -41,7 +49,40 @@
 </template>
 
 <script>
+import commonUtilities from "@/common/utilities";
+
 export default {
   name: "generic-itinerary-details-preview-card",
+  mixins: [commonUtilities],
+  props: {
+    postID: {
+      type: Number,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+    images: {
+      type: Array,
+      required: true,
+    },
+    days: {
+      type: Array,
+      required: true,
+    },
+  },
+  computed: {
+    firstDestination() {
+      return this.days.map((day) => day.destination)[0];
+    },
+    firstImageUrl() {
+      return this.images[0].url;
+    },
+  },
 };
 </script>

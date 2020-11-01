@@ -43,7 +43,7 @@
             }}</span>
           </template>
           <template v-slot:item.details="{ item }">
-            {{ formatDetails(item.days) }}
+            {{ formatItineraryDetails(item.days) }}
           </template>
           <template v-slot:item.price="{ item }">
             <span>&#8369; {{ item.price }}</span>
@@ -84,6 +84,7 @@
 <script>
 import CustomTooltipButton from "@/components/custom/TooltipButton";
 import { FETCH_ITINERARIES } from "@/store/types/itinerary";
+import commonUtilities from "@/common/utilities";
 export default {
   components: { CustomTooltipButton },
   data() {
@@ -115,6 +116,7 @@ export default {
       search: "",
     };
   },
+  mixins: [commonUtilities],
   computed: {
     itineraries() {
       return this.$store.state.itinerary.list;
@@ -125,19 +127,6 @@ export default {
       this.isFetchItinerariesStart = true;
       await this.$store.dispatch(FETCH_ITINERARIES);
       this.isFetchItinerariesStart = false;
-    },
-    formatDetails(days) {
-      const dayCount = days.length;
-      const destinationCount = days.map((day) => day.destination).length;
-      const activityCount = days
-        .map((day) => day.activities)
-        .map((activities) => activities.length)
-        .reduce((flat, next) => flat + next, 0);
-      return `${dayCount} ${
-        dayCount > 1 ? "Days" : "Day"
-      } | ${destinationCount} ${
-        destinationCount > 1 ? "Destinations" : "Destination"
-      } | ${activityCount} ${activityCount > 1 ? "Activities" : "Activity"}`;
     },
   },
   async created() {
