@@ -2,6 +2,7 @@ import {
   CREATE_NEW_ITINERARY,
   DELETE_ITINERARY,
   DISABLE_ITINERARY,
+  ENABLE_ITINERARY,
   FETCH_ITINERARIES,
   SET_ITINERARIES,
 } from "@/store/types/itinerary";
@@ -95,6 +96,24 @@ const itineraryStore = {
           color: "error",
         });
         return await itineraryApiService.disable(postID);
+      } catch (error) {
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Something went wrong to the server. Please try again.",
+          color: "error",
+        });
+        return false;
+      }
+    },
+
+    async [ENABLE_ITINERARY]({ commit }, postID) {
+      try {
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Enabling itinerary done!",
+          color: "success",
+        });
+        return await itineraryApiService.enable(postID);
       } catch (error) {
         commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
           isOpen: true,

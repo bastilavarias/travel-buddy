@@ -28,6 +28,11 @@ const itineraryApiService = {
     const result = await apiService.put(`/itinerary/disable/${postID}`);
     return !result.data.isActive || false;
   },
+
+  async enable(postID) {
+    const result = await apiService.put(`/itinerary/enable/${postID}`);
+    return result.data.isActive || false;
+  },
 };
 
 export default itineraryApiService;
