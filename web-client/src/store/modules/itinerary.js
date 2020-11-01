@@ -1,5 +1,6 @@
 import {
   CREATE_NEW_ITINERARY,
+  DELETE_ITINERARY,
   FETCH_ITINERARIES,
   SET_ITINERARIES,
 } from "@/store/types/itinerary";
@@ -64,6 +65,24 @@ const itineraryStore = {
           color: "error",
         });
         throw new Error(`[RWV] ApiService ${error}`);
+      }
+    },
+
+    async [DELETE_ITINERARY]({ commit }, postID) {
+      try {
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Deleting itinerary done!",
+          color: "error",
+        });
+        return await itineraryApiService.delete(postID);
+      } catch (error) {
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Something went wrong to the server. Please try again.",
+          color: "error",
+        });
+        return false;
       }
     },
   },
