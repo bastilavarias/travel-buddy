@@ -15,6 +15,7 @@
           :headers="tableHeaders"
           :items="itineraries"
           :loading="isFetchItinerariesStart"
+          :search="search"
         >
           <template v-slot:top>
             <v-card-text>
@@ -24,6 +25,7 @@
                     hide-details
                     label="Search"
                     outlined
+                    v-model="search"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" md="2">
@@ -110,6 +112,7 @@ export default {
         },
       ],
       isFetchItinerariesStart: false,
+      search: "",
     };
   },
   computed: {

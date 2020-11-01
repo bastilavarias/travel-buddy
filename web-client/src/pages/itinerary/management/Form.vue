@@ -33,8 +33,20 @@
               <v-text-field
                 type="number"
                 outlined
+                label="Price *"
+                v-model="form.price"
+                min="0.01"
+                step="0.01"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12">
+              <v-text-field
+                type="number"
+                outlined
                 label="Maximum Pax *"
                 v-model="form.pax"
+                min="0.01"
+                step="0.01"
               ></v-text-field>
             </v-col>
             <v-col cols="12">
@@ -124,6 +136,7 @@ import commonValidation from "@/common/validation";
 const defaultItineraryForm = {
   name: "",
   description: "",
+  price: 0,
   pax: 0,
   days: [],
   images: [],
@@ -187,9 +200,15 @@ export default {
   mixins: [commonUtilities, commonValidation],
   computed: {
     isFormValid() {
-      const { name, pax, images, days } = this.form;
+      const { name, pax, images, days, price } = this.form;
       return (
-        name && pax && parseInt(pax) > 0 && images.length > 0 && days.length > 0
+        name &&
+        price &&
+        parseInt(price) > 0 &&
+        pax &&
+        parseInt(pax) > 0 &&
+        images.length > 0 &&
+        days.length > 0
       );
     },
   },

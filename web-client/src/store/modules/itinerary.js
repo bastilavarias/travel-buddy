@@ -20,7 +20,7 @@ const itineraryStore = {
   actions: {
     async [CREATE_NEW_ITINERARY]({ commit }, form) {
       try {
-        const { name, description, pax, images, days } = form;
+        const { name, description, price, pax, images, days } = form;
         const formData = new FormData();
         images.map((image) => formData.append("images", image));
         const uploadedItineraryPost = await itineraryApiService.uploadImages(
@@ -29,18 +29,20 @@ const itineraryStore = {
         const payload = {
           name,
           description,
+          price,
           pax,
           days,
         };
+        const createdItinerary = await itineraryApiService.createNew(
+          uploadedItineraryPost.id,
+          payload
+        );
         commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
           isOpen: true,
           text: "Creating itinerary done!",
           color: "success",
         });
-        return await itineraryApiService.createNew(
-          uploadedItineraryPost.id,
-          payload
-        );
+        return createdItinerary;
       } catch (error) {
         commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
           isOpen: true,
