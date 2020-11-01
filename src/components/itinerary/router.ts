@@ -26,5 +26,10 @@ itineraryRouter.put(
   passport.authenticate("jwt", { session: false }),
   itineraryController.disable
 );
+itineraryRouter.put(
+  "/enable/:postID",
+  passport.authenticate("jwt", { session: false }),
+  itineraryController.enable
+);
 
 export default itineraryRouter;
