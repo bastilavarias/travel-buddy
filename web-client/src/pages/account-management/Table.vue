@@ -196,17 +196,17 @@ export default {
       this.accounts = await this.$store.dispatch(FETCH_ACCOUNTS_DETAILS);
       this.isFetchAccountsStart = false;
     },
-    async openDisableAccountAlertDialog(account) {
+    openDisableAccountAlertDialog(account) {
+      this.selectedAccount = account;
       this.isDisableAccountAlertDialogOpen = true;
-      this.selectedAccount = account;
     },
-    async openEnableAccountAlertDialog(account) {
+    openEnableAccountAlertDialog(account) {
+      this.selectedAccount = account;
       this.isEnableAccountAlertDialogOpen = true;
-      this.selectedAccount = account;
     },
-    async openDeleteAccountAlertDialog(account) {
-      this.isDeleteAccountAlertDialogOpen = true;
+    openDeleteAccountAlertDialog(account) {
       this.selectedAccount = account;
+      this.isDeleteAccountAlertDialogOpen = true;
     },
     async disableAccount() {
       this.isDisableAccountStart = true;

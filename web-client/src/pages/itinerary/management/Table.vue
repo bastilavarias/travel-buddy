@@ -73,20 +73,34 @@
             <custom-tooltip-button
               icon="mdi-delete-outline"
               text="Delete Itinerary"
+              :action="() => openDeleteItineraryAlertDialog(item)"
             ></custom-tooltip-button>
           </template>
         </v-data-table>
       </v-card>
     </v-container>
+    <custom-alert-dialog
+      :is-open.sync="isDeleteItineraryAlertDialogOpen"
+      type="error"
+      title="Delete Itinerary"
+      text="Are you sure you want to delete this itinerary?"
+      :loading="isDeleteItineraryStart"
+      :action="() => deleteItinerary()"
+    ></custom-alert-dialog>
   </section>
 </template>
 
 <script>
 import CustomTooltipButton from "@/components/custom/TooltipButton";
-import { FETCH_ITINERARIES } from "@/store/types/itinerary";
+import {
+  DELETE_ITINERARY,
+  FETCH_ITINERARIES,
+  SET_ITINERARIES,
+} from "@/store/types/itinerary";
 import commonUtilities from "@/common/utilities";
+import CustomAlertDialog from "@/components/custom/AlertDialog";
 export default {
-  components: { CustomTooltipButton },
+  components: { CustomAlertDialog, CustomTooltipButton },
   data() {
     return {
       tableHeaders: [
@@ -114,6 +128,9 @@ export default {
       ],
       isFetchItinerariesStart: false,
       search: "",
+      selectedItinerary: {},
+      isDeleteItineraryAlertDialogOpen: false,
+      isDeleteItineraryStart: false,
     };
   },
   mixins: [commonUtilities],
@@ -127,6 +144,26 @@ export default {
       this.isFetchItinerariesStart = true;
       await this.$store.dispatch(FETCH_ITINERARIES);
       this.isFetchItinerariesStart = false;
+    },
+    openDeleteItineraryAlertDialog(itinerary) {
+      this.selectedItinerary = itinerary;
+      this.isDeleteItineraryAlertDialogOpen = true;
+    },
+    async deleteItinerary() {
+      this.isDeleteItineraryStart = true;
+      const isDeleted = await this.$store.dispatch(
+        DELETE_ITINERARY,
+        this.selectedItinerary.id
+      );
+      this.isDeleteItineraryStart = false;
+      if (isDeleted) {
+        const newItineraries = this.itineraries.filter(
+          (itinerary) => itinerary.id !== this.selectedItinerary.id
+        );
+        this.$store.commit(SET_ITINERARIES, newItineraries);
+        this.selectedItinerary = {};
+        this.isDeleteItineraryAlertDialogOpen = false;
+      }
     },
   },
   async created() {

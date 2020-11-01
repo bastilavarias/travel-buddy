@@ -15,7 +15,7 @@
           <v-tabs-items v-model="headerTabState" class="transparent">
             <v-tab-item>
               <div
-                style="height: 45rem"
+                style="height: 30rem"
                 class="text-center"
                 v-if="isFetchItinerariesStart"
               >
