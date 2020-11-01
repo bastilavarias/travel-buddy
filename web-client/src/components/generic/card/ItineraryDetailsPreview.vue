@@ -14,7 +14,10 @@
       </v-card-title>
     </v-img>
     <v-card-text>
-      <h2 class="subtitle-2 secondary--text text-capitalize mb-2" v-if="name">
+      <h2
+        class="subtitle-2 secondary--text text-capitalize mb-2 text-truncate"
+        v-if="name"
+      >
         {{ name }}
       </h2>
       <div class="d-flex align-center">
@@ -41,12 +44,12 @@
       <v-btn
         color="primary"
         :to="{ name: 'itinerary-post-details-page', params: { postID } }"
-        v-if="isActive"
+        :disabled="!isActive"
       >
         View
       </v-btn>
       <div class="flex-grow-1"></div>
-      <v-chip small v-if="!isActive" class="font-italic">Unavailable</v-chip>
+      <span class="font-italic caption" v-if="!isActive">Unavailable</span>
     </v-card-actions>
   </v-card>
 </template>
