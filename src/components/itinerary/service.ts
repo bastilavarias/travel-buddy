@@ -88,6 +88,11 @@ const itineraryService = {
     const disableStatus = false;
     return await itineraryModel.updateActiveStatus(postID, disableStatus);
   },
+
+  async enable(postID: number): Promise<IItinerarySoftDetails> {
+    const enableStatus = true;
+    return await itineraryModel.updateActiveStatus(postID, enableStatus);
+  },
 };
 
 export default itineraryService;

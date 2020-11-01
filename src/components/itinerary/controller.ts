@@ -59,6 +59,16 @@ const itineraryController = {
       response.status(400).json(error);
     }
   },
+
+  async enable(request: Request, response: Response) {
+    try {
+      const postID = parseInt(request.params.postID);
+      const details = await itineraryService.enable(postID);
+      response.status(200).json(details);
+    } catch (error) {
+      response.status(400).json(error);
+    }
+  },
 };
 
 export default itineraryController;
