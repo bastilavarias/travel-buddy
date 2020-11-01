@@ -1,5 +1,5 @@
 <template>
-  <v-card outlined>
+  <v-card outlined :disabled="!isActive">
     <v-img
       class="white--text align-end"
       height="200px"
@@ -41,9 +41,12 @@
       <v-btn
         color="primary"
         :to="{ name: 'itinerary-post-details-page', params: { postID } }"
+        v-if="isActive"
       >
         View
       </v-btn>
+      <div class="flex-grow-1"></div>
+      <v-chip small v-if="!isActive" class="font-italic">Unavailable</v-chip>
     </v-card-actions>
   </v-card>
 </template>
@@ -73,6 +76,10 @@ export default {
     },
     days: {
       type: Array,
+      required: true,
+    },
+    isActive: {
+      type: Boolean,
       required: true,
     },
   },

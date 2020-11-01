@@ -23,6 +23,11 @@ const itineraryApiService = {
     const result = await apiService.delete(`/itinerary/delete/${postID}`);
     return result.data.isDeleted || false;
   },
+
+  async disable(postID) {
+    const result = await apiService.put(`/itinerary/disable/${postID}`);
+    return !result.data.isActive || false;
+  },
 };
 
 export default itineraryApiService;
