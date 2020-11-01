@@ -8,6 +8,7 @@ import {
 } from "typeorm";
 import ItineraryImage from "./ItineraryPostImage";
 import ItineraryPostDay from "./ItineraryPostDay";
+import { ColumnNumericTransformer } from "../helper";
 
 @Entity()
 export default class ItineraryPost extends BaseEntity {
@@ -19,6 +20,14 @@ export default class ItineraryPost extends BaseEntity {
 
   @Column("text", { nullable: true })
   description: string;
+
+  @Column("numeric", {
+    nullable: true,
+    precision: 7,
+    scale: 2,
+    transformer: new ColumnNumericTransformer(),
+  })
+  price: number;
 
   @Column("int", { nullable: true })
   pax: number;

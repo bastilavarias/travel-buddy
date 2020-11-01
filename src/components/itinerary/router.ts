@@ -6,7 +6,7 @@ const itineraryRouter = express.Router();
 
 itineraryRouter.post(
   "/create-new/:postID",
-  passport.authenticate("jwt", { session: false }),
+  // passport.authenticate("jwt", { session: false }),
   itineraryController.createNew
 );
 itineraryRouter.post(

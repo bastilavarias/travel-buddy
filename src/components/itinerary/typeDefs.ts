@@ -5,6 +5,7 @@ interface IItineraryPostBaseInput {
   name: string;
   description: string;
   pax: number;
+  price: number;
 }
 
 interface IItineraryDayBaseInput {
