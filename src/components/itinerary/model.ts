@@ -48,6 +48,21 @@ const itineraryModel = {
     }).save();
   },
 
+  async fetch(): Promise<IItinerarySoftDetails[]> {
+    const isDeleted = false;
+    const isActive = true;
+    const rawPosts = await getRepository(ItineraryPost)
+      .createQueryBuilder("itinerary")
+      .select(["id"])
+      .where(`itinerary."isDeleted" = :isDeleted`, { isDeleted })
+      .andWhere(`itinerary."isActive" = :isActive`, { isActive })
+      .orderBy(`itinerary."createdAt"`, "ASC")
+      .getRawMany();
+    return await Promise.all(
+      rawPosts.map((item) => this.getSoftDetails(item.id))
+    );
+  },
+
   async getSoftDetails(postID: number): Promise<IItinerarySoftDetails> {
     // @ts-ignore
     const foundDetails: IItinerarySoftDetails = await ItineraryPost.findOne(

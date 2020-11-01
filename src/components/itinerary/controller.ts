@@ -29,6 +29,15 @@ const itineraryController = {
       response.status(400).json(error);
     }
   },
+
+  async fetch(_: Request, response: Response) {
+    try {
+      const itineraries = await itineraryService.fetch();
+      response.status(200).json(itineraries);
+    } catch (error) {
+      response.status(400).json(error);
+    }
+  },
 };
 
 export default itineraryController;

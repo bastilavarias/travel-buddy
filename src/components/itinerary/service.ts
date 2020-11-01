@@ -72,6 +72,10 @@ const itineraryService = {
     );
     return savedDetails;
   },
+
+  async fetch(): Promise<IItinerarySoftDetails[]> {
+    return await itineraryModel.fetch();
+  },
 };
 
 export default itineraryService;
