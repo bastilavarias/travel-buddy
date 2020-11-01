@@ -13,6 +13,11 @@ const itineraryApiService = {
     const result = await apiService.post("/itinerary/upload-images", formData);
     return result.data || {};
   },
+
+  async fetch() {
+    const result = await apiService.get("/itinerary/");
+    return result.data || [];
+  },
 };
 
 export default itineraryApiService;

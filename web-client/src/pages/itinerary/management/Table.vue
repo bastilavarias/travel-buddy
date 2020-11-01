@@ -11,7 +11,11 @@
             :to="{ name: 'itinerary-management-page/form' }"
           ></custom-tooltip-button>
         </v-card-title>
-        <v-data-table :headers="tableHeaders" :items="sampleItems">
+        <v-data-table
+          :headers="tableHeaders"
+          :items="itineraries"
+          :loading="isFetchItinerariesStart"
+        >
           <template v-slot:top>
             <v-card-text>
               <v-row dense>
@@ -31,12 +35,13 @@
               </v-row>
             </v-card-text>
           </template>
+          <template v-slot:item.name="{ item }">
+            <span class="font-weight-bold text-capitalize">{{
+              item.name
+            }}</span>
+          </template>
           <template v-slot:item.details="{ item }">
-            <span
-              >{{ item.details.dayCount }} Days |
-              {{ item.details.destinationCount }} Destinations |
-              {{ item.details.activityCount }} Activities</span
-            >
+            {{ formatDetails(item.days) }}
           </template>
           <template v-slot:item.price="{ item }">
             <span>&#8369; {{ item.price }}</span>
@@ -76,6 +81,7 @@
 
 <script>
 import CustomTooltipButton from "@/components/custom/TooltipButton";
+import { FETCH_ITINERARIES } from "@/store/types/itinerary";
 export default {
   components: { CustomTooltipButton },
   data() {
@@ -97,62 +103,42 @@ export default {
           sortable: true,
         },
         {
-          text: "Tour Guide",
-          value: "tourGuide",
-          sortable: false,
-        },
-        {
           text: "Actions",
           value: "actions",
           align: "right",
           sortable: false,
         },
       ],
-      sampleItems: [
-        {
-          name: "Itinerary Name",
-          details: {
-            dayCount: 3,
-            activityCount: 10,
-            destinationCount: 3,
-          },
-          price: 5000,
-          tourGuide: {
-            image:
-              "https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg",
-            name: "Cardo D.",
-          },
-        },
-        {
-          name: "Itinerary Name",
-          details: {
-            dayCount: 3,
-            activityCount: 10,
-            destinationCount: 3,
-          },
-          price: 5000,
-          tourGuide: {
-            image:
-              "https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg",
-            name: "Cardo D.",
-          },
-        },
-        {
-          name: "Itinerary Name",
-          details: {
-            dayCount: 3,
-            activityCount: 10,
-            destinationCount: 3,
-          },
-          price: 5000,
-          tourGuide: {
-            image:
-              "https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg",
-            name: "Cardo D.",
-          },
-        },
-      ],
+      isFetchItinerariesStart: false,
     };
+  },
+  computed: {
+    itineraries() {
+      return this.$store.state.itinerary.list;
+    },
+  },
+  methods: {
+    async fetchItineraries() {
+      this.isFetchItinerariesStart = true;
+      await this.$store.dispatch(FETCH_ITINERARIES);
+      this.isFetchItinerariesStart = false;
+    },
+    formatDetails(days) {
+      const dayCount = days.length;
+      const destinationCount = days.map((day) => day.destination).length;
+      const activityCount = days
+        .map((day) => day.activities)
+        .map((activities) => activities.length)
+        .reduce((flat, next) => flat + next, 0);
+      return `${dayCount} ${
+        dayCount > 1 ? "Days" : "Day"
+      } | ${destinationCount} ${
+        destinationCount > 1 ? "Destinations" : "Destination"
+      } | ${activityCount} ${activityCount > 1 ? "Activities" : "Activity"}`;
+    },
+  },
+  async created() {
+    await this.fetchItineraries();
   },
 };
 </script>
