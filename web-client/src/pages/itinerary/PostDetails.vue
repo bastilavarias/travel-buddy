@@ -34,10 +34,15 @@
               </v-btn>
             </v-col>
             <v-col cols="12">
-              <itinerary-post-details-page-content-card></itinerary-post-details-page-content-card>
+              <itinerary-post-details-page-content-card
+                :name="postDetails.name"
+                :description="postDetails.description"
+              ></itinerary-post-details-page-content-card>
             </v-col>
             <v-col cols="12">
-              <itinerary-post-details-page-table-card></itinerary-post-details-page-table-card>
+              <itinerary-post-details-page-table-card
+                :days="postDetails.days"
+              ></itinerary-post-details-page-table-card>
             </v-col>
             <v-col cols="12">
               <itinerary-post-details-page-inquiries-card></itinerary-post-details-page-inquiries-card>
@@ -111,6 +116,8 @@ export default {
         GET_ITINERARY_SOFT_DETAILS,
         postID
       );
+      if (!this.validateObject(gotDetails)) return this.goBack();
+      console.log(gotDetails);
       this.isGetPostDetailsStart = false;
       this.postDetails = Object.assign({}, gotDetails);
     },

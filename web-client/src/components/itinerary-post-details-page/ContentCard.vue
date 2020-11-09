@@ -1,14 +1,11 @@
 <template>
   <v-card outlined>
-    <v-card-title class="font-weight-bold">Itinerary Name</v-card-title>
+    <v-card-title class="font-weight-bold text-capitalize" v-if="name"
+      >Itinerary Name</v-card-title
+    >
     <v-card-text>
-      <div class="mb-5">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad adipisci
-        aliquid dicta dignissimos, error eveniet excepturi fugit iste libero
-        mollitia pariatur quas reiciendis tempore ut voluptas! Architecto
-        consectetur cum quis reprehenderit suscipit! Architecto culpa molestiae
-        nihil nobis odio! Adipisci assumenda delectus doloribus esse inventore
-        nam officiis quibusdam quos rem vero.
+      <div class="mb-5" v-if="description">
+        {{ description }}
       </div>
       <div class="d-flex align-center">
         <v-chip small class="mr-1">
@@ -24,5 +21,15 @@
 <script>
 export default {
   name: "itinerary-post-details-page-content-card",
+  props: {
+    name: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+  },
 };
 </script>
