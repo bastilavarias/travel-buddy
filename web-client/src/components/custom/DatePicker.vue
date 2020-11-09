@@ -18,6 +18,8 @@
         :disabled="disabled"
         v-bind="attrs"
         v-on="on"
+        :clearable="clearable"
+        @click:clear="dateLocal = null"
       ></v-text-field>
     </template>
     <v-date-picker
@@ -62,6 +64,10 @@ export default {
       required: false,
     },
     readonly: {
+      type: Boolean,
+      required: false,
+    },
+    clearable: {
       type: Boolean,
       required: false,
     },

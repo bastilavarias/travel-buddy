@@ -47,6 +47,7 @@
                     :date.sync="form.fromDate"
                     outlined
                     :label="form.fromDate ? 'From Date' : 'Date'"
+                    clearable
                   ></custom-date-picker>
                 </v-col>
                 <v-col cols="12" md="6" v-if="form.fromDate">
@@ -188,7 +189,7 @@ export default {
     "form.fromDate"(val) {
       if (val) {
         const addedDate = moment(val).add(1, "days");
-        this.form.toDate = moment(addedDate).format("ll");
+        return (this.form.toDate = moment(addedDate).format("ll"));
       }
     },
   },
