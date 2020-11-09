@@ -40,11 +40,21 @@ const itineraryController = {
     }
   },
 
+  async getSoftDetails(request: Request, response: Response) {
+    try {
+      const postID = parseInt(request.params.postID);
+      const gotDetails = await itineraryService.getSoftDetails(postID);
+      response.status(200).json(gotDetails || {});
+    } catch (error) {
+      response.status(400).json(error);
+    }
+  },
+
   async delete(request: Request, response: Response) {
     try {
       const postID = parseInt(request.params.postID);
-      const details = await itineraryService.delete(postID);
-      response.status(200).json(details);
+      const result = await itineraryService.delete(postID);
+      response.status(200).json(result);
     } catch (error) {
       response.status(400).json(error);
     }
@@ -53,8 +63,8 @@ const itineraryController = {
   async disable(request: Request, response: Response) {
     try {
       const postID = parseInt(request.params.postID);
-      const details = await itineraryService.disable(postID);
-      response.status(200).json(details);
+      const result = await itineraryService.disable(postID);
+      response.status(200).json(result);
     } catch (error) {
       response.status(400).json(error);
     }
@@ -63,8 +73,8 @@ const itineraryController = {
   async enable(request: Request, response: Response) {
     try {
       const postID = parseInt(request.params.postID);
-      const details = await itineraryService.enable(postID);
-      response.status(200).json(details);
+      const result = await itineraryService.enable(postID);
+      response.status(200).json(result);
     } catch (error) {
       response.status(400).json(error);
     }

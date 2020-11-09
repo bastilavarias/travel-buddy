@@ -16,6 +16,10 @@ itineraryRouter.post(
   itineraryController.uploadImages
 );
 itineraryRouter.get("/", itineraryController.fetch);
+itineraryRouter.get(
+  "/soft-details/:postID",
+  itineraryController.getSoftDetails
+);
 itineraryRouter.delete(
   "/delete/:postID",
   passport.authenticate("jwt", { session: false }),
