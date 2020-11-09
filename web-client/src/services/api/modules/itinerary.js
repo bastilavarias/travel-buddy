@@ -19,6 +19,11 @@ const itineraryApiService = {
     return result.data || [];
   },
 
+  async getSoftDetails(postID) {
+    const result = await apiService.get(`/itinerary/soft-details/${postID}`);
+    return result.data || {};
+  },
+
   async delete(postID) {
     const result = await apiService.delete(`/itinerary/delete/${postID}`);
     return result.data.isDeleted || false;

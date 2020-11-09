@@ -66,7 +66,6 @@ const itineraryModel = {
     const foundDetails: IItinerarySoftDetails = await ItineraryPost.findOne(
       postID
     );
-    if (foundDetails === undefined) return foundDetails;
     foundDetails.images = await this.getImagesSoftDetails(postID);
     foundDetails.days = await this.getDays(postID);
     return foundDetails;
