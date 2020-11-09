@@ -131,9 +131,7 @@ const authenticationService = {
     const result = {
       token: "",
     };
-    const gotAccountDetails = await accountModel.getPartialDetailsByID(
-      accountID
-    );
+    const gotAccountDetails = await accountModel.getDetailsByID(accountID);
     // @ts-ignore
     delete gotAccountDetails.password;
     const generatedJsonWebToken = jsonwebtoken.sign(

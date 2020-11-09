@@ -16,10 +16,10 @@ const accountModel = {
     return gotDetails!;
   },
 
-  async getPartialDetailsByID(accountID: number): Promise<Account> {
+  async getDetailsByID(accountID: number): Promise<Account> {
     const gotDetails = await Account.findOne({
       where: { id: accountID },
-      relations: ["profile"],
+      relations: ["profile", "profile.image"],
     });
     // @ts-ignore
     delete gotDetails?.password;
@@ -60,7 +60,7 @@ const accountModel = {
       profile: { id: profileID },
       type: { id: accountTypeID },
     }).save();
-    return this.getPartialDetailsByID(gotDetails.id);
+    return this.getDetailsByID(gotDetails.id);
   },
 
   async fetchTypes(): Promise<AccountType[]> {
