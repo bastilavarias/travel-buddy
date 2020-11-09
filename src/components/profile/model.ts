@@ -1,7 +1,7 @@
 import Profile from "../../database/entities/Profile";
 import {
   IProfileImageSoftDetails,
-  IProfileModelSaveDetailsInput,
+  IProfileModelSaveDetailsPayload,
   IProfileModelSaveImageDetailsPayload,
   IProfileSoftDetails,
 } from "./typeDefs";
@@ -9,7 +9,7 @@ import ProfileImage from "../../database/entities/ProfileImage";
 import { getRepository } from "typeorm";
 
 const profileModel = {
-  async saveDetails(input: IProfileModelSaveDetailsInput): Promise<Profile> {
+  async saveDetails(input: IProfileModelSaveDetailsPayload): Promise<Profile> {
     const { firstName, lastName, nationality, birthDate, sex, imageID } = input;
     return await Profile.create({
       firstName,

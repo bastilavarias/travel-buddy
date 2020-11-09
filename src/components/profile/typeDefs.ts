@@ -1,6 +1,6 @@
 import { ICloudinaryFileMeta } from "../cloudinary/typeDefs";
 
-export interface IProfileModelSaveDetailsInput {
+export interface IProfileModelSaveDetailsPayload {
   firstName: string;
   lastName: string;
   nationality: string;

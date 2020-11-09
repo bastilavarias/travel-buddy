@@ -10,9 +10,9 @@ import profileModel from "../profile/model";
 import utilityService from "../utility/service";
 import accountModel from "../account/model";
 import jsonwebtoken from "jsonwebtoken";
-import { IAccountModelSaveDetailsInput } from "../account/typeDefs";
+import { IAccountModelSaveDetailsPayload } from "../account/typeDefs";
 import {
-  IProfileModelSaveDetailsInput,
+  IProfileModelSaveDetailsPayload,
   IProfileModelSaveImageDetailsPayload,
 } from "../profile/typeDefs";
 
@@ -49,7 +49,7 @@ const authenticationService = {
     const savedImageDetails = await profileModel.saveImageDetails(
       imageSaveDetailsPayload
     );
-    const profileSaveDetailsInput: IProfileModelSaveDetailsInput = {
+    const profileSaveDetailsPayload: IProfileModelSaveDetailsPayload = {
       firstName: input.firstName,
       lastName: input.lastName,
       nationality: input.nationality,
@@ -58,17 +58,18 @@ const authenticationService = {
       imageID: savedImageDetails.id,
     };
     const savedProfileDetails = await profileModel.saveDetails(
-      profileSaveDetailsInput
+      profileSaveDetailsPayload
     );
     const clientTypeID = 1;
-    const accountSaveDetailsInput: IAccountModelSaveDetailsInput = {
+    const accountSaveDetailsPayload: IAccountModelSaveDetailsPayload = {
       email: input.email,
       password: utilityService.hashPassword(input.password),
       accountTypeID: clientTypeID,
       profileID: savedProfileDetails.id,
+      isVerified: false,
     };
     const savedAccountDetails = await accountModel.saveDetails(
-      accountSaveDetailsInput
+      accountSaveDetailsPayload
     );
     // @ts-ignore
     delete savedAccountDetails.password;

@@ -11,11 +11,12 @@ interface IBaseAccountInput {
   sex: string;
 }
 
-export interface IAccountModelSaveDetailsInput {
+export interface IAccountModelSaveDetailsPayload {
   email: string;
   password: string;
   profileID: number;
   accountTypeID: number;
+  isVerified: boolean;
 }
 
 export interface IAccountServiceCreateNewInput extends IBaseAccountInput {
