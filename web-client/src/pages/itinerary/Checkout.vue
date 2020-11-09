@@ -98,7 +98,7 @@
         <v-col cols="12" md="4" ref="postDetails">
           <div :style="{ position: 'relative', height: `${height}px` }">
             <div class="sticky-container">
-              <v-card>
+              <v-card class="custom-border">
                 <v-card-title>Itinerary Summary</v-card-title>
                 <v-list-item three-line>
                   <v-list-item-avatar tile :size="75">
@@ -233,3 +233,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.custom-border {
+  border-top: 0.3rem solid #ff7557;
+}
+</style>
