@@ -2,7 +2,7 @@ import Profile from "../../database/entities/Profile";
 import {
   IProfileImageSoftDetails,
   IProfileModelSaveDetailsInput,
-  IProfileModelSaveImageDetailsInput,
+  IProfileModelSaveImageDetailsPayload,
   IProfileSoftDetails,
 } from "./typeDefs";
 import ProfileImage from "../../database/entities/ProfileImage";
@@ -22,7 +22,7 @@ const profileModel = {
   },
 
   async saveImageDetails(
-    input: IProfileModelSaveImageDetailsInput
+    input: IProfileModelSaveImageDetailsPayload
   ): Promise<ProfileImage> {
     return await ProfileImage.create(input).save();
   },

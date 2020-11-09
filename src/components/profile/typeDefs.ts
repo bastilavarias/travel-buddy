@@ -9,7 +9,7 @@ export interface IProfileModelSaveDetailsInput {
   imageID: number;
 }
 
-export interface IProfileModelSaveImageDetailsInput
+export interface IProfileModelSaveImageDetailsPayload
   extends ICloudinaryFileMeta {
   data: Buffer;
 }

@@ -13,7 +13,7 @@ import jsonwebtoken from "jsonwebtoken";
 import { IAccountModelSaveDetailsInput } from "../account/typeDefs";
 import {
   IProfileModelSaveDetailsInput,
-  IProfileModelSaveImageDetailsInput,
+  IProfileModelSaveImageDetailsPayload,
 } from "../profile/typeDefs";
 
 const authenticationService = {
@@ -39,14 +39,15 @@ const authenticationService = {
       result.error.email = `${input.email} is already exists.`;
       return result;
     }
-    const imageSaveDetailsInput: IProfileModelSaveImageDetailsInput = {
-      url: "",
+    const imageSaveDetailsPayload: IProfileModelSaveImageDetailsPayload = {
+      url:
+        "https://res.cloudinary.com/deqllunb9/image/upload/v1604893920/travel-buddy-development/accounts/placeholder/profile-image_vaskgt.png",
       publicID: "",
       // @ts-ignore
       data: null,
     };
     const savedImageDetails = await profileModel.saveImageDetails(
-      imageSaveDetailsInput
+      imageSaveDetailsPayload
     );
     const profileSaveDetailsInput: IProfileModelSaveDetailsInput = {
       firstName: input.firstName,

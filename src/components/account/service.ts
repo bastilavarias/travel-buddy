@@ -9,7 +9,7 @@ import {
 import validator from "validator";
 import {
   IProfileModelSaveDetailsInput,
-  IProfileModelSaveImageDetailsInput,
+  IProfileModelSaveImageDetailsPayload,
 } from "../profile/typeDefs";
 import profileModel from "../profile/model";
 import utilityService from "../utility/service";
@@ -50,7 +50,7 @@ const accountService = {
         uploadFolder
       );
     }
-    const imageSaveDetailsInput: IProfileModelSaveImageDetailsInput = {
+    const imageSaveDetailsInput: IProfileModelSaveImageDetailsPayload = {
       url: uploadedImageMeta.url,
       fileName: uploadedImageMeta.fileName,
       publicID: uploadedImageMeta.publicID,
