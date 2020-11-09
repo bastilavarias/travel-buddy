@@ -19,6 +19,7 @@
           <v-skeleton-loader type="card"></v-skeleton-loader>
         </v-col>
       </v-row>
+
       <v-row v-if="!isGetPostDetailsStart">
         <v-col cols="12">
           <itinerary-post-details-page-header
@@ -60,6 +61,7 @@
                   <itinerary-post-details-page-book-button-card
                     :price="postDetails.price"
                     :days="postDetails.days"
+                    :postID="postDetails.id"
                   >
                   </itinerary-post-details-page-book-button-card>
                 </div>
@@ -71,6 +73,7 @@
     </v-container>
   </section>
 </template>
+
 <script>
 import ItineraryPostDetailsPageHeader from "@/components/itinerary-post-details-page/Header";
 import ItineraryPostDetailsPageContentCard from "@/components/itinerary-post-details-page/ContentCard";
@@ -120,12 +123,12 @@ export default {
         postID
       );
       if (!this.validateObject(gotDetails)) return this.goBack();
-      console.log(gotDetails);
       this.isGetPostDetailsStart = false;
       this.postDetails = Object.assign({}, gotDetails);
     },
   },
   async created() {
+    this.scrollToTop();
     await this.getPostDetails();
   },
 };

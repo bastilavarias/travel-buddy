@@ -1,8 +1,8 @@
 <template>
   <v-card outlined>
-    <v-card-title class="font-weight-bold text-capitalize" v-if="name"
-      >Itinerary Name</v-card-title
-    >
+    <v-card-title class="font-weight-bold text-capitalize" v-if="name">{{
+      name
+    }}</v-card-title>
     <v-card-text>
       <div class="mb-5" v-if="description">
         {{ description }}
