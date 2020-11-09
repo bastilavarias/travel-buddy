@@ -1,11 +1,6 @@
 <template>
   <v-app :style="{ backgroundColor: '#ECEFF3' }">
-    <v-system-bar
-      height="30"
-      color="warning"
-      app
-      v-if="!credentials.isVerified"
-    >
+    <v-system-bar height="30" color="warning" app v-if="shouldShowSystemBar">
       <v-spacer></v-spacer>
       <div>
         <span class="font-weight-bold">Warning: </span>Your account is pending
@@ -53,7 +48,11 @@ export default {
   },
   computed: {
     credentials() {
-      return this.$store.state.authentication;
+      return this.$store.state.authentication.credentials;
+    },
+    shouldShowSystemBar() {
+      const { isVerified } = this.credentials;
+      return !isVerified;
     },
   },
 };
