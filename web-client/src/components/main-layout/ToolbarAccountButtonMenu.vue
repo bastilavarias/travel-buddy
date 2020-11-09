@@ -12,11 +12,11 @@
           >
             <v-avatar class="mr-2" :size="30">
               <v-img
-                src="https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg"
-                lazy-src="https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg"
+                :src="profile.image.url"
+                :lazy-src="profile.image.url"
               ></v-img>
             </v-avatar>
-            <span class="text-capitalize mr-1">Cardo D.</span>
+            <span class="text-capitalize mr-1">{{ displayName }}</span>
             <v-icon small>mdi-menu-down</v-icon>
           </v-btn>
         </template>
@@ -28,13 +28,15 @@
         <v-list-item two-line>
           <v-list-item-avatar :size="50">
             <v-img
-              src="https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg"
-              lazy-src="https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg"
+              :src="profile.image.url"
+              :lazy-src="profile.image.url"
             ></v-img>
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title>
-              <span class="font-weight-bold secondary--text">Cardo D.</span>
+              <span class="font-weight-bold secondary--text text-capitalize">{{
+                displayName
+              }}</span>
             </v-list-item-title>
             <v-list-item-subtitle>
               <span class="secondary--text">See Profile</span>
@@ -100,12 +102,28 @@ export default {
       ],
     };
   },
-
+  computed: {
+    credentials() {
+      return this.$store.state.authentication.credentials;
+    },
+    profile() {
+      return this.credentials.profile;
+    },
+    displayName() {
+      const { firstName, lastName } = this.profile;
+      const newFirstName = firstName.split(" ")[0];
+      const newLastname = lastName.split(" ")[0];
+      return `${newFirstName} ${newLastname[0] || ""}.`;
+    },
+  },
   methods: {
     async signOut() {
       await this.$store.commit(PURGE_AUTHENTICATION);
       await this.$router.push({ name: "sign-in-page" });
     },
+  },
+  created() {
+    console.log(this.credentials);
   },
 };
 </script>
