@@ -57,7 +57,10 @@
             <v-col cols="12">
               <div :style="{ position: 'relative', height: `${height}px` }">
                 <div class="sticky-container">
-                  <itinerary-post-details-page-book-button-card>
+                  <itinerary-post-details-page-book-button-card
+                    :price="postDetails.price"
+                    :days="postDetails.days"
+                  >
                   </itinerary-post-details-page-book-button-card>
                 </div>
               </div>

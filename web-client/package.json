@@ -12,6 +12,7 @@
     "core-js": "^3.6.5",
     "jwt-decode": "^3.0.0",
     "moment": "^2.29.1",
+    "number-formatter": "^1.2.0",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
     "vue-cookie": "^1.1.4",

@@ -1,3 +1,5 @@
+import numberFormatter from "number-formatter";
+
 const commonUtilities = {
   data() {
     return {
@@ -35,6 +37,9 @@ const commonUtilities = {
       }, and ${activityCount} ${
         activityCount > 1 ? "Activities" : "Activity"
       }.`;
+    },
+    formatMoney(money) {
+      return money > 0 ? numberFormatter("₱ #,###.00", money) : `₱ 0.00`;
     },
   },
 
