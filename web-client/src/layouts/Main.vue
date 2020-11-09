@@ -1,5 +1,18 @@
 <template>
   <v-app :style="{ backgroundColor: '#ECEFF3' }">
+    <v-system-bar
+      height="30"
+      color="warning"
+      app
+      v-if="!credentials.isVerified"
+    >
+      <v-spacer></v-spacer>
+      <div>
+        <span class="font-weight-bold">Warning: </span>Your account is pending
+        to be verified. You can't make any transaction yet.
+      </div>
+      <v-spacer></v-spacer>
+    </v-system-bar>
     <v-app-bar app color="secondary" fixed style="z-index: 5" dark>
       <v-toolbar-title class="mr-5">
         <custom-router-link :to="{ name: 'feed-page' }">
@@ -37,6 +50,11 @@ export default {
     GenericBasicFooter,
     MainLayoutToolbarAccountButtonMenu,
     CustomRouterLink,
+  },
+  computed: {
+    credentials() {
+      return this.$store.state.authentication;
+    },
   },
 };
 </script>
