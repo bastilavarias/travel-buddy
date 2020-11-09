@@ -4,6 +4,7 @@ import {
   DISABLE_ITINERARY,
   ENABLE_ITINERARY,
   FETCH_ITINERARIES,
+  GET_ITINERARY_SOFT_DETAILS,
   SET_ITINERARIES,
 } from "@/store/types/itinerary";
 import itineraryApiService from "@/services/api/modules/itinerary";
@@ -60,6 +61,19 @@ const itineraryStore = {
       try {
         const itineraries = await itineraryApiService.fetch();
         commit(SET_ITINERARIES, itineraries);
+      } catch (error) {
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Something went wrong to the server. Please try again.",
+          color: "error",
+        });
+        throw new Error(`[RWV] ApiService ${error}`);
+      }
+    },
+
+    async [GET_ITINERARY_SOFT_DETAILS]({ commit }, postID) {
+      try {
+        return await itineraryApiService.getSoftDetails(postID);
       } catch (error) {
         commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
           isOpen: true,
