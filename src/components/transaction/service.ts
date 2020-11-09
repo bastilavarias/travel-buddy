@@ -1,0 +1,27 @@
+import { TransactionNumber } from "./typeDefs";
+import transactionModel from "./model";
+
+const transactionService = {
+  async getTransactionNumber(): Promise<{
+    transactionNumber: TransactionNumber;
+  }> {
+    const transactionsCount = await transactionModel.getCount();
+    let customTransactionNumber = "";
+    if (transactionsCount === 0) customTransactionNumber = "TRANSACTION-00000";
+    if (transactionsCount >= 1 && transactionsCount <= 9)
+      customTransactionNumber = `TRANSACTION-0000${transactionsCount}`;
+    if (transactionsCount >= 10 && transactionsCount <= 99)
+      customTransactionNumber = `TRANSACTION-000${transactionsCount}`;
+    if (transactionsCount >= 100 && transactionsCount <= 999)
+      customTransactionNumber = `TRANSACTION-00${transactionsCount}`;
+    if (transactionsCount >= 1000 && transactionsCount <= 9999)
+      customTransactionNumber = `TRANSACTION-0${transactionsCount}`;
+    if (transactionsCount >= 10000 && transactionsCount <= 99999)
+      customTransactionNumber = `TRANSACTION-${transactionsCount}`;
+    return {
+      transactionNumber: customTransactionNumber,
+    };
+  },
+};
+
+export default transactionService;

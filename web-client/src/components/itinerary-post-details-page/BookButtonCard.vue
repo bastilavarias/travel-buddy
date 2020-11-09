@@ -1,6 +1,6 @@
 <template>
   <v-card class="custom-border">
-    <v-card-title class="font-weight-bold">Booking Details</v-card-title>
+    <v-card-title class="font-weight-bold">Transaction Details</v-card-title>
     <v-card-subtitle>Additional Details</v-card-subtitle>
     <v-card-text>
       <div class="body-2">

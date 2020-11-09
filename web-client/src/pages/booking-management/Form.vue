@@ -9,7 +9,7 @@
               text="Back to Itinerary List"
               :action="goBack"
             ></custom-tooltip-button>
-            Booking Details
+            Transaction Details
           </span>
           <div class="flex-grow-1"></div>
           <generic-booking-status-chip
@@ -26,7 +26,7 @@
           <v-list-item-content>
             <v-list-item-subtitle>
               <span>
-                <span>Booking Number: </span>
+                <span>Transaction Number: </span>
                 <span class="font-weight-bold"> BOOKING-1800-1-114-2126 </span>
               </span>
             </v-list-item-subtitle>

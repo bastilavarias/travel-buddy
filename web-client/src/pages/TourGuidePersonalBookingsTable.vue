@@ -3,7 +3,7 @@
     <v-container>
       <v-card outlined>
         <v-card-title>
-          <span class="font-weight-bold"> My Booking List </span>
+          <span class="font-weight-bold"> My Transaction List </span>
           <div class="flex-grow-1"></div>
           <v-chip>
             <v-icon left>mdi-tune</v-icon>
