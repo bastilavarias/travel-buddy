@@ -122,8 +122,5 @@ export default {
       await this.$router.push({ name: "sign-in-page" });
     },
   },
-  created() {
-    console.log(this.credentials);
-  },
 };
 </script>
