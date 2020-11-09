@@ -27,6 +27,9 @@ export default class Account extends BaseEntity {
   })
   createdAt: Date;
 
+  @Column("boolean", { nullable: false })
+  isVerified: boolean;
+
   @Column("boolean", { nullable: false, default: false })
   isDeleted: boolean;
 

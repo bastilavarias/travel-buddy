@@ -1,14 +1,14 @@
 import accountModel from "./model";
 import AccountType from "../../database/entities/AccountType";
 import {
-  IAccountModelSaveDetailsInput,
+  IAccountModelSaveDetailsPayload,
   IAccountServiceCreateNewInput,
   IAccountServiceCreateNewResult,
   IAccountSoftDetails,
 } from "./typeDefs";
 import validator from "validator";
 import {
-  IProfileModelSaveDetailsInput,
+  IProfileModelSaveDetailsPayload,
   IProfileModelSaveImageDetailsPayload,
 } from "../profile/typeDefs";
 import profileModel from "../profile/model";
@@ -60,7 +60,7 @@ const accountService = {
     const savedImageDetails = await profileModel.saveImageDetails(
       imageSaveDetailsInput
     );
-    const profileSaveDetailsInput: IProfileModelSaveDetailsInput = {
+    const profileSaveDetailsInput: IProfileModelSaveDetailsPayload = {
       firstName: input.firstName,
       lastName: input.lastName,
       nationality: input.nationality,
@@ -74,11 +74,12 @@ const accountService = {
     const defaultPassword = `${input.lastName.toUpperCase()}-${
       input.birthDate
     }`;
-    const accountSaveDetailsInput: IAccountModelSaveDetailsInput = {
+    const accountSaveDetailsInput: IAccountModelSaveDetailsPayload = {
       email: input.email,
       password: utilityService.hashPassword(defaultPassword),
       accountTypeID: input.typeID,
       profileID: savedProfileDetails.id,
+      isVerified: true,
     };
     const savedAccountDetails = await accountModel.saveDetails(
       accountSaveDetailsInput
