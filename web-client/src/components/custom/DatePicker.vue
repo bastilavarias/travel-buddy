@@ -15,11 +15,17 @@
         :rounded="rounded"
         :outlined="outlined"
         readonly
+        :disabled="disabled"
         v-bind="attrs"
         v-on="on"
       ></v-text-field>
     </template>
-    <v-date-picker v-model="dateLocal" @input="menu = false"></v-date-picker>
+    <v-date-picker
+      :show-current="false"
+      v-model="dateLocal"
+      @input="menu = false"
+      :readonly="readonly"
+    ></v-date-picker>
   </v-menu>
 </template>
 
@@ -35,6 +41,10 @@ export default {
       type: String,
       required: false,
     },
+    placeholder: {
+      type: String,
+      required: false,
+    },
     rounded: {
       type: Boolean,
       required: false,
@@ -47,6 +57,14 @@ export default {
       type: Boolean,
       required: false,
     },
+    disabled: {
+      type: Boolean,
+      required: false,
+    },
+    readonly: {
+      type: Boolean,
+      required: false,
+    },
   },
   data() {
     return {
@@ -56,9 +74,7 @@ export default {
   },
   computed: {
     formattedDate() {
-      return this.dateLocal
-        ? moment(this.dateLocal).format("MMMM Do YYYY")
-        : "";
+      return this.dateLocal ? moment(this.dateLocal).format("ll") : "";
     },
   },
   watch: {

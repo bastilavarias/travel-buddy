@@ -1,94 +1,132 @@
 <template>
   <section>
     <v-container>
-      <v-btn @click="goBack" fab color="white" small>
-        <v-icon>mdi-chevron-left</v-icon>
-      </v-btn>
-      <v-row>
-        <v-col cols="12">
-          <v-row>
-            <v-col cols="12">
-              <v-card outlined>
-                <v-card-title>Itinerary Checkout Details</v-card-title>
+      <v-row v-if="isGetPostDetailsStart">
+        <v-col cols="12" md="8">
+          <v-skeleton-loader type="card, article, actions"></v-skeleton-loader>
+        </v-col>
+        <v-col cols="12" md="4">
+          <v-skeleton-loader type="card"></v-skeleton-loader>
+        </v-col>
+      </v-row>
+      <v-row v-if="!isGetPostDetailsStart">
+        <v-col cols="12" md="8">
+          <v-card outlined>
+            <v-card-title>
+              <v-btn icon @click="goBack" class="mr-1">
+                <v-icon>mdi-chevron-left</v-icon>
+              </v-btn>
+              <span>Checkout Details</span>
+            </v-card-title>
+            <v-card-text>
+              <v-row dense>
+                <v-col cols="12">
+                  <v-text-field
+                    label="Name"
+                    readonly
+                    outlined
+                    :value="formatName(profile.firstName, profile.lastName)"
+                  >
+                  </v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                    label="Email Address"
+                    readonly
+                    outlined
+                    :value="credentials.email"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-card-text>
+            <v-card-title>Date & Tour Guide</v-card-title>
+            <v-card-text>
+              <v-row dense>
+                <v-col cols="12" :md="form.fromDate ? '6' : '12'">
+                  <custom-date-picker
+                    :date.sync="form.fromDate"
+                    outlined
+                    :label="form.fromDate ? 'From Date' : 'Date'"
+                  ></custom-date-picker>
+                </v-col>
+                <v-col cols="12" md="6" v-if="form.fromDate">
+                  <v-text-field
+                    label="To Date"
+                    outlined
+                    readonly
+                    :value="form.toDate"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-autocomplete
+                    label="Tour Guide"
+                    outlined
+                    :hint="
+                      !form.fromDate ? 'Please select the date first.' : ''
+                    "
+                    :persistent-hint="!form.fromDate"
+                    :disabled="!form.fromDate"
+                  ></v-autocomplete>
+                </v-col>
+              </v-row>
+            </v-card-text>
+            <v-card-title> Payment Details </v-card-title>
+            <v-card-text>
+              <v-row dense>
+                <v-col cols="12">
+                  <stripe-elements
+                    ref="elementsRef"
+                    :pk="publishableKey"
+                    :amount="postDetails.price"
+                    locale="en"
+                    @token="tokenCreated"
+                    @loading="loading = $event"
+                  >
+                  </stripe-elements>
+                </v-col>
+                <v-col cols="12"> </v-col>
+              </v-row>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn color="success" block large @click="submit"
+                >Confirm Checkout ({{ formatMoney(postDetails.price) }})</v-btn
+              >
+            </v-card-actions>
+          </v-card>
+        </v-col>
+        <v-col cols="12" md="4" ref="postDetails">
+          <div :style="{ position: 'relative', height: `${height}px` }">
+            <div class="sticky-container">
+              <v-card>
+                <v-card-title>Itinerary Summary</v-card-title>
                 <v-list-item three-line>
                   <v-list-item-avatar tile :size="75">
                     <v-img
-                      src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-                      lazy-src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                      :src="postDetails.images[0].url"
+                      :lazy-src="postDetails.images[0].url"
                     ></v-img>
                   </v-list-item-avatar>
                   <v-list-item-content>
-                    <v-list-item-title class="font-weight-bold"
-                      >Itinerary Name</v-list-item-title
-                    >
+                    <v-list-item-title
+                      ><span class="font-weight-bold text-capitalize mr-1">
+                        {{ postDetails.name }}
+                      </span>
+                    </v-list-item-title>
                     <v-list-item-subtitle
-                      ><span class="font-weight-bold">3 Days</span> | 11
-                      Activities</v-list-item-subtitle
-                    >
+                      ><span class="font-weight-bold text-capitalize">
+                        {{ formatMoney(postDetails.price) }}
+                      </span>
+                      | <generic-rating-chip></generic-rating-chip
+                      ><span class="caption">(99)</span>
+                    </v-list-item-subtitle>
                     <v-list-item-subtitle>
-                      <v-chip small class="mr-1">
-                        <v-icon color="primary" small left>mdi-star</v-icon>
-                        <span class="primary--text">5.0</span>
-                      </v-chip>
-                      <span>(666)</span></v-list-item-subtitle
-                    >
+                      {{ formatItineraryDetails(postDetails.days) }}
+                    </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
-                <v-card-text>
-                  <v-row dense>
-                    <v-col cols="12">
-                      <v-alert dense text type="success">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Dolor, reiciendis?
-                      </v-alert>
-                      <v-alert dense text type="error">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Dolor, reiciendis?
-                      </v-alert>
-                    </v-col>
-                    <v-col cols="12">
-                      <itinerary-post-details-page-date-picker
-                        label="Date"
-                      ></itinerary-post-details-page-date-picker>
-                    </v-col>
-                  </v-row>
-                </v-card-text>
               </v-card>
-            </v-col>
-            <v-col cols="12">
-              <v-card outlined>
-                <v-card-text>
-                  <v-row dense>
-                    <v-col cols="12">
-                      <h1 class="subtitle-2">
-                        **Note for our beloved clients**
-                      </h1>
-                      <span class="body-2"
-                        >Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Omnis, perspiciatis?</span
-                      >
-                    </v-col>
-                    <v-col cols="12">
-                      <stripe-elements
-                        ref="elementsRef"
-                        :pk="publishableKey"
-                        :amount="amount"
-                        locale="PHP"
-                        @token="tokenCreated"
-                        @loading="loading = $event"
-                      >
-                      </stripe-elements>
-                    </v-col>
-                  </v-row>
-                </v-card-text>
-                <v-card-actions>
-                  <v-btn color="primary" class="text-capitalize" block
-                    >Book (&#8369; 999.999)</v-btn
-                  >
-                </v-card-actions>
-              </v-card>
-            </v-col>
-          </v-row>
+            </div>
+          </div>
         </v-col>
       </v-row>
     </v-container>
@@ -98,9 +136,24 @@
 import { StripeElements } from "vue-stripe-checkout";
 import commonUtilities from "@/common/utilities";
 import ItineraryPostDetailsPageDatePicker from "@/components/itinerary-post-details-page/DatePicker";
+import CustomDatePicker from "@/components/custom/DatePicker";
+import { GET_ITINERARY_SOFT_DETAILS } from "@/store/types/itinerary";
+import commonValidation from "@/common/validation";
+import GenericRatingChip from "@/components/generic/chip/Rating";
+import moment from "moment";
+
+const defaultCheckoutForm = {
+  fromDate: null,
+  toDate: null,
+};
 
 export default {
-  components: { ItineraryPostDetailsPageDatePicker, StripeElements },
+  components: {
+    GenericRatingChip,
+    CustomDatePicker,
+    ItineraryPostDetailsPageDatePicker,
+    StripeElements,
+  },
   data() {
     return {
       publishableKey: process.env.VUE_APP_STRIPE_PUBLISHABLE_KEY,
@@ -108,9 +161,37 @@ export default {
       amount: 1000,
       token: null,
       charge: null,
+      form: Object.assign({}, defaultCheckoutForm),
+      defaultCheckoutForm,
+      height: 0,
+      isGetPostDetailsStart: false,
+      postDetails: {},
     };
   },
-  mixins: [commonUtilities],
+  mixins: [commonUtilities, commonValidation],
+  computed: {
+    credentials() {
+      return this.$store.state.authentication.credentials;
+    },
+    profile() {
+      return this.credentials.profile;
+    },
+  },
+  watch: {
+    postDetails(val) {
+      if (this.validateObject(val) && !this.isGetPostDetailsStart) {
+        this.$nextTick(() => {
+          this.matchHeight();
+        });
+      }
+    },
+    "form.fromDate"(val) {
+      if (val) {
+        const addedDate = moment(val).add(1, "days");
+        this.form.toDate = moment(addedDate).format("ll");
+      }
+    },
+  },
   methods: {
     submit() {
       this.$refs.elementsRef.submit();
@@ -129,6 +210,25 @@ export default {
       // Send to charge to your backend server to be processed
       // Documentation here: https://stripe.com/docs/api/charges/create
     },
+    matchHeight() {
+      this.height = this.$refs.postDetails.clientHeight;
+    },
+    async getPostDetails() {
+      this.isGetPostDetailsStart = true;
+      const { postID } = this.$route.params;
+      if (!postID) return this.goBack();
+      const gotDetails = await this.$store.dispatch(
+        GET_ITINERARY_SOFT_DETAILS,
+        postID
+      );
+      if (!this.validateObject(gotDetails)) return this.goBack();
+      this.isGetPostDetailsStart = false;
+      this.postDetails = Object.assign({}, gotDetails);
+    },
+  },
+  async created() {
+    this.scrollToTop();
+    await this.getPostDetails();
   },
 };
 </script>

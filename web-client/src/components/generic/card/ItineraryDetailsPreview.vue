@@ -34,7 +34,7 @@
     </v-card-text>
     <v-card-text>
       <h2 class="subtitle-2 font-weight-bold secondary--text" v-if="price">
-        &#8369; {{ price }}
+        {{ formatMoney(price) }}
       </h2>
       <span class="caption secondary--text text-truncate">{{
         formatItineraryDetails(days)

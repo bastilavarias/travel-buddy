@@ -39,7 +39,10 @@ const commonUtilities = {
       }.`;
     },
     formatMoney(money) {
-      return money > 0 ? numberFormatter("₱ #,###.00", money) : `₱ 0.00`;
+      return money > 0 ? numberFormatter("$ #,###.00", money) : `₱ 0.00`;
+    },
+    scrollToTop() {
+      window.scrollTo(0, 0);
     },
   },
 

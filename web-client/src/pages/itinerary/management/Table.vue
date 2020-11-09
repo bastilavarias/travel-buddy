@@ -51,7 +51,7 @@
             {{ formatItineraryDetails(item.days) }}
           </template>
           <template v-slot:item.price="{ item }">
-            <span>&#8369; {{ item.price }}</span>
+            <span>{{ formatMoney(item.price) }}</span>
           </template>
           <template v-slot:item.tourGuide="{ item }">
             <span>

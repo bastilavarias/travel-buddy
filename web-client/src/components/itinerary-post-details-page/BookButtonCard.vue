@@ -21,7 +21,7 @@
         block
         color="primary"
         class="text-capitalize"
-        :to="{ name: 'itinerary-checkout-page' }"
+        :to="{ name: 'itinerary-checkout-page', params: { postID } }"
         >Checkout ({{ formatMoney(price) }})</v-btn
       >
     </v-card-actions>
@@ -40,6 +40,10 @@ export default {
     },
     days: {
       type: Array,
+      required: true,
+    },
+    postID: {
+      type: Number,
       required: true,
     },
   },
