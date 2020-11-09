@@ -3,7 +3,7 @@
     <v-container>
       <v-card outlined>
         <v-card-title>
-          <span class="font-weight-bold"> Booking List </span>
+          <span class="font-weight-bold"> Transaction List </span>
           <div class="flex-grow-1"></div>
           <v-chip>
             <v-icon left>mdi-tune</v-icon>
@@ -68,7 +68,7 @@
           <template v-slot:item.action="{ item }">
             <custom-tooltip-button
               icon="mdi-pencil-outline"
-              text="Edit Booking"
+              text="Edit Transaction"
               :to="{ name: 'booking-management-page/form' }"
               :disabled="item.isDone"
             ></custom-tooltip-button>

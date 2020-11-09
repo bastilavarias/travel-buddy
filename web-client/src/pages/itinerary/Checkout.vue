@@ -90,7 +90,9 @@
             </v-card-text>
             <v-card-actions>
               <v-btn color="success" block large @click="submit"
-                >Confirm Checkout ({{ formatMoney(postDetails.price) }})</v-btn
+                >Confirm Transaction ({{
+                  formatMoney(postDetails.price)
+                }})</v-btn
               >
             </v-card-actions>
           </v-card>
