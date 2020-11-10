@@ -10,5 +10,9 @@ transactionRouter.get(
   "/available-tour-guides/:fromDate/:toDate",
   transactionController.fetchAvailableTourGuides
 );
+transactionRouter.post(
+  "/checkout/:postID/:clientID/:tourGuideID/:stripeToken",
+  transactionController.checkout
+);
 
 export default transactionRouter;

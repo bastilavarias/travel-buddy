@@ -163,9 +163,7 @@
             </v-card-text>
             <v-card-actions>
               <v-btn color="success" block large @click="submit"
-                >Confirm Transaction ({{
-                  formatMoney(postDetails.price)
-                }})</v-btn
+                >Confirm Transaction ({{ formatMoney(amount) }})</v-btn
               >
             </v-card-actions>
           </v-card>
@@ -240,7 +238,7 @@ export default {
     return {
       publishableKey: process.env.VUE_APP_STRIPE_PUBLISHABLE_KEY,
       loading: false,
-      amount: 1000,
+      amount: 0,
       token: null,
       charge: null,
       form: Object.assign({}, defaultCheckoutForm),
@@ -285,6 +283,8 @@ export default {
       if (this.validateObject(val) && !this.isGetPostDetailsStart) {
         this.$nextTick(() => {
           this.matchHeight();
+          const { price } = val;
+          this.amount = price;
         });
       }
     },
@@ -314,17 +314,15 @@ export default {
     },
     tokenCreated(token) {
       this.token = token;
-      // for additional charge objects go to https://stripe.com/docs/api/charges/object
       this.charge = {
         source: token.id,
-        amount: this.amount, // the amount you want to charge the customer in cents. $100 is 1000 (it is strongly recommended you use a product id and quantity and get calculate this on the backend to avoid people manipulating the cost)
-        description: this.description, // optional description that will show up on stripe when looking at payments
+        amount: this.amount,
+        description: this.postDetails.name,
       };
       this.sendTokenToServer(this.charge);
     },
     sendTokenToServer(charge) {
-      // Send to charge to your backend server to be processed
-      // Documentation here: https://stripe.com/docs/api/charges/create
+      console.log(charge);
     },
     matchHeight() {
       this.height = this.$refs.postDetails.clientHeight;
