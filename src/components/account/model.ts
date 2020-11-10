@@ -26,7 +26,7 @@ const accountModel = {
     return gotDetails!;
   },
 
-  async getSoftDetails(accountID: number): Promise<IAccountSoftDetails> {
+  async getGenericDetails(accountID: number): Promise<IAccountSoftDetails> {
     const gotDetails: IAccountSoftDetails = <IAccountSoftDetails>(
       await getRepository(Account)
         .createQueryBuilder("account")
@@ -86,12 +86,31 @@ const accountModel = {
       .getRawMany();
   },
 
+  async fetchTourGuides(): Promise<Account[]> {
+    const gotTourGuides = await Account.find({
+      where: {
+        type: { id: 2 },
+        isActive: true,
+        isDeleted: false,
+        isVerified: true,
+      },
+      relations: ["profile", "profile.image", "type"],
+    });
+    return gotTourGuides.map((tourGuide) => {
+      //@ts-ignore
+      delete tourGuide.password;
+      //@ts-ignore
+      delete tourGuide.profile.image.data;
+      return tourGuide;
+    });
+  },
+
   async updateActiveStatus(
     accountID: number,
     status: boolean
   ): Promise<IAccountSoftDetails> {
     await Account.update({ id: accountID }, { isActive: status });
-    return await this.getSoftDetails(accountID);
+    return await this.getGenericDetails(accountID);
   },
 
   async updateDeleteStatus(
@@ -99,7 +118,7 @@ const accountModel = {
     status: boolean
   ): Promise<IAccountSoftDetails> {
     await Account.update({ id: accountID }, { isDeleted: status });
-    return await this.getSoftDetails(accountID);
+    return await this.getGenericDetails(accountID);
   },
 };
 

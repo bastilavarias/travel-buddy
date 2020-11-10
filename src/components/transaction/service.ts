@@ -1,5 +1,10 @@
-import { TransactionNumber } from "./typeDefs";
+import {
+  ITransactionServiceFetchAvailableTourGuidesInput,
+  ITransactionServiceValidateDateResult,
+  TransactionNumber,
+} from "./typeDefs";
 import transactionModel from "./model";
+import accountModel from "../account/model";
 
 const transactionService = {
   async getTransactionNumber(): Promise<{
@@ -21,6 +26,30 @@ const transactionService = {
     return {
       transactionNumber: customTransactionNumber,
     };
+  },
+
+  async fetchAvailableTourGuides(
+    input: ITransactionServiceFetchAvailableTourGuidesInput
+  ): Promise<ITransactionServiceValidateDateResult> {
+    const result = {
+      message: "",
+      tourGuides: [],
+    };
+    const fetchedTourGuides = await accountModel.fetchTourGuides();
+    // @ts-ignore
+    result.tourGuides = await Promise.all(
+      fetchedTourGuides.filter(
+        async (tourGuide) =>
+          await transactionModel.checkTourGuideIfAvailable(
+            tourGuide.id,
+            input.fromDate,
+            input.toDate
+          )
+      )
+    );
+    if (result.tourGuides.length === 0)
+      result.message = "No available tour guides.";
+    return result;
   },
 };
 
