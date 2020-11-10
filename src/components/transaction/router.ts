@@ -6,5 +6,9 @@ transactionRouter.get(
   "/transaction-number",
   transactionController.getTransactionNumber
 );
+transactionRouter.get(
+  "/available-tour-guides/:fromDate/:toDate",
+  transactionController.fetchAvailableTourGuides
+);
 
 export default transactionRouter;

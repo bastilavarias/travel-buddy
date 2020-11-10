@@ -84,7 +84,7 @@ const accountService = {
     const savedAccountDetails = await accountModel.saveDetails(
       accountSaveDetailsInput
     );
-    const gotAccount = await accountModel.getSoftDetails(
+    const gotAccount = await accountModel.getGenericDetails(
       savedAccountDetails.id
     );
     gotAccount.profile = await profileModel.getSoftDetails(
@@ -103,7 +103,7 @@ const accountService = {
     const gotRawDetails = await accountModel.fetchRawDetails();
     return await Promise.all(
       gotRawDetails.map(async (rawAccount) => {
-        const account: IAccountSoftDetails = await accountModel.getSoftDetails(
+        const account: IAccountSoftDetails = await accountModel.getGenericDetails(
           rawAccount.id
         );
         account.profile = await profileModel.getSoftDetails(
