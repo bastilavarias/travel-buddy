@@ -12,7 +12,7 @@ const transactionModel = {
       tourGuideID,
       customNumber,
     } = payload;
-    return await Transaction.create({
+    const savedTransaction = await Transaction.create({
       customNumber,
       fromDate,
       toDate,
@@ -20,6 +20,7 @@ const transactionModel = {
       client: { id: clientID },
       tourGuide: { id: tourGuideID },
     }).save();
+    return this.getSoftDetails(savedTransaction.id);
   },
 
   async getCount(): Promise<Number> {
@@ -46,6 +47,23 @@ const transactionModel = {
       })
       .getRawMany();
     return raw.length === 0;
+  },
+
+  async getSoftDetails(transactionID: number): Promise<Transaction> {
+    const gotDetails = await Transaction.findOne(transactionID, {
+      relations: [
+        "post",
+        "client",
+        "client.profile",
+        "tourGuide",
+        "tourGuide.profile",
+      ],
+    });
+    //@ts-ignore
+    delete gotDetails?.client.password;
+    //@ts-ignore
+    delete gotDetails?.tourGuide.password;
+    return gotDetails!;
   },
 };
 
