@@ -1,0 +1,1 @@
+export const GET_TRANSACTION_NUMBER = "transaction/GET_TRANSACTION_NUMBER";

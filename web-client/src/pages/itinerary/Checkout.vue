@@ -3,7 +3,23 @@
     <v-container>
       <v-row v-if="isGetPostDetailsStart">
         <v-col cols="12" md="8">
-          <v-skeleton-loader type="card, article, actions"></v-skeleton-loader>
+          <v-row dense>
+            <v-col cols="12">
+              <v-skeleton-loader
+                type="card, article, actions"
+              ></v-skeleton-loader>
+            </v-col>
+            <v-col cols="12">
+              <v-skeleton-loader
+                type="card, article, actions"
+              ></v-skeleton-loader>
+            </v-col>
+            <v-col cols="12">
+              <v-skeleton-loader
+                type="card, article, actions"
+              ></v-skeleton-loader>
+            </v-col>
+          </v-row>
         </v-col>
         <v-col cols="12" md="4">
           <v-skeleton-loader type="card"></v-skeleton-loader>
@@ -16,7 +32,7 @@
               <v-btn icon @click="goBack" class="mr-1">
                 <v-icon>mdi-chevron-left</v-icon>
               </v-btn>
-              <span>Checkout Details</span>
+              <span> Checkout Details </span>
             </v-card-title>
             <v-card-text>
               <v-row dense>
@@ -39,9 +55,18 @@
                 </v-col>
               </v-row>
             </v-card-text>
-            <v-card-title>Date & Tour Guide</v-card-title>
+            <v-card-subtitle>Additional Details</v-card-subtitle>
             <v-card-text>
               <v-row dense>
+                <v-col cols="12">
+                  <v-text-field
+                    v-model="transactionNumber"
+                    readonly
+                    label="Transaction Number"
+                    outlined
+                    :loading="isGetTransactionNumberStart"
+                  ></v-text-field>
+                </v-col>
                 <v-col cols="12" :md="form.fromDate ? '6' : '12'">
                   <custom-date-picker
                     :date.sync="form.fromDate"
@@ -71,7 +96,7 @@
                 </v-col>
               </v-row>
             </v-card-text>
-            <v-card-title> Payment Details </v-card-title>
+            <v-card-subtitle> Payment Details </v-card-subtitle>
             <v-card-text>
               <v-row dense>
                 <v-col cols="12">
@@ -85,7 +110,11 @@
                   >
                   </stripe-elements>
                 </v-col>
-                <v-col cols="12"> </v-col>
+                <v-col cols="12">
+                  <v-checkbox
+                    label="I agree and accept the terms and conditions. *"
+                  ></v-checkbox>
+                </v-col>
               </v-row>
             </v-card-text>
             <v-card-actions>
@@ -144,6 +173,8 @@ import { GET_ITINERARY_SOFT_DETAILS } from "@/store/types/itinerary";
 import commonValidation from "@/common/validation";
 import GenericRatingChip from "@/components/generic/chip/Rating";
 import moment from "moment";
+import { GET_TRANSACTION_NUMBER } from "@/store/types/transaction";
+import CustomLabelAndContent from "@/components/custom/LabelAndContent";
 
 const defaultCheckoutForm = {
   fromDate: null,
@@ -152,6 +183,7 @@ const defaultCheckoutForm = {
 
 export default {
   components: {
+    CustomLabelAndContent,
     GenericRatingChip,
     CustomDatePicker,
     ItineraryPostDetailsPageDatePicker,
@@ -169,6 +201,8 @@ export default {
       height: 0,
       isGetPostDetailsStart: false,
       postDetails: {},
+      transactionNumber: "",
+      isGetTransactionNumberStart: false,
     };
   },
   mixins: [commonUtilities, commonValidation],
@@ -228,10 +262,18 @@ export default {
       this.isGetPostDetailsStart = false;
       this.postDetails = Object.assign({}, gotDetails);
     },
+    async getTransactionNumber() {
+      this.isGetTransactionNumberStart = true;
+      this.transactionNumber = await this.$store.dispatch(
+        GET_TRANSACTION_NUMBER
+      );
+      this.isGetTransactionNumberStart = false;
+    },
   },
   async created() {
     this.scrollToTop();
     await this.getPostDetails();
+    await this.getTransactionNumber();
   },
 };
 </script>
