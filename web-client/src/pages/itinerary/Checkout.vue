@@ -10,11 +10,7 @@
               ></v-skeleton-loader>
             </v-col>
             <v-col cols="12">
-              <v-skeleton-loader
-                type="card, article, actions"
-              ></v-skeleton-loader>
-            </v-col>
-            <v-col cols="12">
+              <v-skeleton-loader type="card"></v-skeleton-loader>
               <v-skeleton-loader
                 type="card, article, actions"
               ></v-skeleton-loader>
@@ -34,6 +30,95 @@
               </v-btn>
               <span> Checkout Details </span>
             </v-card-title>
+            <v-card-subtitle>Additional Details</v-card-subtitle>
+            <v-card-text>
+              <v-row dense>
+                <v-col cols="12">
+                  <v-text-field
+                    v-model="transactionNumber"
+                    readonly
+                    label="Transaction Number"
+                    outlined
+                    :loading="isGetTransactionNumberStart"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12" :md="form.fromDate ? '6' : '12'">
+                  <custom-date-picker
+                    :date.sync="form.fromDate"
+                    outlined
+                    :label="form.fromDate ? 'From Date *' : 'Date *'"
+                    clearable
+                  ></custom-date-picker>
+                </v-col>
+                <v-col cols="12" md="6" v-if="form.fromDate">
+                  <v-text-field
+                    label="To Date *"
+                    outlined
+                    readonly
+                    :value="formattedToDate"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-autocomplete
+                    :placeholder="
+                      availableTourGuidesAutocompleteLabel
+                        ? availableTourGuidesAutocompleteLabel
+                        : ''
+                    "
+                    label="Tour Guide *"
+                    outlined
+                    :hint="
+                      !form.fromDate ? 'Please select the date first.' : ''
+                    "
+                    :persistent-hint="!form.fromDate"
+                    :disabled="!form.fromDate"
+                    :items="availableTourGuides"
+                    :error="tourGuidesAutocompleteError.error"
+                    :messages="tourGuidesAutocompleteError.message"
+                    :loading="isFetchAvailableTourGuidesStart"
+                    clearable
+                    item-value="id"
+                    item-text="profile.lastName"
+                  >
+                    <template v-slot:selection="{ item }">
+                      <span class="text-capitalize">{{
+                        formatName(
+                          item.profile.firstName,
+                          item.profile.lastName
+                        )
+                      }}</span>
+                    </template>
+                    <template v-slot:item="{ item }">
+                      <v-list-item-avatar :size="50">
+                        <v-img
+                          :src="item.profile.image.url"
+                          :lazy-src="item.profile.image.url"
+                        ></v-img>
+                      </v-list-item-avatar>
+                      <v-list-item-content>
+                        <v-list-item-title
+                          ><span class="text-capitalize">
+                            {{
+                              formatName(
+                                item.profile.firstName,
+                                item.profile.lastName
+                              )
+                            }}
+                          </span>
+                        </v-list-item-title>
+                        <v-list-item-subtitle>
+                          <v-chip small class="mr-1">
+                            <v-icon color="primary" small left>mdi-star</v-icon>
+                            <span class="primary--text">5.0</span>
+                          </v-chip>
+                        </v-list-item-subtitle>
+                      </v-list-item-content>
+                    </template>
+                  </v-autocomplete>
+                </v-col>
+              </v-row>
+            </v-card-text>
+            <v-card-subtitle> Payment Details </v-card-subtitle>
             <v-card-text>
               <v-row dense>
                 <v-col cols="12">
@@ -53,52 +138,6 @@
                     :value="credentials.email"
                   ></v-text-field>
                 </v-col>
-              </v-row>
-            </v-card-text>
-            <v-card-subtitle>Additional Details</v-card-subtitle>
-            <v-card-text>
-              <v-row dense>
-                <v-col cols="12">
-                  <v-text-field
-                    v-model="transactionNumber"
-                    readonly
-                    label="Transaction Number"
-                    outlined
-                    :loading="isGetTransactionNumberStart"
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="12" :md="form.fromDate ? '6' : '12'">
-                  <custom-date-picker
-                    :date.sync="form.fromDate"
-                    outlined
-                    :label="form.fromDate ? 'From Date' : 'Date'"
-                    clearable
-                  ></custom-date-picker>
-                </v-col>
-                <v-col cols="12" md="6" v-if="form.fromDate">
-                  <v-text-field
-                    label="To Date"
-                    outlined
-                    readonly
-                    :value="form.toDate"
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="12">
-                  <v-autocomplete
-                    label="Tour Guide"
-                    outlined
-                    :hint="
-                      !form.fromDate ? 'Please select the date first.' : ''
-                    "
-                    :persistent-hint="!form.fromDate"
-                    :disabled="!form.fromDate"
-                  ></v-autocomplete>
-                </v-col>
-              </v-row>
-            </v-card-text>
-            <v-card-subtitle> Payment Details </v-card-subtitle>
-            <v-card-text>
-              <v-row dense>
                 <v-col cols="12">
                   <stripe-elements
                     ref="elementsRef"
@@ -111,9 +150,14 @@
                   </stripe-elements>
                 </v-col>
                 <v-col cols="12">
-                  <v-checkbox
-                    label="I agree and accept the terms and conditions. *"
-                  ></v-checkbox>
+                  <v-checkbox>
+                    <template v-slot:label>
+                      I agree and accept the
+                      <span class="ml-1 text-decoration-underline">
+                        terms and conditions</span
+                      >. *
+                    </template>
+                  </v-checkbox>
                 </v-col>
               </v-row>
             </v-card-text>
@@ -173,7 +217,10 @@ import { GET_ITINERARY_SOFT_DETAILS } from "@/store/types/itinerary";
 import commonValidation from "@/common/validation";
 import GenericRatingChip from "@/components/generic/chip/Rating";
 import moment from "moment";
-import { GET_TRANSACTION_NUMBER } from "@/store/types/transaction";
+import {
+  FETCH_TRANSACTION_AVAILABLE_TOUR_GUIDES,
+  GET_TRANSACTION_NUMBER,
+} from "@/store/types/transaction";
 import CustomLabelAndContent from "@/components/custom/LabelAndContent";
 
 const defaultCheckoutForm = {
@@ -203,6 +250,11 @@ export default {
       postDetails: {},
       transactionNumber: "",
       isGetTransactionNumberStart: false,
+      formattedToDate: "",
+      hasNoAvailableTourGuides: false,
+      availableTourGuides: [],
+      isFetchAvailableTourGuidesStart: false,
+      availableTourGuidesAutocompleteLabel: "",
     };
   },
   mixins: [commonUtilities, commonValidation],
@@ -212,6 +264,20 @@ export default {
     },
     profile() {
       return this.credentials.profile;
+    },
+    tourGuidesAutocompleteError() {
+      const { fromDate } = this.form;
+      const formattedFromDate = moment(fromDate).format("ll");
+      return this.availableTourGuides.length === 0 &&
+        this.hasNoAvailableTourGuides
+        ? {
+            error: true,
+            message: `No available tour guides in your selected date (${formattedFromDate} - ${this.formattedToDate})`,
+          }
+        : {
+            error: false,
+            message: "",
+          };
     },
   },
   watch: {
@@ -224,8 +290,21 @@ export default {
     },
     "form.fromDate"(val) {
       if (val) {
-        const addedDate = moment(val).add(1, "days");
-        return (this.form.toDate = moment(addedDate).format("ll"));
+        const daysCount = this.postDetails.days.map((item) => item.day).length;
+        const addedDate = moment(val).add(daysCount, "days");
+        this.form.toDate = moment(addedDate).format("YYYY-MM-DD");
+        return (this.formattedToDate = moment(addedDate).format("ll"));
+      }
+      if (val === null) {
+        this.availableTourGuidesAutocompleteLabel = "";
+        this.availableTourGuides = [];
+        this.form.fromDate = null;
+        this.form.toDate = null;
+      }
+    },
+    async "form.toDate"(val) {
+      if (val) {
+        await this.fetchAvailableTourGuides();
       }
     },
   },
@@ -268,6 +347,21 @@ export default {
         GET_TRANSACTION_NUMBER
       );
       this.isGetTransactionNumberStart = false;
+    },
+    async fetchAvailableTourGuides() {
+      this.isFetchAvailableTourGuidesStart = true;
+      const { fromDate, toDate } = this.form;
+      const payload = { fromDate, toDate };
+      const fetchedTourGuides = await this.$store.dispatch(
+        FETCH_TRANSACTION_AVAILABLE_TOUR_GUIDES,
+        payload
+      );
+      this.isFetchAvailableTourGuidesStart = false;
+      if (fetchedTourGuides.length === 0)
+        return (this.hasNoAvailableTourGuides = true);
+      this.availableTourGuides = fetchedTourGuides;
+      const tourGuidesCount = fetchedTourGuides.length;
+      this.availableTourGuidesAutocompleteLabel = `${tourGuidesCount} Tour Guides Available`;
     },
   },
   async created() {
