@@ -1,9 +1,12 @@
 import {
-  ITransactionServiceFetchAvailableTourGuidesInput,
+  ITransactionServiceCheckoutPayload,
   TransactionNumber,
 } from "./typeDefs";
 import transactionModel from "./model";
 import accountModel from "../account/model";
+import stripeService from "../stripe/service";
+import { IStripeServicePayPayload } from "../stripe/typeDefs";
+import itineraryModel from "../itinerary/model";
 
 const transactionService = {
   async getTransactionNumber(): Promise<{
@@ -28,7 +31,8 @@ const transactionService = {
   },
 
   async fetchAvailableTourGuides(
-    input: ITransactionServiceFetchAvailableTourGuidesInput
+    fromDate: Date | string,
+    toDate: Date | string
   ): Promise<Account[]> {
     const fetchedTourGuides = await accountModel.fetchTourGuides();
     // @ts-ignore
@@ -37,11 +41,23 @@ const transactionService = {
         async (tourGuide) =>
           await transactionModel.checkTourGuideIfAvailable(
             tourGuide.id,
-            input.fromDate,
-            input.toDate
+            fromDate,
+            toDate
           )
       )
     );
+  },
+
+  async checkout(payload: ITransactionServiceCheckoutPayload) {
+    const gotPost = await itineraryModel.getSoftDetails(payload.postID);
+    const gotClient = await accountModel.getDetailsByID(payload.clientID);
+    const stripeServicePayPayload: IStripeServicePayPayload = {
+      amount: payload.payment.amount,
+      token: payload.payment.token,
+      description: gotPost.name,
+      email: gotClient.email,
+    };
+    await stripeService.pay(stripeServicePayPayload);
   },
 };
 
