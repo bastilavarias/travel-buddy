@@ -1,4 +1,5 @@
 import {
+  ITransactionModelSavePayload,
   ITransactionServiceCheckoutPayload,
   TransactionNumber,
 } from "./typeDefs";
@@ -7,6 +8,7 @@ import accountModel from "../account/model";
 import stripeService from "../stripe/service";
 import { IStripeServicePayPayload } from "../stripe/typeDefs";
 import itineraryModel from "../itinerary/model";
+import Transaction from "../../database/entities/Transaction";
 
 const transactionService = {
   async getTransactionNumber(): Promise<{
@@ -35,20 +37,23 @@ const transactionService = {
     toDate: Date | string
   ): Promise<Account[]> {
     const fetchedTourGuides = await accountModel.fetchTourGuides();
-    // @ts-ignore
-    return await Promise.all(
-      fetchedTourGuides.filter(
-        async (tourGuide) =>
-          await transactionModel.checkTourGuideIfAvailable(
-            tourGuide.id,
-            fromDate,
-            toDate
-          )
-      )
-    );
+    let filteredTourGuides: any[] = [];
+    for (const tourGuide of fetchedTourGuides) {
+      const isAvailable = await transactionModel.checkTourGuideIfAvailable(
+        tourGuide.id,
+        fromDate,
+        toDate
+      );
+      if (isAvailable) {
+        filteredTourGuides.push(tourGuide);
+      }
+    }
+    return filteredTourGuides;
   },
 
-  async checkout(payload: ITransactionServiceCheckoutPayload) {
+  async checkout(
+    payload: ITransactionServiceCheckoutPayload
+  ): Promise<Transaction> {
     const gotPost = await itineraryModel.getSoftDetails(payload.postID);
     const gotClient = await accountModel.getDetailsByID(payload.clientID);
     const stripeServicePayPayload: IStripeServicePayPayload = {
@@ -58,6 +63,16 @@ const transactionService = {
       email: gotClient.email,
     };
     await stripeService.pay(stripeServicePayPayload);
+    const gotTransactionNumber = await this.getTransactionNumber();
+    const transactionModelSavePayload: ITransactionModelSavePayload = {
+      fromDate: payload.fromDate,
+      toDate: payload.toDate,
+      customNumber: gotTransactionNumber.transactionNumber,
+      postID: payload.postID,
+      clientID: payload.clientID,
+      tourGuideID: payload.tourGuideID,
+    };
+    return await transactionModel.save(transactionModelSavePayload);
   },
 };
 

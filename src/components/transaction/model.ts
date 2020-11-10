@@ -1,8 +1,27 @@
-import Transaction from "../../database/entities/Transaction";
-import { IsTourGuideAvailable } from "./typeDefs";
+import { IsTourGuideAvailable, ITransactionModelSavePayload } from "./typeDefs";
 import { getRepository } from "typeorm";
+import Transaction from "../../database/entities/Transaction";
 
 const transactionModel = {
+  async save(payload: ITransactionModelSavePayload): Promise<Transaction> {
+    const {
+      fromDate,
+      toDate,
+      postID,
+      clientID,
+      tourGuideID,
+      customNumber,
+    } = payload;
+    return await Transaction.create({
+      customNumber,
+      fromDate,
+      toDate,
+      post: { id: postID },
+      client: { id: clientID },
+      tourGuide: { id: tourGuideID },
+    }).save();
+  },
+
   async getCount(): Promise<Number> {
     return await Transaction.count();
   },
@@ -15,7 +34,7 @@ const transactionModel = {
     const raw = await getRepository(Transaction)
       .createQueryBuilder("transaction")
       .leftJoinAndSelect("transaction.tourGuide", "tour_guide")
-      .select(["transaction.id"])
+      .select(["tour_guide.id as id"])
       .where("tour_guide.id = :tourGuideID", { tourGuideID })
       .andWhere(`transaction."fromDate" BETWEEN :fromDate AND :toDate`, {
         fromDate,
@@ -25,20 +44,21 @@ const transactionModel = {
         fromDate,
         toDate,
       })
-      .orWhere(
-        `:fromDate BETWEEN transaction."fromDate" AND transaction."toDate"`,
-        {
-          fromDate,
-        }
-      )
-      .orWhere(
-        `:toDate BETWEEN transaction."fromDate" AND transaction."toDate"`,
-        {
-          toDate,
-        }
-      )
+      // .orWhere(
+      //   `:fromDate BETWEEN transaction."fromDate" AND transaction."toDate"`,
+      //   {
+      //     fromDate,
+      //   }
+      // )
+      // .orWhere(
+      //   `:toDate BETWEEN transaction."fromDate" AND transaction."toDate"`,
+      //   {
+      //     toDate,
+      //   }
+      // )
       .getRawMany();
-    return !(raw.length > 1);
+    console.log(raw);
+    return raw.length === 0;
   },
 };
 
