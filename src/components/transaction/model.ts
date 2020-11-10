@@ -44,20 +44,7 @@ const transactionModel = {
         fromDate,
         toDate,
       })
-      // .orWhere(
-      //   `:fromDate BETWEEN transaction."fromDate" AND transaction."toDate"`,
-      //   {
-      //     fromDate,
-      //   }
-      // )
-      // .orWhere(
-      //   `:toDate BETWEEN transaction."fromDate" AND transaction."toDate"`,
-      //   {
-      //     toDate,
-      //   }
-      // )
       .getRawMany();
-    console.log(raw);
     return raw.length === 0;
   },
 };
