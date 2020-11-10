@@ -1,6 +1,5 @@
 import {
   ITransactionServiceFetchAvailableTourGuidesInput,
-  ITransactionServiceValidateDateResult,
   TransactionNumber,
 } from "./typeDefs";
 import transactionModel from "./model";
@@ -30,14 +29,10 @@ const transactionService = {
 
   async fetchAvailableTourGuides(
     input: ITransactionServiceFetchAvailableTourGuidesInput
-  ): Promise<ITransactionServiceValidateDateResult> {
-    const result = {
-      message: "",
-      tourGuides: [],
-    };
+  ): Promise<Account[]> {
     const fetchedTourGuides = await accountModel.fetchTourGuides();
     // @ts-ignore
-    result.tourGuides = await Promise.all(
+    return await Promise.all(
       fetchedTourGuides.filter(
         async (tourGuide) =>
           await transactionModel.checkTourGuideIfAvailable(
@@ -47,9 +42,6 @@ const transactionService = {
           )
       )
     );
-    if (result.tourGuides.length === 0)
-      result.message = "No available tour guides.";
-    return result;
   },
 };
 

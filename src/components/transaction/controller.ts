@@ -18,8 +18,10 @@ const transactionController = {
         fromDate: request.params.fromDate || "",
         toDate: request.params.toDate || "",
       };
-      const result = await transactionService.fetchAvailableTourGuides(input);
-      response.status(200).json(result);
+      const fetchedTourGuides = await transactionService.fetchAvailableTourGuides(
+        input
+      );
+      response.status(200).json(fetchedTourGuides);
     } catch (error) {
       console.log(error);
       response.status(400).json(error);
