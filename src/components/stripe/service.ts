@@ -17,7 +17,7 @@ const stripeService = {
       customerCreateParams
     );
     const chargeCreateParams: Stripe.ChargeCreateParams = {
-      amount,
+      amount: parseFloat(`${amount}00`),
       currency: "usd",
       customer: customer.id,
     };

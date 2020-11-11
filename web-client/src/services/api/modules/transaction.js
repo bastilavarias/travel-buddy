@@ -12,6 +12,22 @@ const transactionApiService = {
     );
     return result.data || [];
   },
+
+  async checkout({
+    postID,
+    clientID,
+    tourGuideID,
+    token,
+    fromDate,
+    toDate,
+    amount,
+  }) {
+    const result = await apiService.post(
+      `/transaction/checkout/${postID}/${clientID}/${tourGuideID}/${token}`,
+      { fromDate, toDate, amount }
+    );
+    return result.data || {};
+  },
 };
 
 export default transactionApiService;

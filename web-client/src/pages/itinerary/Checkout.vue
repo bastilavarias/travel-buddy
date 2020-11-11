@@ -172,6 +172,7 @@
                 large
                 @click="submit"
                 :disabled="!isFormValid"
+                :loading="isTransactionCheckoutStart"
                 >Confirm Transaction ({{ formatMoney(amount) }})</v-btn
               >
             </v-card-actions>
@@ -230,6 +231,7 @@ import moment from "moment";
 import {
   FETCH_TRANSACTION_AVAILABLE_TOUR_GUIDES,
   GET_TRANSACTION_NUMBER,
+  TRANSACTION_CHECKOUT,
 } from "@/store/types/transaction";
 import CustomLabelAndContent from "@/components/custom/LabelAndContent";
 import CheckoutPageTermsConditionDialog from "@/components/checkout-page/TermsConditionDialog";
@@ -270,6 +272,7 @@ export default {
       availableTourGuidesAutocompleteLabel: "",
       isTermsConditionDialogOpen: false,
       hasAcceptedTermsCondition: false,
+      isTransactionCheckoutStart: false,
     };
   },
   mixins: [commonUtilities, commonValidation],
@@ -345,7 +348,7 @@ export default {
       };
       this.sendTokenToServer(this.charge);
     },
-    sendTokenToServer({ source, amount }) {
+    async sendTokenToServer({ source, amount }) {
       const payload = {
         fromDate: this.form.fromDate,
         toDate: this.form.toDate,
@@ -357,7 +360,13 @@ export default {
           amount,
         },
       };
-      console.log(payload);
+      this.isTransactionCheckoutStart = true;
+      const checkoutResult = await this.$store.dispatch(
+        TRANSACTION_CHECKOUT,
+        payload
+      );
+      this.isTransactionCheckoutStart = false;
+      console.log(checkoutResult);
     },
     matchHeight() {
       this.height = this.$refs.postDetails.clientHeight;

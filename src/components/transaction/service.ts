@@ -57,7 +57,7 @@ const transactionService = {
     const gotPost = await itineraryModel.getSoftDetails(payload.postID);
     const gotClient = await accountModel.getDetailsByID(payload.clientID);
     const stripeServicePayPayload: IStripeServicePayPayload = {
-      amount: payload.payment.amount,
+      amount: gotPost.price,
       token: payload.payment.token,
       description: gotPost.name,
       email: gotClient.email,
