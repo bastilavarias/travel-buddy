@@ -1,4 +1,5 @@
 import {
+  FETCH_CLIENT_BOOKINGS,
   FETCH_TRANSACTION_AVAILABLE_TOUR_GUIDES,
   FETCH_TRANSACTIONS,
   GET_TRANSACTION_NUMBER,
@@ -44,6 +45,19 @@ const transactionStore = {
     async [FETCH_TRANSACTIONS]({ commit }) {
       try {
         return await transactionApiService.fetch();
+      } catch (error) {
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Something went wrong to the server. Please try again.",
+          color: "error",
+        });
+        throw new Error(`[RWV] ApiService ${error}`);
+      }
+    },
+
+    async [FETCH_CLIENT_BOOKINGS]({ commit }, clientID) {
+      try {
+        return await transactionApiService.fetchClientBookings(clientID);
       } catch (error) {
         commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
           isOpen: true,

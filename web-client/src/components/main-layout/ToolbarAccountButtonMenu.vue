@@ -45,21 +45,32 @@
         </v-list-item>
       </v-list>
       <v-divider></v-divider>
-      <template v-for="(action, index) in actions">
-        <v-list-item
-          :key="index"
-          :to="action.to"
-          exact-active-class="secondary--text"
-          exact
+      <v-list-item
+        :to="{ name: `transaction-management-page/table` }"
+        exact-active-class="secondary--text"
+        exact
+        v-if="credentials.type.name === 'administrator'"
+      >
+        <v-list-item-title class="font-weight-bold"
+          >Administrator</v-list-item-title
         >
-          <v-list-item-title class="font-weight-bold">{{
-            action.title
-          }}</v-list-item-title>
-          <v-list-item-action-text>
-            <v-icon color="secondary">{{ action.icon }}</v-icon>
-          </v-list-item-action-text>
-        </v-list-item>
-      </template>
+        <v-list-item-action-text>
+          <v-icon color="secondary">mdi-view-dashboard-outline</v-icon>
+        </v-list-item-action-text>
+      </v-list-item>
+      <v-list-item
+        :to="{ name: `tour-guide-personal-bookings-page/table` }"
+        exact-active-class="secondary--text"
+        exact
+        v-if="credentials.type.name === 'tour-guide'"
+      >
+        <v-list-item-title class="font-weight-bold"
+          >Tour Guide</v-list-item-title
+        >
+        <v-list-item-action-text>
+          <v-icon color="secondary">mdi-view-dashboard-outline</v-icon>
+        </v-list-item-action-text>
+      </v-list-item>
       <v-list-item>
         <v-list-item-title
           class="font-weight-bold cursor-pointer"
@@ -86,22 +97,6 @@ export default {
       required: false,
     },
   },
-  data() {
-    return {
-      actions: [
-        {
-          title: "Administrator Panel",
-          icon: "mdi-view-dashboard-outline",
-          to: { name: "transaction-management-page/table" },
-        },
-        {
-          title: "Tour Guide Panel",
-          icon: "mdi-view-dashboard-outline",
-          to: { name: "tour-guide-personal-bookings-page/table" },
-        },
-      ],
-    };
-  },
   computed: {
     credentials() {
       return this.$store.state.authentication.credentials;
@@ -118,7 +113,7 @@ export default {
   },
   methods: {
     async signOut() {
-      await this.$store.commit(PURGE_AUTHENTICATION);
+      this.$store.commit(PURGE_AUTHENTICATION);
       await this.$router.push({ name: "sign-in-page" });
     },
   },

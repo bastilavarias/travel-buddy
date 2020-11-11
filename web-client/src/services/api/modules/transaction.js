@@ -33,6 +33,13 @@ const transactionApiService = {
     const result = await apiService.get("/transaction");
     return result.data || [];
   },
+
+  async fetchClientBookings(clientID) {
+    const result = await apiService.get(
+      `/transaction/client-bookings/${clientID}`
+    );
+    return result.data || [];
+  },
 };
 
 export default transactionApiService;

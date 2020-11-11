@@ -12,10 +12,6 @@
         </p>
         <p class="subtitle-1">You will redirected to your feed...</p>
       </div>
-      <v-card-actions>
-        <div class="flex-grow-1"></div>
-        <v-btn color="success">View Booking</v-btn>
-      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>

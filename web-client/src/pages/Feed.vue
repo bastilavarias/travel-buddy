@@ -34,7 +34,9 @@
               <feed-page-tour-guides></feed-page-tour-guides>
             </v-tab-item>
             <v-tab-item>
-              <feed-page-bookings></feed-page-bookings>
+              <feed-page-bookings
+                :bookings="clientBookings"
+              ></feed-page-bookings>
             </v-tab-item>
           </v-tabs-items>
         </v-col>
@@ -48,6 +50,7 @@ import FeedPageItineraries from "@/components/feed-page/Itineraries";
 import FeedPageTourGuides from "@/components/feed-page/TourGuides";
 import FeedPageBookings from "@/components/feed-page/ItineraryBookingsHistoryCard";
 import { FETCH_ITINERARIES } from "@/store/types/itinerary";
+import { FETCH_CLIENT_BOOKINGS } from "@/store/types/transaction";
 export default {
   components: {
     FeedPageBookings,
@@ -59,9 +62,14 @@ export default {
     return {
       headerTabState: null,
       isFetchItinerariesStart: false,
+      isFetchClientBookingsStart: false,
+      clientBookings: [],
     };
   },
   computed: {
+    credentials() {
+      return this.$store.state.authentication.credentials;
+    },
     itineraries() {
       return this.$store.state.itinerary.list;
     },
@@ -74,9 +82,18 @@ export default {
         this.isFetchItinerariesStart = false;
       }
     },
+    async fetchClientBookings() {
+      this.isFetchClientBookingsStart = true;
+      this.clientBookings = await this.$store.dispatch(
+        FETCH_CLIENT_BOOKINGS,
+        this.credentials.id
+      );
+      this.isFetchClientBookingsStart = false;
+    },
   },
   async created() {
     await this.fetchItineraries();
+    await this.fetchClientBookings();
   },
 };
 </script>

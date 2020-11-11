@@ -13,37 +13,42 @@
         </span>
       </v-card-title>
     </v-img>
-    <v-card-text>
-      <h2
-        class="subtitle-2 secondary--text text-capitalize mb-2 text-truncate"
-        v-if="name"
-      >
-        {{ name }}
-      </h2>
-      <div class="d-flex align-center">
-        <v-chip small class="mr-1">
-          <v-icon color="primary" small left>mdi-star</v-icon>
-          <span class="primary--text">5.0</span>
-        </v-chip>
-        <div>
-          <span>1 Reviews</span>
-          <span class="mx-1">|</span>
-          <span>100 Booked</span>
-        </div>
-      </div>
-    </v-card-text>
-    <v-card-text>
-      <h2 class="subtitle-2" v-if="price">
-        <span class="font-weight-bold secondary--text">
-          {{ formatMoney(price) }}
-        </span>
-        ·
-        <span class="font-weight-regular">{{ formatPaxLabel(pax) }}</span>
-      </h2>
-      <span class="caption secondary--text text-truncate">{{
-        formatItineraryDetails(days)
-      }}</span>
-    </v-card-text>
+    <v-list-item two-line>
+      <v-list-item-content>
+        <v-list-item-subtitle class="font-weight-bold secondary--text">
+          {{ name }}
+        </v-list-item-subtitle>
+        <v-list-item-subtitle>
+          <div class="d-flex align-center">
+            <v-chip small class="mr-1">
+              <v-icon color="primary" small left>mdi-star</v-icon>
+              <span class="primary--text">5.0</span>
+            </v-chip>
+            <div>
+              <span>1 Reviews</span>
+              <span class="mx-1">|</span>
+              <span>100 Booked</span>
+            </div>
+          </div>
+        </v-list-item-subtitle>
+      </v-list-item-content>
+    </v-list-item>
+    <v-list-item two-line>
+      <v-list-item-content>
+        <v-list-item-subtitle>
+          <span class="font-weight-bold secondary--text">
+            {{ formatMoney(price) }}
+          </span>
+          ·
+          <span class="font-weight-regular">{{ formatPaxLabel(pax) }}</span>
+        </v-list-item-subtitle>
+        <v-list-item-subtitle>
+          <span class="secondary--text text-truncate">{{
+            formatItineraryDetails(days)
+          }}</span>
+        </v-list-item-subtitle>
+      </v-list-item-content>
+    </v-list-item>
     <v-card-actions>
       <v-btn
         color="primary"

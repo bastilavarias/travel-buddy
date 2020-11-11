@@ -19,7 +19,7 @@ const accountModel = {
   async getDetailsByID(accountID: number): Promise<Account> {
     const gotDetails = await Account.findOne({
       where: { id: accountID },
-      relations: ["profile", "profile.image"],
+      relations: ["profile", "profile.image", "type"],
     });
     // @ts-ignore
     delete gotDetails?.password;
