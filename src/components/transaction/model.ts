@@ -65,6 +65,15 @@ const transactionModel = {
     delete gotDetails?.tourGuide.password;
     return gotDetails!;
   },
+
+  async fetch(): Promise<Transaction[]> {
+    const raw = await getRepository(Transaction)
+      .createQueryBuilder("transaction")
+      .select(["id"])
+      .orderBy(`"createdAt"`, "DESC")
+      .getRawMany();
+    return await Promise.all(raw.map((item) => this.getSoftDetails(item.id)));
+  },
 };
 
 export default transactionModel;

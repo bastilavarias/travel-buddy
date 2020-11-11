@@ -2,6 +2,7 @@ import express from "express";
 import transactionController from "./controller";
 const transactionRouter = express.Router();
 
+transactionRouter.get("/", transactionController.fetch);
 transactionRouter.get(
   "/transaction-number",
   transactionController.getTransactionNumber

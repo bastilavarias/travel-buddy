@@ -74,6 +74,10 @@ const transactionService = {
     };
     return await transactionModel.save(transactionModelSavePayload);
   },
+
+  async fetch(): Promise<Transaction[]> {
+    return await transactionModel.fetch();
+  },
 };
 
 export default transactionService;
