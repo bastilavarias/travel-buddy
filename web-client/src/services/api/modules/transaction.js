@@ -28,6 +28,11 @@ const transactionApiService = {
     );
     return result.data || {};
   },
+
+  async fetch() {
+    const result = await apiService.get("/transaction");
+    return result.data || [];
+  },
 };
 
 export default transactionApiService;
