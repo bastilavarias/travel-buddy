@@ -120,6 +120,11 @@ const accountModel = {
     await Account.update({ id: accountID }, { isDeleted: status });
     return await this.getGenericDetails(accountID);
   },
+
+  async updateVerifiedStatus(accountID: number): Promise<IAccountSoftDetails> {
+    await Account.update({ id: accountID }, { isVerified: true });
+    return await this.getGenericDetails(accountID);
+  },
 };
 
 export default accountModel;
