@@ -23,9 +23,12 @@
           ></v-img>
         </v-list-item-avatar>
         <v-list-item-content>
-          <v-list-item-title class="font-weight-bold"
-            >Cardo Dalisay</v-list-item-title
-          >
+          <v-list-item-title class="font-weight-bold text-capitalize">{{
+            formatName(
+              credentials.profile.firstName,
+              credentials.profile.lastName
+            )
+          }}</v-list-item-title>
           <v-list-item-subtitle>Tour Guide</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -52,8 +55,18 @@
 <script>
 import CustomRouterLink from "@/components/custom/RouterLink";
 import MainLayoutToolbarAccountButtonMenu from "@/components/main-layout/ToolbarAccountButtonMenu";
+import commonUtilities from "@/common/utilities";
 export default {
   name: "tour-guide-layout",
   components: { MainLayoutToolbarAccountButtonMenu, CustomRouterLink },
+  computed: {
+    credentials() {
+      return this.$store.state.authentication.credentials;
+    },
+    profile() {
+      return this.credentials.profile;
+    },
+  },
+  mixins: [commonUtilities],
 };
 </script>
