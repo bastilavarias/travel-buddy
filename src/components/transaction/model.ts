@@ -76,6 +76,16 @@ const transactionModel = {
       .getRawMany();
     return await Promise.all(raw.map((item) => this.getSoftDetails(item.id)));
   },
+
+  async fetchClientBooking(clientID: number): Promise<Transaction[]> {
+    const raw = await getRepository(Transaction)
+      .createQueryBuilder("transaction")
+      .select(["id"])
+      .where(`transaction."clientId" = :clientID`, { clientID })
+      .orderBy(`"createdAt"`, "DESC")
+      .getRawMany();
+    return await Promise.all(raw.map((item) => this.getSoftDetails(item.id)));
+  },
 };
 
 export default transactionModel;
