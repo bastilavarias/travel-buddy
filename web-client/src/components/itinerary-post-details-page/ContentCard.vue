@@ -1,8 +1,13 @@
 <template>
   <v-card outlined>
-    <v-card-title class="font-weight-bold text-capitalize" v-if="name">{{
-      name
-    }}</v-card-title>
+    <v-card-title class="font-weight-bold text-capitalize" v-if="name">
+      <v-btn icon @click="goBack">
+        <v-icon>mdi-chevron-left</v-icon>
+      </v-btn>
+      <span>
+        {{ name }}
+      </span></v-card-title
+    >
     <v-card-text>
       <div class="mb-5" v-if="description">
         {{ description }}
@@ -19,6 +24,8 @@
 </template>
 
 <script>
+import commonUtilities from "@/common/utilities";
+
 export default {
   name: "itinerary-post-details-page-content-card",
   props: {
@@ -31,5 +38,6 @@ export default {
       required: true,
     },
   },
+  mixins: [commonUtilities],
 };
 </script>

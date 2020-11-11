@@ -10,7 +10,8 @@
             :price="itinerary.price"
             :days="itinerary.days"
             :images="itinerary.images"
-            :isActive="itinerary.isActive"
+            :is-active="itinerary.isActive"
+            :pax="itinerary.pax"
           ></generic-itinerary-details-preview-card>
         </v-col>
       </template>

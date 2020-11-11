@@ -313,6 +313,9 @@ export default {
     currentDate() {
       return moment().format("YYYY-MM-DD");
     },
+    isAccountVerified() {
+      return this.credentials.isVerified;
+    },
   },
   watch: {
     postDetails(val) {
@@ -418,6 +421,7 @@ export default {
     },
   },
   async created() {
+    if (!this.isAccountVerified) return this.goBack();
     this.scrollToTop();
     await this.getPostDetails();
     await this.getTransactionNumber();
