@@ -1,18 +1,30 @@
 import express from "express";
 import transactionController from "./controller";
+import passport from "passport";
 const transactionRouter = express.Router();
 
-transactionRouter.get("/", transactionController.fetch);
+transactionRouter.get(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  transactionController.fetch
+);
 transactionRouter.get(
   "/transaction-number",
+  passport.authenticate("jwt", { session: false }),
   transactionController.getTransactionNumber
 );
 transactionRouter.get(
   "/available-tour-guides/:fromDate/:toDate",
   transactionController.fetchAvailableTourGuides
 );
+transactionRouter.get(
+  "/client-bookings/:clientID",
+  passport.authenticate("jwt", { session: false }),
+  transactionController.fetchClientBookings
+);
 transactionRouter.post(
   "/checkout/:postID/:clientID/:tourGuideID/:stripeToken",
+  passport.authenticate("jwt", { session: false }),
   transactionController.checkout
 );
 

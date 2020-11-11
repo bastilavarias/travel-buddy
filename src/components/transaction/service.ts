@@ -78,6 +78,10 @@ const transactionService = {
   async fetch(): Promise<Transaction[]> {
     return await transactionModel.fetch();
   },
+
+  async fetchClientBookings(clientID: number): Promise<Transaction[]> {
+    return await transactionModel.fetchClientBooking(clientID);
+  },
 };
 
 export default transactionService;

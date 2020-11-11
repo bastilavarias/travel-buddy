@@ -37,6 +37,19 @@ const transactionController = {
     }
   },
 
+  async fetchClientBookings(request: Request, response: Response) {
+    try {
+      const clientID = parseInt(request.params.clientID) || 0;
+      const fetchBookings = await transactionService.fetchClientBookings(
+        clientID
+      );
+      response.status(200).json(fetchBookings);
+    } catch (error) {
+      console.log(error);
+      response.status(400).json(error);
+    }
+  },
+
   async checkout(request: Request, response: Response) {
     try {
       const payload: ITransactionServiceCheckoutPayload = {
