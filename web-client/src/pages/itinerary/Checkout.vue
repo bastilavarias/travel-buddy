@@ -217,6 +217,9 @@
     <checkout-page-terms-condition-dialog
       :is-open.sync="isTermsConditionDialogOpen"
     ></checkout-page-terms-condition-dialog>
+    <checkout-page-thank-you-dialog
+      :is-open.sync="isThankYouDialogOpen"
+    ></checkout-page-thank-you-dialog>
   </section>
 </template>
 <script>
@@ -235,6 +238,7 @@ import {
 } from "@/store/types/transaction";
 import CustomLabelAndContent from "@/components/custom/LabelAndContent";
 import CheckoutPageTermsConditionDialog from "@/components/checkout-page/TermsConditionDialog";
+import CheckoutPageThankYouDialog from "@/components/checkout-page/ThankYouDialog";
 
 const defaultCheckoutForm = {
   fromDate: null,
@@ -244,6 +248,7 @@ const defaultCheckoutForm = {
 
 export default {
   components: {
+    CheckoutPageThankYouDialog,
     CheckoutPageTermsConditionDialog,
     CustomLabelAndContent,
     GenericRatingChip,
@@ -273,6 +278,7 @@ export default {
       isTermsConditionDialogOpen: false,
       hasAcceptedTermsCondition: false,
       isTransactionCheckoutStart: false,
+      isThankYouDialogOpen: false,
     };
   },
   mixins: [commonUtilities, commonValidation],
@@ -366,7 +372,13 @@ export default {
         payload
       );
       this.isTransactionCheckoutStart = false;
-      console.log(checkoutResult);
+      if (this.validateObject(checkoutResult)) {
+        this.isThankYouDialogOpen = true;
+        setTimeout(
+          async () => await this.$router.push({ name: "feed-page" }),
+          2000
+        );
+      }
     },
     matchHeight() {
       this.height = this.$refs.postDetails.clientHeight;
