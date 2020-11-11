@@ -39,10 +39,10 @@
       <v-container>
         <v-row>
           <v-col cols="12">
-            <home-page-featured-itineraries-card></home-page-featured-itineraries-card>
+            <!--            <home-page-featured-itineraries-card></home-page-featured-itineraries-card>-->
           </v-col>
           <v-col cols="12">
-            <home-page-top-tour-guides-card></home-page-top-tour-guides-card>
+            <!--            <home-page-top-tour-guides-card></home-page-top-tour-guides-card>-->
           </v-col>
         </v-row>
       </v-container>

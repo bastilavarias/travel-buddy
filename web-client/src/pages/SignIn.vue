@@ -57,7 +57,7 @@
                     :error="!!signInError.password"
                     :error-messages="signInError.password"
                   ></custom-password-text-field>
-                  <p class="caption primary--text mb-9">Forgot Password?</p>
+                  <div class="mb-9"></div>
                   <v-btn
                     block
                     color="primary"
