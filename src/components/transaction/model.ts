@@ -55,8 +55,10 @@ const transactionModel = {
         "post",
         "client",
         "client.profile",
+        "client.profile.image",
         "tourGuide",
         "tourGuide.profile",
+        "tourGuide.profile.image",
       ],
     });
     //@ts-ignore

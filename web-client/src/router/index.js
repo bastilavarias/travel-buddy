@@ -116,18 +116,18 @@ const routes = [
         ],
       },
       {
-        path: "booking-management",
+        path: "transaction-management",
         component: () => import("@/layouts/Sub"),
         children: [
           {
             path: "",
-            name: "booking-management-page/table",
-            component: () => import("@/pages/booking-management/Table"),
+            name: "transaction-management-page/table",
+            component: () => import("@/pages/transaction-management/Table"),
           },
           {
             path: "form",
-            name: "booking-management-page/form",
-            component: () => import("@/pages/booking-management/Form"),
+            name: "transaction-management-page/form",
+            component: () => import("@/pages/transaction-management/Form"),
           },
         ],
       },

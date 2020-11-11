@@ -5,12 +5,13 @@
         <v-card-title>
           <span class="font-weight-bold"> Transaction List </span>
           <div class="flex-grow-1"></div>
-          <v-chip>
-            <v-icon left>mdi-tune</v-icon>
-            <span>Filters</span>
-          </v-chip>
         </v-card-title>
-        <v-data-table :headers="tableHeaders" :items="sampleItems">
+        <v-data-table
+          :headers="tableHeaders"
+          :items="transactions"
+          :loading="isFetchTransactionsStart"
+          :search="search"
+        >
           <template v-slot:top>
             <v-card-text>
               <v-row dense>
@@ -19,6 +20,7 @@
                     hide-details
                     label="Search"
                     outlined
+                    v-model="search"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" md="2">
@@ -33,45 +35,54 @@
           <template v-slot:item.customNumber="{ item }">
             <span class="font-weight-bold">{{ item.customNumber }}</span>
           </template>
-          <template v-slot:item.client="{ item }">
+          <template v-slot:item.post.name="{ item }">
+            <span class="text-capitalize">{{ item.post.name }}</span>
+          </template>
+          <template v-slot:item.bookingDate="{ item }">
+            {{ formatDate(item.fromDate) }} - {{ formatDate(item.toDate) }}
+          </template>
+          <template v-slot:item.client.profile.lastName="{ item }">
             <span>
               <v-avatar :size="25" color="secondary" class="mr-1">
                 <v-img
-                  :src="item.client.image"
-                  :lazy-src="item.client.image"
+                  :src="item.client.profile.image.url"
+                  :lazy-src="item.client.profile.image.url"
                 ></v-img>
               </v-avatar>
               <span class="text-capitalize">
-                {{ item.client.name }}
+                {{
+                  formatName(
+                    item.client.profile.firstName,
+                    item.client.profile.lastName
+                  )
+                }}
               </span>
             </span>
           </template>
-          <template v-slot:item.tourGuide="{ item }">
-            <span v-if="item.tourGuide">
+          <template v-slot:item.tourGuide.profile.lastName="{ item }">
+            <span>
               <v-avatar :size="25" color="secondary" class="mr-1">
                 <v-img
-                  :src="item.client.image"
-                  :lazy-src="item.client.image"
+                  :src="item.tourGuide.profile.image.url"
+                  :lazy-src="item.tourGuide.profile.image.url"
                 ></v-img>
               </v-avatar>
               <span class="text-capitalize">
-                {{ item.client.name }}
+                {{
+                  formatName(
+                    item.tourGuide.profile.firstName,
+                    item.tourGuide.profile.lastName
+                  )
+                }}
               </span>
             </span>
-            <span v-else class="font-italic">No assigned yet.</span>
           </template>
           <template v-slot:item.status="{ item }">
             <generic-booking-status-chip
               :is-done="item.isDone"
+              :from-date="item.fromDate"
+              :to-date="item.toDate"
             ></generic-booking-status-chip>
-          </template>
-          <template v-slot:item.action="{ item }">
-            <custom-tooltip-button
-              icon="mdi-pencil-outline"
-              text="Edit Transaction"
-              :to="{ name: 'booking-management-page/form' }"
-              :disabled="item.isDone"
-            ></custom-tooltip-button>
           </template>
         </v-data-table>
       </v-card>
@@ -82,29 +93,37 @@
 <script>
 import CustomTooltipButton from "@/components/custom/TooltipButton";
 import GenericBookingStatusChip from "@/components/generic/chip/BookingStatus";
+import { FETCH_TRANSACTIONS } from "@/store/types/transaction";
+import commonUtilities from "@/common/utilities";
+import moment from "moment";
 export default {
   components: { GenericBookingStatusChip, CustomTooltipButton },
   data() {
     return {
       tableHeaders: [
         {
-          text: "Booked Date",
-          value: "createdAt",
-          sortable: true,
-        },
-        {
-          text: "Booking #",
+          text: "Transaction #",
           value: "customNumber",
           sortable: false,
         },
         {
+          text: "Itinerary",
+          value: "post.name",
+          sortable: false,
+        },
+        {
+          text: "Booking Date",
+          value: "bookingDate",
+          sortable: false,
+        },
+        {
           text: "Client",
-          value: "client",
+          value: "client.profile.lastName",
           sortable: false,
         },
         {
           text: "Tour Guide",
-          value: "tourGuide",
+          value: "tourGuide.profile.lastName",
           sortable: false,
         },
         {
@@ -112,42 +131,25 @@ export default {
           value: "status",
           sortable: false,
         },
-        {
-          text: "Action",
-          value: "action",
-          align: "right",
-          sortable: false,
-        },
       ],
-      sampleItems: [
-        {
-          createdAt: "12:35 PM - September 05, 2020",
-          customNumber: "BOOKING-1800-1-114-2126",
-          client: {
-            image:
-              "https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg",
-            name: "Cardo D.",
-          },
-          isDone: true,
-          tourGuide: {
-            image:
-              "https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg",
-            name: "Cardo D.",
-          },
-        },
-        {
-          createdAt: "12:35 PM - September 05, 2020",
-          customNumber: "BOOKING-1800-1-114-2126",
-          client: {
-            image:
-              "https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg",
-            name: "Cardo D.",
-          },
-          isDone: false,
-          tourGuide: null,
-        },
-      ],
+      transactions: [],
+      isFetchTransactionsStart: false,
+      search: "",
     };
+  },
+  mixins: [commonUtilities],
+  methods: {
+    async fetchTransactions() {
+      this.isFetchTransactionsStart = true;
+      this.transactions = await this.$store.dispatch(FETCH_TRANSACTIONS);
+      this.isFetchTransactionsStart = false;
+    },
+    formatDate(date) {
+      return moment(date).format("MMM Do YY") || "";
+    },
+  },
+  async created() {
+    await this.fetchTransactions();
   },
 };
 </script>

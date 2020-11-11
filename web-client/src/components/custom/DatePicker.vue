@@ -27,6 +27,7 @@
       v-model="dateLocal"
       @input="menu = false"
       :readonly="readonly"
+      :min="min"
     ></v-date-picker>
   </v-menu>
 </template>
@@ -69,6 +70,10 @@ export default {
     },
     clearable: {
       type: Boolean,
+      required: false,
+    },
+    min: {
+      type: String,
       required: false,
     },
   },

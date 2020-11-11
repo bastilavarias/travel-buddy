@@ -92,7 +92,7 @@ export default {
         {
           title: "Administrator Panel",
           icon: "mdi-view-dashboard-outline",
-          to: { name: "booking-management-page/table" },
+          to: { name: "transaction-management-page/table" },
         },
         {
           title: "Tour Guide Panel",
