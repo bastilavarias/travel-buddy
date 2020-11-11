@@ -1,5 +1,5 @@
 <template>
-  <v-chip :color="color">
+  <v-chip :color="color" :small="small">
     {{ dateStatus }}
   </v-chip>
 </template>
@@ -21,6 +21,10 @@ export default {
     toDate: {
       type: String,
       required: true,
+    },
+    small: {
+      type: Boolean,
+      required: false,
     },
   },
   computed: {

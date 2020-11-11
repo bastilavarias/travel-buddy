@@ -3,52 +3,123 @@
     <v-img
       class="white--text align-end"
       height="200px"
-      src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+      :src="firstImageUrl"
+      :lazy-src="firstImageUrl"
     >
       <v-card-title class="caption">
-        <span>
+        <span class="text-truncate">
           <v-icon color="white" small class="mr-1">mdi-map-marker</v-icon>
-          <span>Lorem ipsum dolor sit amet.</span>
+          <span class="text-capitalize">{{ firstDestination }}</span>
         </span>
       </v-card-title>
     </v-img>
-    <v-card-text>
-      <h2 class="subtitle-2 secondary--text">Itinerary Name</h2>
-    </v-card-text>
-    <v-card-text>
-      <h2 class="subtitle-2 font-weight-bold secondary--text">
-        &#8369; 999.999
-      </h2>
-      <span class="caption secondary--text">Sept 22, 2020 - Sept 25, 2020</span>
-    </v-card-text>
+    <v-card-title>
+      <span class="caption font-weight-bold">{{ transactionNumber }}</span>
+      <div class="flex-grow-1"></div>
+      <generic-booking-status-chip
+        :is-done="!isDone"
+        :from-date="fromDate"
+        :to-date="toDate"
+        small
+      ></generic-booking-status-chip>
+    </v-card-title>
+    <v-list-item three-line>
+      <v-list-item-content>
+        <v-list-item-title class="subtitle-2">{{ name }}</v-list-item-title>
+        <v-list-item-subtitle>
+          <span class="font-weight-bold secondary--text">
+            {{ formatMoney(price) }}
+          </span>
+          ·
+          <span class="font-weight-regular">{{ formatPaxLabel(pax) }}</span>
+        </v-list-item-subtitle>
+        <v-list-item-subtitle>
+          <span class="caption secondary--text"
+            >{{ formatDate(fromDate) }} - {{ formatDate(toDate) }}</span
+          >
+        </v-list-item-subtitle>
+      </v-list-item-content>
+    </v-list-item>
     <v-card-actions>
       <v-btn
         color="primary"
-        :disabled="isRated"
-        :to="{ name: 'itinerary-post-details-page' }"
+        :to="{ name: 'itinerary-post-details-page', params: { postID } }"
         >View</v-btn
       >
       <div class="flex-grow-1"></div>
-      <span
-        v-if="!isRated"
-        class="caption font-italic text-decoration-underline"
+      <span class="caption font-italic text-decoration-underline" v-if="isDone"
         >Write a review
       </span>
-      <v-chip small v-if="isRated">
-        <v-icon color="primary" small left>mdi-star</v-icon>
-        <span class="primary--text">5.0</span>
-      </v-chip>
+      <generic-rating-chip v-if="isDone"></generic-rating-chip>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
+import commonUtilities from "@/common/utilities";
+import moment from "moment";
+import GenericRatingChip from "@/components/generic/chip/Rating";
+import GenericBookingStatusChip from "@/components/generic/chip/BookingStatus";
+
 export default {
   name: "generic-booked-itinerary-details-preview-card",
+  components: { GenericBookingStatusChip, GenericRatingChip },
+  mixins: [commonUtilities],
   props: {
-    isRated: {
+    postID: {
+      type: Number,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    transactionNumber: {
+      type: String,
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+    images: {
+      type: Array,
+      required: true,
+    },
+    days: {
+      type: Array,
+      required: true,
+    },
+    pax: {
+      type: Number,
+      required: true,
+    },
+    fromDate: {
+      type: String,
+      required: true,
+    },
+    toDate: {
+      type: String,
+      required: true,
+    },
+    isDone: {
       type: Boolean,
-      require: true,
+      required: true,
+    },
+  },
+
+  computed: {
+    firstDestination() {
+      return this.days.map((day) => day.destination)[0];
+    },
+    firstImageUrl() {
+      return this.images[0].url;
+    },
+  },
+
+  methods: {
+    formatDate(date) {
+      return moment(date).format("MMM Do YYYY") || "";
     },
   },
 };

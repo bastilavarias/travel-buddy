@@ -53,6 +53,8 @@ const transactionModel = {
     const gotDetails = await Transaction.findOne(transactionID, {
       relations: [
         "post",
+        "post.images",
+        "post.days",
         "client",
         "client.profile",
         "client.profile.image",
