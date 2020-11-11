@@ -33,8 +33,12 @@
       </div>
     </v-card-text>
     <v-card-text>
-      <h2 class="subtitle-2 font-weight-bold secondary--text" v-if="price">
-        {{ formatMoney(price) }}
+      <h2 class="subtitle-2" v-if="price">
+        <span class="font-weight-bold secondary--text">
+          {{ formatMoney(price) }}
+        </span>
+        ·
+        <span class="font-weight-regular">{{ formatPaxLabel(pax) }}</span>
       </h2>
       <span class="caption secondary--text text-truncate">{{
         formatItineraryDetails(days)
@@ -83,6 +87,10 @@ export default {
     },
     isActive: {
       type: Boolean,
+      required: true,
+    },
+    pax: {
+      type: Number,
       required: true,
     },
   },

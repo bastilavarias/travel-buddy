@@ -42,6 +42,9 @@ const commonUtilities = {
     formatMoney(money) {
       return money > 0 ? numberFormatter("$ #,###.00", money) : `₱ 0.00`;
     },
+    formatPaxLabel(pax) {
+      return this.pax > 1 ? `${pax} Persons` : `${pax} Person`;
+    },
     scrollToTop() {
       window.scrollTo(0, 0);
     },

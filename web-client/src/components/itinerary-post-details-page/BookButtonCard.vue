@@ -8,11 +8,15 @@
         <span class="font-weight-bold">{{ daysCount }}</span>
       </div>
       <div class="body-2">
-        <span>Total Destinations: </span>
+        <span># of Persons: </span>
+        <span class="font-weight-bold">{{ pax }}</span>
+      </div>
+      <div class="body-2">
+        <span># of Destinations: </span>
         <span class="font-weight-bold">{{ destinationsCount }}</span>
       </div>
       <div class="body-2">
-        <span>Total Activities: </span>
+        <span># of Activities: </span>
         <span class="font-weight-bold">{{ activitiesCount }}</span>
       </div>
     </v-card-text>
@@ -22,7 +26,12 @@
         color="primary"
         class="text-capitalize"
         :to="{ name: 'itinerary-checkout-page', params: { postID } }"
-        >Checkout ({{ formatMoney(price) }})</v-btn
+        :disabled="!isAccountVerified"
+        >{{
+          isAccountVerified
+            ? `Checkout (${formatMoney(price)})`
+            : `Account Not Verified`
+        }}</v-btn
       >
     </v-card-actions>
   </v-card>
@@ -46,9 +55,16 @@ export default {
       type: Number,
       required: true,
     },
+    pax: {
+      type: Number,
+      required: true,
+    },
   },
   mixins: [commonUtilities],
   computed: {
+    credentials() {
+      return this.$store.state.authentication.credentials;
+    },
     daysCount() {
       return this.days.length;
     },
@@ -59,6 +75,9 @@ export default {
       return this.days
         .map((day) => day.activities.length)
         .reduce((flat, next) => flat + next, 0);
+    },
+    isAccountVerified() {
+      return this.credentials.isVerified;
     },
   },
 };

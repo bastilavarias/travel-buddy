@@ -30,11 +30,6 @@
         <v-col cols="12" md="9">
           <v-row>
             <v-col cols="12">
-              <v-btn @click="goBack" fab color="white" small>
-                <v-icon>mdi-chevron-left</v-icon>
-              </v-btn>
-            </v-col>
-            <v-col cols="12">
               <itinerary-post-details-page-content-card
                 :name="postDetails.name"
                 :description="postDetails.description"
@@ -62,6 +57,7 @@
                     :price="postDetails.price"
                     :days="postDetails.days"
                     :postID="postDetails.id"
+                    :pax="postDetails.pax"
                   >
                   </itinerary-post-details-page-book-button-card>
                 </div>
