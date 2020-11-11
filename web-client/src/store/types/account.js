@@ -5,3 +5,4 @@ export const FETCH_ACCOUNTS_DETAILS = "account/FETCH_DETAILS";
 export const DISABLE_ACCOUNT = "account/DISABLE";
 export const ENABLE_ACCOUNT = "account/ENABLE";
 export const DELETE_ACCOUNT = "account/DELETE";
+export const VERIFY_ACCOUNT = "account/VERIFY";
