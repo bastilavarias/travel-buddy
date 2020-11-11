@@ -79,6 +79,7 @@
                     clearable
                     item-value="id"
                     item-text="profile.lastName"
+                    v-model="form.tourGuideID"
                   >
                     <template v-slot:selection="{ item }">
                       <span class="text-capitalize">{{
@@ -150,10 +151,13 @@
                   </stripe-elements>
                 </v-col>
                 <v-col cols="12">
-                  <v-checkbox>
+                  <v-checkbox v-model="hasAcceptedTermsCondition">
                     <template v-slot:label>
                       I agree and accept the
-                      <span class="ml-1 text-decoration-underline">
+                      <span
+                        class="ml-1 text-decoration-underline"
+                        @click="isTermsConditionDialogOpen = true"
+                      >
                         terms and conditions</span
                       >. *
                     </template>
@@ -162,7 +166,13 @@
               </v-row>
             </v-card-text>
             <v-card-actions>
-              <v-btn color="success" block large @click="submit"
+              <v-btn
+                color="success"
+                block
+                large
+                @click="submit"
+                :disabled="!isFormValid"
+                :loading="isTransactionCheckoutStart"
                 >Confirm Transaction ({{ formatMoney(amount) }})</v-btn
               >
             </v-card-actions>
@@ -204,6 +214,12 @@
         </v-col>
       </v-row>
     </v-container>
+    <checkout-page-terms-condition-dialog
+      :is-open.sync="isTermsConditionDialogOpen"
+    ></checkout-page-terms-condition-dialog>
+    <checkout-page-thank-you-dialog
+      :is-open.sync="isThankYouDialogOpen"
+    ></checkout-page-thank-you-dialog>
   </section>
 </template>
 <script>
@@ -218,16 +234,22 @@ import moment from "moment";
 import {
   FETCH_TRANSACTION_AVAILABLE_TOUR_GUIDES,
   GET_TRANSACTION_NUMBER,
+  TRANSACTION_CHECKOUT,
 } from "@/store/types/transaction";
 import CustomLabelAndContent from "@/components/custom/LabelAndContent";
+import CheckoutPageTermsConditionDialog from "@/components/checkout-page/TermsConditionDialog";
+import CheckoutPageThankYouDialog from "@/components/checkout-page/ThankYouDialog";
 
 const defaultCheckoutForm = {
   fromDate: null,
   toDate: null,
+  tourGuideID: null,
 };
 
 export default {
   components: {
+    CheckoutPageThankYouDialog,
+    CheckoutPageTermsConditionDialog,
     CustomLabelAndContent,
     GenericRatingChip,
     CustomDatePicker,
@@ -253,6 +275,10 @@ export default {
       availableTourGuides: [],
       isFetchAvailableTourGuidesStart: false,
       availableTourGuidesAutocompleteLabel: "",
+      isTermsConditionDialogOpen: false,
+      hasAcceptedTermsCondition: false,
+      isTransactionCheckoutStart: false,
+      isThankYouDialogOpen: false,
     };
   },
   mixins: [commonUtilities, commonValidation],
@@ -277,6 +303,12 @@ export default {
             message: "",
           };
     },
+    isFormValid() {
+      const { fromDate, toDate, tourGuideID } = this.form;
+      return (
+        fromDate && toDate && tourGuideID && this.hasAcceptedTermsCondition
+      );
+    },
   },
   watch: {
     postDetails(val) {
@@ -300,6 +332,7 @@ export default {
         this.availableTourGuides = [];
         this.form.fromDate = null;
         this.form.toDate = null;
+        this.form.tourGuideID = null;
       }
     },
     async "form.toDate"(val) {
@@ -321,8 +354,31 @@ export default {
       };
       this.sendTokenToServer(this.charge);
     },
-    sendTokenToServer(charge) {
-      console.log(charge);
+    async sendTokenToServer({ source, amount }) {
+      const payload = {
+        fromDate: this.form.fromDate,
+        toDate: this.form.toDate,
+        postID: this.postDetails.id,
+        clientID: this.credentials.id,
+        tourGuideID: this.form.tourGuideID,
+        payment: {
+          token: source,
+          amount,
+        },
+      };
+      this.isTransactionCheckoutStart = true;
+      const checkoutResult = await this.$store.dispatch(
+        TRANSACTION_CHECKOUT,
+        payload
+      );
+      this.isTransactionCheckoutStart = false;
+      if (this.validateObject(checkoutResult)) {
+        this.isThankYouDialogOpen = true;
+        setTimeout(
+          async () => await this.$router.push({ name: "feed-page" }),
+          2000
+        );
+      }
     },
     matchHeight() {
       this.height = this.$refs.postDetails.clientHeight;
