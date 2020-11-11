@@ -69,7 +69,7 @@
             <custom-tooltip-button
               icon="mdi-pencil-outline"
               text="Edit Transaction"
-              :to="{ name: 'booking-management-page/form' }"
+              :to="{ name: 'transaction-management-page/form' }"
               :disabled="item.isDone"
             ></custom-tooltip-button>
           </template>
