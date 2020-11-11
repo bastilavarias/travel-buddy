@@ -6,6 +6,7 @@ import {
   FETCH_ACCOUNT_TYPES,
   FETCH_ACCOUNTS_DETAILS,
   SET_ACCOUNT_TYPES,
+  VERIFY_ACCOUNT,
 } from "@/store/types/account";
 import accountApiService from "@/services/api/modules/account";
 import { SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS } from "@/store/types/generic";
@@ -133,6 +134,24 @@ const accountStore = {
           color: "error",
         });
         return await accountApiService.delete(accountID);
+      } catch (error) {
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Something went wrong to the server. Please try again.",
+          color: "error",
+        });
+        return false;
+      }
+    },
+
+    async [VERIFY_ACCOUNT]({ commit }, accountID) {
+      try {
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Verifying account done!",
+          color: "success",
+        });
+        return await accountApiService.verify(accountID);
       } catch (error) {
         commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
           isOpen: true,

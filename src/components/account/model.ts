@@ -37,6 +37,7 @@ const accountModel = {
           `"typeId" as "typeID"`,
           `"profileId" as "profileID"`,
           `"isDeleted"`,
+          `"isVerified"`,
           `"isActive"`,
         ])
         .where("account.id = :id", { id: accountID })
@@ -79,6 +80,7 @@ const accountModel = {
         `"profileId" as "profileID"`,
         `"isDeleted"`,
         `"isActive"`,
+        `"isVerified"`,
         `"typeId" as "typeID"`,
       ])
       .where(`account."isDeleted" = :isDeleted`, { isDeleted: false })

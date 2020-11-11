@@ -25,6 +25,10 @@ const accountApiService = {
     const result = await apiService.delete(`/account/delete/${accountID}`);
     return result.data.isDeleted || false;
   },
+  async verify(accountID) {
+    const result = await apiService.put(`/account/verify/${accountID}`);
+    return result.data.isVerified || false;
+  },
 };
 
 export default accountApiService;

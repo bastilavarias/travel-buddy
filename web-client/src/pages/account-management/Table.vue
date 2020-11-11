@@ -63,6 +63,12 @@
           </template>
           <template v-slot:item.actions="{ item }">
             <custom-tooltip-button
+              icon="mdi-check"
+              text="Verify Account"
+              :action="() => openVerifyAccountAlertDialog(item)"
+              v-if="!item.isVerified"
+            ></custom-tooltip-button>
+            <custom-tooltip-button
               icon="mdi-pencil-outline"
               text="Edit Account"
             ></custom-tooltip-button>
@@ -111,6 +117,13 @@
       text="Are you sure you want to delete this account?"
       :action="() => deleteAccount()"
     ></custom-alert-dialog>
+    <custom-alert-dialog
+      :is-open.sync="isVerifyAccountAlertDialogOpen"
+      type="success"
+      title="Verify Account"
+      text="Are you sure you want to verify this account?"
+      :action="() => verifyAccount()"
+    ></custom-alert-dialog>
   </section>
 </template>
 
@@ -123,6 +136,7 @@ import {
   DISABLE_ACCOUNT,
   ENABLE_ACCOUNT,
   FETCH_ACCOUNTS_DETAILS,
+  VERIFY_ACCOUNT,
 } from "@/store/types/account";
 import commonUtilities from "@/common/utilities";
 import CustomAlertDialog from "@/components/custom/AlertDialog";
@@ -171,10 +185,12 @@ export default {
       isDisableAccountAlertDialogOpen: false,
       isEnableAccountAlertDialogOpen: false,
       isDeleteAccountAlertDialogOpen: false,
+      isVerifyAccountAlertDialogOpen: false,
       selectedAccount: {},
       isDisableAccountStart: false,
       isEnableAccountStart: false,
       isDeleteAccountStart: false,
+      isVerifyAccountStart: false,
     };
   },
 
@@ -207,6 +223,10 @@ export default {
     openDeleteAccountAlertDialog(account) {
       this.selectedAccount = account;
       this.isDeleteAccountAlertDialogOpen = true;
+    },
+    openVerifyAccountAlertDialog(account) {
+      this.selectedAccount = account;
+      this.isVerifyAccountAlertDialogOpen = true;
     },
     async disableAccount() {
       this.isDisableAccountStart = true;
@@ -257,6 +277,24 @@ export default {
         );
         this.selectedAccount = {};
         this.isDeleteAccountAlertDialogOpen = false;
+      }
+    },
+    async verifyAccount() {
+      this.isVerifyAccountStart = true;
+      const isVerified = await this.$store.dispatch(
+        VERIFY_ACCOUNT,
+        this.selectedAccount.id
+      );
+      this.isVerifyAccountStart = false;
+      if (isVerified) {
+        this.accounts = this.accounts.map((account) => {
+          if (account.id === this.selectedAccount.id) {
+            account.isVerified = true;
+          }
+          return account;
+        });
+        this.selectedAccount = {};
+        this.isVerifyAccountAlertDialogOpen = false;
       }
     },
     isAccountTypeAdministrator(type) {
