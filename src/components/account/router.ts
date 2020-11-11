@@ -30,6 +30,11 @@ accountRouter.put(
   passport.authenticate("jwt", { session: false }),
   accountController.enable
 );
+accountRouter.put(
+  "/verify/:accountID",
+  passport.authenticate("jwt", { session: false }),
+  accountController.verify
+);
 accountRouter.delete(
   "/delete/:accountID",
   passport.authenticate("jwt", { session: false }),

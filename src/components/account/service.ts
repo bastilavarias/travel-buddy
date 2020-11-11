@@ -128,6 +128,10 @@ const accountService = {
     const deletedStatus = true;
     return await accountModel.updateDeleteStatus(accountID, deletedStatus);
   },
+
+  async verify(accountID: number): Promise<IAccountSoftDetails> {
+    return await accountModel.updateVerifiedStatus(accountID);
+  },
 };
 
 export default accountService;
