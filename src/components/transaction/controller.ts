@@ -27,6 +27,16 @@ const transactionController = {
     }
   },
 
+  async fetch(_: Request, response: Response) {
+    try {
+      const fetchedTransactions = await transactionService.fetch();
+      response.status(200).json(fetchedTransactions);
+    } catch (error) {
+      console.log(error);
+      response.status(400).json(error);
+    }
+  },
+
   async checkout(request: Request, response: Response) {
     try {
       const payload: ITransactionServiceCheckoutPayload = {

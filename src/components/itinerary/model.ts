@@ -50,15 +50,13 @@ const itineraryModel = {
 
   async fetch(): Promise<IItinerarySoftDetails[]> {
     const isDeleted = false;
-    const rawPosts = await getRepository(ItineraryPost)
+    const raw = await getRepository(ItineraryPost)
       .createQueryBuilder("itinerary")
       .select(["id"])
       .where(`itinerary."isDeleted" = :isDeleted`, { isDeleted })
       .orderBy(`itinerary."createdAt"`, "ASC")
       .getRawMany();
-    return await Promise.all(
-      rawPosts.map((item) => this.getSoftDetails(item.id))
-    );
+    return await Promise.all(raw.map((item) => this.getSoftDetails(item.id)));
   },
 
   async getSoftDetails(postID: number): Promise<IItinerarySoftDetails> {
