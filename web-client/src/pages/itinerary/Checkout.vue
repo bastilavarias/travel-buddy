@@ -48,6 +48,7 @@
                     outlined
                     :label="form.fromDate ? 'From Date *' : 'Date *'"
                     clearable
+                    :min="currentDate"
                   ></custom-date-picker>
                 </v-col>
                 <v-col cols="12" md="6" v-if="form.fromDate">
@@ -309,6 +310,9 @@ export default {
         fromDate && toDate && tourGuideID && this.hasAcceptedTermsCondition
       );
     },
+    currentDate() {
+      return moment().format("YYYY-MM-DD");
+    },
   },
   watch: {
     postDetails(val) {
@@ -325,14 +329,9 @@ export default {
         const daysCount = this.postDetails.days.map((item) => item.day).length;
         const addedDate = moment(val).add(daysCount, "days");
         this.form.toDate = moment(addedDate).format("YYYY-MM-DD");
-        return (this.formattedToDate = moment(addedDate).format("ll"));
-      }
-      if (val === null) {
         this.availableTourGuidesAutocompleteLabel = "";
         this.availableTourGuides = [];
-        this.form.fromDate = null;
-        this.form.toDate = null;
-        this.form.tourGuideID = null;
+        return (this.formattedToDate = moment(addedDate).format("ll"));
       }
     },
     async "form.toDate"(val) {
@@ -343,6 +342,7 @@ export default {
   },
   methods: {
     submit() {
+      this.isTransactionCheckoutStart = true;
       this.$refs.elementsRef.submit();
     },
     tokenCreated(token) {
@@ -366,7 +366,6 @@ export default {
           amount,
         },
       };
-      this.isTransactionCheckoutStart = true;
       const checkoutResult = await this.$store.dispatch(
         TRANSACTION_CHECKOUT,
         payload

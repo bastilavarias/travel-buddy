@@ -32,14 +32,14 @@
               </v-row>
             </v-card-text>
           </template>
-          <template v-slot:item.createdAt="{ item }">
-            {{ formatDate(item.createdAt) }}
-          </template>
           <template v-slot:item.customNumber="{ item }">
             <span class="font-weight-bold">{{ item.customNumber }}</span>
           </template>
           <template v-slot:item.post.name="{ item }">
             <span class="text-capitalize">{{ item.post.name }}</span>
+          </template>
+          <template v-slot:item.bookingDate="{ item }">
+            {{ formatDate(item.fromDate) }} - {{ formatDate(item.toDate) }}
           </template>
           <template v-slot:item.client.profile.lastName="{ item }">
             <span>
@@ -80,6 +80,8 @@
           <template v-slot:item.status="{ item }">
             <generic-booking-status-chip
               :is-done="item.isDone"
+              :from-date="item.fromDate"
+              :to-date="item.toDate"
             ></generic-booking-status-chip>
           </template>
         </v-data-table>
@@ -100,12 +102,6 @@ export default {
     return {
       tableHeaders: [
         {
-          text: "Created At",
-          value: "createdAt",
-          align: "left",
-          sortable: true,
-        },
-        {
           text: "Transaction #",
           value: "customNumber",
           sortable: false,
@@ -113,6 +109,11 @@ export default {
         {
           text: "Itinerary",
           value: "post.name",
+          sortable: false,
+        },
+        {
+          text: "Booking Date",
+          value: "bookingDate",
           sortable: false,
         },
         {
@@ -144,7 +145,7 @@ export default {
       this.isFetchTransactionsStart = false;
     },
     formatDate(date) {
-      return moment(date).format("MMMM Do YYYY, h:mm:ss a") || "";
+      return moment(date).format("MMM Do YY") || "";
     },
   },
   async created() {
