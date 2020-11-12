@@ -1,7 +1,10 @@
 <template>
   <div>
     <h1 class="title font-weight-bold mb-5">Discover our Itineraries</h1>
-    <v-row dense>
+    <div class="text-center" v-if="itineraries.length === 0">
+      <span class="font-italic caption">No itineraries yet</span>
+    </div>
+    <v-row dense v-if="itineraries.length > 0">
       <template v-for="(itinerary, index) in itineraries">
         <v-col cols="12" sm="6" md="4" lg="3" :key="index">
           <generic-itinerary-details-preview-card

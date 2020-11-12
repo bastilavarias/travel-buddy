@@ -64,23 +64,19 @@ export default {
       isFetchItinerariesStart: false,
       isFetchClientBookingsStart: false,
       clientBookings: [],
+      itineraries: [],
     };
   },
   computed: {
     credentials() {
       return this.$store.state.authentication.credentials;
     },
-    itineraries() {
-      return this.$store.state.itinerary.list;
-    },
   },
   methods: {
     async fetchItineraries() {
-      if (this.itineraries.length <= 0) {
-        this.isFetchItinerariesStart = true;
-        await this.$store.dispatch(FETCH_ITINERARIES);
-        this.isFetchItinerariesStart = false;
-      }
+      this.isFetchItinerariesStart = true;
+      this.itineraries = await this.$store.dispatch(FETCH_ITINERARIES);
+      this.isFetchItinerariesStart = false;
     },
     async fetchClientBookings() {
       this.isFetchClientBookingsStart = true;
