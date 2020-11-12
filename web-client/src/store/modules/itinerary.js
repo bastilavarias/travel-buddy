@@ -61,6 +61,7 @@ const itineraryStore = {
       try {
         const itineraries = await itineraryApiService.fetch();
         commit(SET_ITINERARIES, itineraries);
+        return itineraries;
       } catch (error) {
         commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
           isOpen: true,

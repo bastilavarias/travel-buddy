@@ -5,6 +5,12 @@
         <v-card-title>
           <span class="font-weight-bold"> Transaction List </span>
           <div class="flex-grow-1"></div>
+          <custom-tooltip-button
+            icon="mdi-refresh"
+            text="Refresh List"
+            :loading="isFetchTransactionsStart"
+            :action="() => fetchTransactions()"
+          ></custom-tooltip-button>
         </v-card-title>
         <v-data-table
           :headers="tableHeaders"

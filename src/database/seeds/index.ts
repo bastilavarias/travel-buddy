@@ -9,6 +9,12 @@ import Destination from "../entities/Destination";
 import destinations from "./modules/destinations";
 import Transportation from "../entities/Transportation";
 import transportation from "./modules/transportation";
+import ProfileImage from "../entities/ProfileImage";
+import defaultAdministratorProfileImage from "./modules/default-administrator/profileImage";
+import Profile from "../entities/Profile";
+import defaultAdministratorProfile from "./modules/default-administrator/profile";
+import Account from "../entities/Account";
+import defaultAdministratorAccount from "./modules/default-administrator/account";
 
 const generateSeeds = async () => {
   const connection = await Database.init();
@@ -46,6 +52,27 @@ const generateSeeds = async () => {
     .into(Transportation)
     .values(transportation)
     .onConflict(`("name") do nothing`)
+    .execute();
+  await connection
+    .createQueryBuilder()
+    .insert()
+    .into(ProfileImage)
+    .values(defaultAdministratorProfileImage)
+    .onConflict(`("id") do nothing`)
+    .execute();
+  await connection
+    .createQueryBuilder()
+    .insert()
+    .into(Profile)
+    .values(defaultAdministratorProfile)
+    .onConflict(`("id") do nothing`)
+    .execute();
+  await connection
+    .createQueryBuilder()
+    .insert()
+    .into(Account)
+    .values(defaultAdministratorAccount)
+    .onConflict(`("email") do nothing`)
     .execute();
 };
 
