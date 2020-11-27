@@ -32,6 +32,10 @@ const transactionService = {
     };
   },
 
+  async getClientBooking(transactionID: number): Promise<Transaction> {
+    return transactionModel.get(transactionID);
+  },
+
   async fetchAvailableTourGuides(
     fromDate: Date | string,
     toDate: Date | string

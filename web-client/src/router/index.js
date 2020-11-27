@@ -36,6 +36,20 @@ const routes = [
     },
   },
   {
+    path: "/booking-summary/:transactionID",
+    component: () => import("@/layouts/Main"),
+    children: [
+      {
+        path: "",
+        name: "booking-summary-page",
+        component: () => import("@/pages/transaction-management/Summary"),
+      },
+    ],
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     path: "/itinerary-post-details",
     component: () => import("@/layouts/Main"),
     children: [

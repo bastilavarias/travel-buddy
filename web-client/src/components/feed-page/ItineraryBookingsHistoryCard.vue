@@ -10,6 +10,7 @@
         <template v-for="(booking, index) in bookings">
           <v-col cols="12" sm="6" md="4" lg="3" :key="index">
             <generic-booked-itinerary-details-preview-card
+              :transactionID="booking.id"
               :postID="booking.post.id"
               :name="booking.post.name"
               :transaction-number="booking.customNumber"

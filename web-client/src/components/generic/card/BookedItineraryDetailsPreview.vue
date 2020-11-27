@@ -43,8 +43,8 @@
     <v-card-actions>
       <v-btn
         color="primary"
-        :to="{ name: 'itinerary-post-details-page', params: { postID } }"
-        >View</v-btn
+        :to="{ name: 'booking-summary-page', params: { transactionID } }"
+        >Summary</v-btn
       >
       <div class="flex-grow-1"></div>
       <span class="caption font-italic text-decoration-underline" v-if="isDone"
@@ -66,6 +66,10 @@ export default {
   components: { GenericBookingStatusChip, GenericRatingChip },
   mixins: [commonUtilities],
   props: {
+    transactionID: {
+      type: Number,
+      required: true,
+    },
     postID: {
       type: Number,
       required: true,
@@ -114,12 +118,6 @@ export default {
     },
     firstImageUrl() {
       return this.images[0].url;
-    },
-  },
-
-  methods: {
-    formatDate(date) {
-      return moment(date).format("MMM Do YYYY") || "";
     },
   },
 };

@@ -20,7 +20,7 @@ const transactionModel = {
       client: { id: clientID },
       tourGuide: { id: tourGuideID },
     }).save();
-    return this.getSoftDetails(savedTransaction.id);
+    return this.get(savedTransaction.id);
   },
 
   async getCount(): Promise<Number> {
@@ -49,12 +49,13 @@ const transactionModel = {
     return raw.length === 0;
   },
 
-  async getSoftDetails(transactionID: number): Promise<Transaction> {
+  async get(transactionID: number): Promise<Transaction> {
     const gotDetails = await Transaction.findOne(transactionID, {
       relations: [
         "post",
         "post.images",
         "post.days",
+        "post.days.activities",
         "client",
         "client.profile",
         "client.profile.image",
@@ -76,7 +77,7 @@ const transactionModel = {
       .select(["id"])
       .orderBy(`"createdAt"`, "DESC")
       .getRawMany();
-    return await Promise.all(raw.map((item) => this.getSoftDetails(item.id)));
+    return await Promise.all(raw.map((item) => this.get(item.id)));
   },
 
   async fetchClientBooking(clientID: number): Promise<Transaction[]> {
@@ -86,7 +87,7 @@ const transactionModel = {
       .where(`transaction."clientId" = :clientID`, { clientID })
       .orderBy(`"createdAt"`, "DESC")
       .getRawMany();
-    return await Promise.all(raw.map((item) => this.getSoftDetails(item.id)));
+    return await Promise.all(raw.map((item) => this.get(item.id)));
   },
 };
 

@@ -12,6 +12,16 @@ const transactionController = {
     }
   },
 
+  async getClientBooking(request: Request, response: Response) {
+    try {
+      const transactionID = parseInt(request.params.transactionID) || 0;
+      const result = await transactionService.getClientBooking(transactionID);
+      response.status(200).json(result);
+    } catch (error) {
+      response.status(400).json(error);
+    }
+  },
+
   async fetchAvailableTourGuides(request: Request, response: Response) {
     try {
       const fromDate = request.params.fromDate || "";
