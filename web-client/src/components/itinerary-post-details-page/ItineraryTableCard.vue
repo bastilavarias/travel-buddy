@@ -1,5 +1,5 @@
 <template>
-  <v-card outlined>
+  <v-card :outlined="!flat" :flat="flat">
     <v-card-title class="subtitle-2">Itinerary</v-card-title>
     <v-data-table
       :headers="tableHeaders"
@@ -40,6 +40,10 @@ export default {
     days: {
       type: Array,
       required: true,
+    },
+    flat: {
+      type: Boolean,
+      required: false,
     },
   },
   data() {

@@ -40,6 +40,13 @@ const transactionApiService = {
     );
     return result.data || [];
   },
+
+  async getClientBooking(transactionID) {
+    const result = await apiService.get(
+      `/transaction/client-booking/${transactionID}`
+    );
+    return result.data || {};
+  },
 };
 
 export default transactionApiService;

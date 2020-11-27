@@ -36,13 +36,13 @@ const routes = [
     },
   },
   {
-    path: "/booking-summary",
+    path: "/booking-summary/:transactionID",
     component: () => import("@/layouts/Main"),
     children: [
       {
         path: "",
         name: "booking-summary-page",
-        component: () => import("@/pages/BookingSummary"),
+        component: () => import("@/pages/transaction-management/Summary"),
       },
     ],
     meta: {

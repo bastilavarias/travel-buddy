@@ -45,6 +45,9 @@ const commonUtilities = {
     formatPaxLabel(pax) {
       return this.pax > 1 ? `${pax} Persons` : `${pax} Person`;
     },
+    formatDate(date) {
+      return moment(date).format("MMM Do YYYY") || "";
+    },
     scrollToTop() {
       window.scrollTo(0, 0);
     },

@@ -55,6 +55,7 @@ const transactionModel = {
         "post",
         "post.images",
         "post.days",
+        "post.days.activities",
         "client",
         "client.profile",
         "client.profile.image",
