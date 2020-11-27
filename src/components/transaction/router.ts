@@ -22,6 +22,11 @@ transactionRouter.get(
   passport.authenticate("jwt", { session: false }),
   transactionController.fetchClientBookings
 );
+transactionRouter.get(
+  "/client-booking/:transactionID",
+  passport.authenticate("jwt", { session: false }),
+  transactionController.getClientBooking
+);
 transactionRouter.post(
   "/checkout/:postID/:clientID/:tourGuideID/:stripeToken",
   passport.authenticate("jwt", { session: false }),
