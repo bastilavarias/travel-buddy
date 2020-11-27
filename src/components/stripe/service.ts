@@ -18,7 +18,7 @@ const stripeService = {
     );
     const chargeCreateParams: Stripe.ChargeCreateParams = {
       amount: parseFloat(`${amount}00`),
-      currency: "usd",
+      currency: "PHP",
       customer: customer.id,
     };
     await stripe.charges.create(chargeCreateParams);
