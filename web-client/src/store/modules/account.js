@@ -91,9 +91,9 @@ const accountStore = {
       }
     },
 
-    async [FETCH_TOUR_GUIDE_ACCOUNTS]({ commit }) {
+    async [FETCH_TOUR_GUIDE_ACCOUNTS]({ commit }, query) {
       try {
-        return await accountApiService.fetchTourGuides();
+        return await accountApiService.fetchTourGuides(query);
       } catch (_) {
         commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
           isOpen: true,

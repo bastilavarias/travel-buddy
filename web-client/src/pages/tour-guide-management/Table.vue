@@ -3,7 +3,11 @@
     <v-container>
       <v-card outlined>
         <v-card-title class="font-weight-bold"> Tour Guide List </v-card-title>
-        <v-data-table :headers="tableHeaders" :items="tourGuides">
+        <v-data-table
+          :headers="tableHeaders"
+          :items="tourGuides"
+          :loading="isGetTourGuidesStart"
+        >
           <template v-slot:top>
             <v-card-text>
               <v-row dense>
@@ -12,6 +16,7 @@
                     hide-details
                     label="Search"
                     outlined
+                    v-model="query"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" md="2">
@@ -65,6 +70,7 @@ import CustomTooltipButton from "@/components/custom/TooltipButton";
 import GenericRatingChip from "@/components/generic/chip/Rating";
 import { FETCH_TOUR_GUIDE_ACCOUNTS } from "@/store/types/account";
 import commonUtilities from "@/common/utilities";
+
 export default {
   components: { GenericRatingChip, CustomTooltipButton },
 
@@ -97,12 +103,37 @@ export default {
         },
       ],
       tourGuides: [],
+      query: null,
+      isGetTourGuidesStart: false,
     };
   },
 
+  watch: {
+    async query(q) {
+      const timer = 0;
+      clearTimeout(this.timer);
+      this.timer = setTimeout(
+        async function () {
+          await this.getTourGuides();
+        }.bind(this),
+        1000
+      );
+    },
+  },
+
+  methods: {
+    async getTourGuides() {
+      this.isGetTourGuidesStart = true;
+      this.tourGuides = await this.$store.dispatch(
+        FETCH_TOUR_GUIDE_ACCOUNTS,
+        this.query
+      );
+      this.isGetTourGuidesStart = false;
+    },
+  },
+
   async created() {
-    this.tourGuides = await this.$store.dispatch(FETCH_TOUR_GUIDE_ACCOUNTS);
-    console.log(this.tourGuides);
+    await this.getTourGuides();
   },
 };
 </script>
