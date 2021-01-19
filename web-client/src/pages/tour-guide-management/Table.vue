@@ -3,7 +3,7 @@
     <v-container>
       <v-card outlined>
         <v-card-title class="font-weight-bold"> Tour Guide List </v-card-title>
-        <v-data-table :headers="tableHeaders" :items="sampleItems">
+        <v-data-table :headers="tableHeaders" :items="tourGuides">
           <template v-slot:top>
             <v-card-text>
               <v-row dense>
@@ -26,12 +26,18 @@
 
           <template v-slot:item.image="{ item }">
             <v-avatar :size="25" color="secondary" class="mr-1">
-              <v-img :src="item.image" :lazy-src="item.image"></v-img>
+              <v-img
+                :src="item.profile.image.url"
+                :lazy-src="item.profile.image.url"
+              ></v-img>
             </v-avatar>
           </template>
           <template v-slot:item.name="{ item }">
             <span class="text-capitalize">
-              {{ item.name }}
+              {{
+                formatName(item.profile.firstName, item.profile.lastName) ||
+                "Invalid Name"
+              }}
             </span>
           </template>
           <template v-slot:item.rating="{ item }">
@@ -57,8 +63,13 @@
 <script>
 import CustomTooltipButton from "@/components/custom/TooltipButton";
 import GenericRatingChip from "@/components/generic/chip/Rating";
+import { FETCH_TOUR_GUIDE_ACCOUNTS } from "@/store/types/account";
+import commonUtilities from "@/common/utilities";
 export default {
   components: { GenericRatingChip, CustomTooltipButton },
+
+  mixins: [commonUtilities],
+
   data() {
     return {
       tableHeaders: [
@@ -79,54 +90,19 @@ export default {
           sortable: true,
         },
         {
-          text: "Location",
-          value: "location",
-          sortable: false,
-        },
-        {
-          text: "Contact No.",
-          value: "contactNumber",
-          sortable: false,
-        },
-        {
-          text: "Rating",
-          value: "rating",
-          sortable: false,
-        },
-        {
           text: "Actions",
           value: "actions",
           align: "right",
           sortable: false,
         },
       ],
-      sampleItems: [
-        {
-          image:
-            "https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg",
-          name: "Cardo D.",
-          email: "cardodalisay@gmail.com",
-          location: "Manila, Philippines",
-          contactNumber: "09999999999",
-        },
-        {
-          image:
-            "https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg",
-          name: "Cardo D.",
-          email: "cardodalisay@gmail.com",
-          location: "Manila, Philippines",
-          contactNumber: "09999999999",
-        },
-        {
-          image:
-            "https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg",
-          name: "Cardo D.",
-          email: "cardodalisay@gmail.com",
-          location: "Manila, Philippines",
-          contactNumber: "09999999999",
-        },
-      ],
+      tourGuides: [],
     };
+  },
+
+  async created() {
+    this.tourGuides = await this.$store.dispatch(FETCH_TOUR_GUIDE_ACCOUNTS);
+    console.log(this.tourGuides);
   },
 };
 </script>
