@@ -45,6 +45,19 @@ const accountController = {
     }
   },
 
+  async fetchTourGuides(request: Request, response: Response) {
+    try {
+      const query = request.query.query || null;
+      let tourGuides = null;
+      //@ts-ignore
+      if (query) tourGuides = await accountService.searchTourGuides(query);
+      if (!query) tourGuides = await accountService.fetchTourGuides();
+      response.status(200).json(tourGuides);
+    } catch (error) {
+      response.status(400).json(error);
+    }
+  },
+
   async disable(request: Request, response: Response) {
     try {
       const accountID = parseInt(request.params.accountID);

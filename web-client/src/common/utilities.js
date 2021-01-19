@@ -51,6 +51,17 @@ const commonUtilities = {
     scrollToTop() {
       window.scrollTo(0, 0);
     },
+    debounce(fn, delay) {
+      let timeoutID = null;
+      return function () {
+        clearTimeout(timeoutID);
+        let args = arguments;
+        let that = this;
+        timeoutID = setTimeout(function () {
+          fn.apply(that, args);
+        }, delay);
+      };
+    },
   },
 
   mounted() {

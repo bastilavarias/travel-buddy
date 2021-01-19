@@ -13,6 +13,13 @@ const accountApiService = {
     const result = await apiService.get("/account/details");
     return result.data || [];
   },
+  async fetchTourGuides(query) {
+    const route = query
+      ? `/account/tour-guides?query=${query}`
+      : "/account/tour-guides";
+    const result = await apiService.get(route);
+    return result.data || [];
+  },
   async disable(accountID) {
     const result = await apiService.put(`/account/disable/${accountID}`);
     return !result.data.isActive || false;

@@ -15,6 +15,7 @@ import profileModel from "../profile/model";
 import utilityService from "../utility/service";
 import cloudinaryService from "../cloudinary/service";
 import { ICloudinaryFileMeta } from "../cloudinary/typeDefs";
+import Account from "../../database/entities/Account";
 
 const accountService = {
   async createNew(
@@ -112,6 +113,14 @@ const accountService = {
         return account;
       })
     );
+  },
+
+  async fetchTourGuides(): Promise<Account[]> {
+    return await accountModel.fetchTourGuides();
+  },
+
+  async searchTourGuides(query: string): Promise<Account[]> {
+    return await accountModel.searchTourGuides(query);
   },
 
   async disable(accountID: number): Promise<IAccountSoftDetails> {

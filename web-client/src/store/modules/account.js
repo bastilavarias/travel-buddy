@@ -5,6 +5,7 @@ import {
   ENABLE_ACCOUNT,
   FETCH_ACCOUNT_TYPES,
   FETCH_ACCOUNTS_DETAILS,
+  FETCH_TOUR_GUIDE_ACCOUNTS,
   SET_ACCOUNT_TYPES,
   VERIFY_ACCOUNT,
 } from "@/store/types/account";
@@ -80,6 +81,19 @@ const accountStore = {
     async [FETCH_ACCOUNTS_DETAILS]({ commit }) {
       try {
         return await accountApiService.fetchDetails();
+      } catch (_) {
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Something went wrong to the server. Please try again.",
+          color: "error",
+        });
+        return [];
+      }
+    },
+
+    async [FETCH_TOUR_GUIDE_ACCOUNTS]({ commit }, query) {
+      try {
+        return await accountApiService.fetchTourGuides(query);
       } catch (_) {
         commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
           isOpen: true,

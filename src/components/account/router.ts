@@ -20,6 +20,11 @@ accountRouter.get(
   passport.authenticate("jwt", { session: false }),
   accountController.fetchDetails
 );
+accountRouter.get(
+  "/tour-guides",
+  passport.authenticate("jwt", { session: false }),
+  accountController.fetchTourGuides
+);
 accountRouter.put(
   "/disable/:accountID",
   passport.authenticate("jwt", { session: false }),
