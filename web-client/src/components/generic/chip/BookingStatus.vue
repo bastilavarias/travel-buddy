@@ -29,13 +29,12 @@ export default {
   },
   computed: {
     currentDate() {
-      return moment().format("DD.MM.YYYY").valueOf();
+      return moment().valueOf() || null;
     },
     dateStatus() {
-      const fromDate =
-        moment(this.fromDate).format("DD.MM.YYYY").valueOf() || "";
-      const toDate = moment(this.toDate).format("DD.MM.YYYY").valueOf() || "";
-      let status = "";
+      const fromDate = moment(this.fromDate).valueOf() || null;
+      const toDate = moment(this.toDate).valueOf() || null;
+      let status = null;
       if (this.currentDate > toDate) status = "Done";
       if (this.currentDate < fromDate) status = "Pending";
       if (this.currentDate >= fromDate && this.currentDate <= toDate)
