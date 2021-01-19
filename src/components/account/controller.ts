@@ -45,6 +45,15 @@ const accountController = {
     }
   },
 
+  async fetchTourGuides(_request: Request, response: Response) {
+    try {
+      const tourGuides = await accountService.fetchTourGuides();
+      response.status(200).json(tourGuides);
+    } catch (error) {
+      response.status(400).json(error);
+    }
+  },
+
   async disable(request: Request, response: Response) {
     try {
       const accountID = parseInt(request.params.accountID);
