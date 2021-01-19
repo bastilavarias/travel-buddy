@@ -28,7 +28,6 @@
               </v-row>
             </v-card-text>
           </template>
-
           <template v-slot:item.image="{ item }">
             <v-avatar :size="25" color="secondary" class="mr-1">
               <v-img
@@ -48,15 +47,16 @@
           <template v-slot:item.rating="{ item }">
             <generic-rating-chip></generic-rating-chip>
           </template>
-          <template v-slot:item.actions="{ item }">
+          <template v-slot:item.isActive="{ item }">
+            <generic-account-status-chip
+              :is-active="item.isActive"
+            ></generic-account-status-chip>
+          </template>
+          <template v-slot:item.action="{ item }">
             <custom-tooltip-button
               icon="mdi-file-find"
               text="View Record"
               :to="{ name: 'tour-guide-management-page/record' }"
-            ></custom-tooltip-button>
-            <custom-tooltip-button
-              icon="mdi-delete-outline"
-              text="Delete Record"
             ></custom-tooltip-button>
           </template>
         </v-data-table>
@@ -70,9 +70,16 @@ import CustomTooltipButton from "@/components/custom/TooltipButton";
 import GenericRatingChip from "@/components/generic/chip/Rating";
 import { FETCH_TOUR_GUIDE_ACCOUNTS } from "@/store/types/account";
 import commonUtilities from "@/common/utilities";
+import CustomAlertDialog from "@/components/custom/AlertDialog";
+import GenericAccountStatusChip from "@/components/generic/chip/AccountStatus";
 
 export default {
-  components: { GenericRatingChip, CustomTooltipButton },
+  components: {
+    GenericAccountStatusChip,
+    CustomAlertDialog,
+    GenericRatingChip,
+    CustomTooltipButton,
+  },
 
   mixins: [commonUtilities],
 
@@ -96,8 +103,13 @@ export default {
           sortable: true,
         },
         {
-          text: "Actions",
-          value: "actions",
+          text: "Status",
+          value: "isActive",
+          sortable: false,
+        },
+        {
+          text: "Action",
+          value: "action",
           align: "right",
           sortable: false,
         },
