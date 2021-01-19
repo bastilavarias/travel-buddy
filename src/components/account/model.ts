@@ -107,6 +107,24 @@ const accountModel = {
     });
   },
 
+  async searchTourGuides(query: string): Promise<Account[]> {
+    const gotTourGuides = await getRepository(Account)
+      .createQueryBuilder("account")
+      .leftJoinAndSelect("account.profile", "profile")
+      .leftJoinAndSelect("profile.image", "profile_image")
+      .where("account.email like :query", { query: `%${query}%` })
+      .orWhere(`profile."firstName" like :query`, { query: `%${query}%` })
+      .orWhere(`profile."lastName" like :query`, { query: `%${query}%` })
+      .getMany();
+    return gotTourGuides.map((tourGuide) => {
+      //@ts-ignore
+      delete tourGuide.password;
+      //@ts-ignore
+      delete tourGuide.profile.image.data;
+      return tourGuide;
+    });
+  },
+
   async updateActiveStatus(
     accountID: number,
     status: boolean
