@@ -9,6 +9,11 @@ itineraryRouter.post(
   passport.authenticate("jwt", { session: false }),
   itineraryController.createNew
 );
+itineraryRouter.get(
+  "/inquiry",
+  passport.authenticate("jwt", { session: false }),
+  itineraryController.getInquiries
+);
 itineraryRouter.post(
   "/inquiry",
   passport.authenticate("jwt", { session: false }),

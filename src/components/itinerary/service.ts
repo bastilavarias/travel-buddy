@@ -10,6 +10,7 @@ import {
 import itineraryModel from "./model";
 import cloudinaryService from "../cloudinary/service";
 import ItineraryPost from "../../database/entities/ItineraryPost";
+import ItineraryPostInquiry from "../../database/entities/ItineraryPostInquiry";
 
 const itineraryService = {
   async createNew(
@@ -29,6 +30,13 @@ const itineraryService = {
 
   async createInquiry(postID: number, accountID: number, message: string) {
     return await itineraryModel.createInquiry(postID, accountID, message);
+  },
+
+  async getInquiries(
+    postID: number,
+    skip: number
+  ): Promise<ItineraryPostInquiry[]> {
+    return await itineraryModel.getInquiries(postID, skip);
   },
 
   async addDays(postID: number, days: IItineraryPostDayInput[]) {
