@@ -11,6 +11,9 @@
       <template v-for="(inquiry, index) in inquiries">
         <itinerary-post-details-inquiry-media
           :key="index"
+          :profile="inquiry.author.profile"
+          :created-at="inquiry.createdAt"
+          :message="inquiry.message"
         ></itinerary-post-details-inquiry-media>
         <!--        <itinerary-post-details-inquiry-media :key="n" class-name="mb-10">-->
         <!--          <template v-for="n2 in [4]">-->
