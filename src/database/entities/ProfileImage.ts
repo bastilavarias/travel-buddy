@@ -10,7 +10,4 @@ export default class ProfileImage extends BaseEntity {
 
   @Column({ nullable: true })
   publicID: string;
-
-  @Column("bytea", { nullable: true })
-  data: Buffer;
 }

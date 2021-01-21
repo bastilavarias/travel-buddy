@@ -18,9 +18,6 @@ export default class ItineraryPostImage extends BaseEntity {
   @Column({ nullable: true })
   publicID: string;
 
-  @Column("bytea", { nullable: true })
-  data: Buffer;
-
   @ManyToOne(() => ItineraryPost)
   post: ItineraryPost;
 }

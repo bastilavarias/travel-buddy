@@ -20,12 +20,11 @@ const itineraryModel = {
   },
 
   async saveImage(postID: number, input: IItineraryPostModelSaveImageInput) {
-    const { url, publicID, data } = input;
+    const { url, publicID } = input;
     await ItineraryPostImage.create({
       post: { id: postID },
       url,
       publicID,
-      data,
     }).save();
   },
 
