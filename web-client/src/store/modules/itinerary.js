@@ -1,4 +1,5 @@
 import {
+  CREATE_ITINERARY_INQUIRY,
   CREATE_NEW_ITINERARY,
   DELETE_ITINERARY,
   DISABLE_ITINERARY,
@@ -54,6 +55,33 @@ const itineraryStore = {
           color: "error",
         });
         throw new Error(`[RWV] ApiService ${error}`);
+      }
+    },
+
+    async [CREATE_ITINERARY_INQUIRY](
+      { commit },
+      { postID, accountID, message }
+    ) {
+      try {
+        const data = await itineraryApiService.createInquiry(
+          postID,
+          accountID,
+          message
+        );
+        return {
+          success: true,
+          data,
+        };
+      } catch (error) {
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Something went wrong to the server. Please try again.",
+          color: "error",
+        });
+        return {
+          success: false,
+          data: null,
+        };
       }
     },
 
