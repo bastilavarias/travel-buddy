@@ -18,6 +18,13 @@ const itineraryApiService = {
     return result.data;
   },
 
+  async getInquiries(postID, skip) {
+    const result = await apiService.get(
+      `/itinerary/inquiry?postID=${postID}&skip=${skip}`
+    );
+    return result.data;
+  },
+
   async uploadImages(formData) {
     const result = await apiService.post("/itinerary/upload-images", formData);
     return result.data || {};

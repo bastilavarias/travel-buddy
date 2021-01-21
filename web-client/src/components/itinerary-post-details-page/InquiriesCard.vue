@@ -8,19 +8,29 @@
       </v-btn>
     </v-card-title>
     <v-card-text>
-      <template v-for="n in [1, 2, 3]">
-        <itinerary-post-details-inquiry-media :key="n" class-name="mb-10">
-          <template v-for="n2 in [4]">
-            <itinerary-post-details-inquiry-reply-media
-              :key="n2"
-            ></itinerary-post-details-inquiry-reply-media>
-          </template>
-        </itinerary-post-details-inquiry-media>
+      <template v-for="(inquiry, index) in inquiries">
+        <itinerary-post-details-inquiry-media
+          :key="index"
+        ></itinerary-post-details-inquiry-media>
+        <!--        <itinerary-post-details-inquiry-media :key="n" class-name="mb-10">-->
+        <!--          <template v-for="n2 in [4]">-->
+        <!--            <itinerary-post-details-inquiry-reply-media-->
+        <!--              :key="n2"-->
+        <!--            ></itinerary-post-details-inquiry-reply-media>-->
+        <!--          </template>-->
+        <!--        </itinerary-post-details-inquiry-media>-->
       </template>
     </v-card-text>
     <v-card-actions>
       <div class="flex-grow-1"></div>
-      <v-btn color="secondary" class="text-capitalize">See All</v-btn>
+      <v-btn
+        color="secondary"
+        class="text-capitalize"
+        :loading="isCreateInquiryStart"
+        @click="getInquiries"
+        :disabled="shouldHideSeeMoreButton"
+        >See More</v-btn
+      >
     </v-card-actions>
     <v-dialog v-model="isDialogOpen" width="500">
       <v-card>
@@ -59,7 +69,10 @@
 <script>
 import ItineraryPostDetailsInquiryMedia from "@/components/generic/media/ItineraryPostDetailsInquiry";
 import ItineraryPostDetailsInquiryReplyMedia from "@/components/generic/media/ItineraryPostDetailsInquiryReply";
-import { CREATE_ITINERARY_INQUIRY } from "@/store/types/itinerary";
+import {
+  CREATE_ITINERARY_INQUIRY,
+  GET_ITINERARY_INQUIRIES,
+} from "@/store/types/itinerary";
 export default {
   name: "itinerary-post-details-page-inquiries-card",
   components: {
@@ -71,6 +84,10 @@ export default {
       isDialogOpen: false,
       isCreateInquiryStart: false,
       message: null,
+      skip: 0,
+      inquiries: [],
+      shouldHideSeeMoreButton: false,
+      isGetInquiriesStart: false,
     };
   },
 
@@ -78,13 +95,17 @@ export default {
     isFormValid() {
       return this.message !== null;
     },
+
+    postID() {
+      return this.$route.params.postID;
+    },
   },
 
   methods: {
     async createInquiry() {
       this.isCreateInquiryStart = true;
       const payload = {
-        postID: parseInt(this.$route.params.postID),
+        postID: parseInt(this.postID),
         accountID: this.$store.state.authentication.credentials.id,
         message: this.message,
       };
@@ -101,6 +122,33 @@ export default {
       }
       this.isCreateInquiryStart = false;
     },
+
+    async getInquiries() {
+      this.isGetInquiriesStart = true;
+      const payload = {
+        postID: parseInt(this.postID),
+        skip: this.skip,
+      };
+      const inquiries = await this.$store.dispatch(
+        GET_ITINERARY_INQUIRIES,
+        payload
+      );
+      console.log(inquiries);
+      if (inquiries.length === 5) {
+        this.inquiries = [...this.inquiries, ...inquiries];
+        this.skip += 5;
+        this.isGetInquiriesStart = false;
+        return;
+      }
+      this.inquiries = [...this.inquiries, ...inquiries];
+      this.skip += 0;
+      this.isGetInquiriesStart = false;
+      this.shouldHideSeeMoreButton = true;
+    },
+  },
+
+  async created() {
+    await this.getInquiries();
   },
 };
 </script>

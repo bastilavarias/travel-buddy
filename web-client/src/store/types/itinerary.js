@@ -6,3 +6,4 @@ export const DISABLE_ITINERARY = "itinerary/DISABLE";
 export const ENABLE_ITINERARY = "itinerary/ENABLE";
 export const GET_ITINERARY_SOFT_DETAILS = "itinerary/GET_SOFT_DETAILS";
 export const CREATE_ITINERARY_INQUIRY = "itinerary/CREATE_INQUIRY";
+export const GET_ITINERARY_INQUIRIES = "itinerary/GET_INQUIRIES";
