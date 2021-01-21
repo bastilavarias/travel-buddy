@@ -96,6 +96,7 @@ export default {
         console.log(data);
         this.message = null;
         this.isCreateInquiryStart = false;
+        this.isDialogOpen = false;
         return;
       }
       this.isCreateInquiryStart = false;
