@@ -10,6 +10,7 @@ import ItineraryPostDay from "../../database/entities/ItineraryPostDay";
 import ItineraryPost from "../../database/entities/ItineraryPost";
 import ItineraryPostImage from "../../database/entities/ItineraryPostImage";
 import { getRepository } from "typeorm";
+import ItineraryPostInquiry from "../../database/entities/ItineraryPostInquiry";
 
 const itineraryModel = {
   async saveDetails(
@@ -46,6 +47,32 @@ const itineraryModel = {
       day: { id: dayID },
       name: activity,
     }).save();
+  },
+
+  async createInquiry(
+    postID: number,
+    accountID: number,
+    message: string
+  ): Promise<ItineraryPostInquiry> {
+    const inquiry = await ItineraryPostInquiry.create({
+      post: { id: postID },
+      author: { id: accountID },
+      message,
+    }).save();
+    return await this.getInquiryItem(inquiry.id);
+  },
+
+  async getInquiryItem(id: number): Promise<ItineraryPostInquiry> {
+    const inquiry = await ItineraryPostInquiry.findOne(id, {
+      relations: ["author", "author.profile", "author.profile.image"],
+    }).then((item) => {
+      // @ts-ignore
+      delete item.author.password;
+      // @ts-ignore
+      delete item.author.profile.image.data;
+      return item;
+    });
+    return inquiry!;
   },
 
   async fetch(): Promise<IItinerarySoftDetails[]> {

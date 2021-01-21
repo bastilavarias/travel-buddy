@@ -10,6 +10,11 @@ itineraryRouter.post(
   itineraryController.createNew
 );
 itineraryRouter.post(
+  "/inquiry",
+  passport.authenticate("jwt", { session: false }),
+  itineraryController.createInquiry
+);
+itineraryRouter.post(
   "/upload-images",
   multer.array("images"),
   passport.authenticate("jwt", { session: false }),

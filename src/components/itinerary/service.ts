@@ -27,6 +27,10 @@ const itineraryService = {
     return await itineraryModel.getSoftDetails(postID);
   },
 
+  async createInquiry(postID: number, accountID: number, message: string) {
+    return await itineraryModel.createInquiry(postID, accountID, message);
+  },
+
   async addDays(postID: number, days: IItineraryPostDayInput[]) {
     await Promise.all(
       days.map(async (item) => {
