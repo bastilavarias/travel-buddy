@@ -117,7 +117,7 @@ export default {
         payload
       );
       if (success) {
-        console.log(data);
+        this.inquiries = [data, ...this.inquiries];
         this.message = null;
         this.isCreateInquiryStart = false;
         this.isDialogOpen = false;
@@ -136,7 +136,6 @@ export default {
         GET_ITINERARY_INQUIRIES,
         payload
       );
-      console.log(inquiries);
       if (inquiries.length === 5) {
         this.inquiries = [...this.inquiries, ...inquiries];
         this.skip += 5;

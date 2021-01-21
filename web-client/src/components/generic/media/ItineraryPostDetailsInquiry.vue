@@ -5,6 +5,7 @@
         <div class="mr-2 text-content flex-grow-1">
           <div class="px-4 py-3">
             <div class="caption mb-2">
+              Asked by
               <span class="text-capitalize">{{
                 formatName(profile.firstName, profile.lastName)
               }}</span>
