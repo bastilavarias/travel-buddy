@@ -46,7 +46,10 @@ const commonUtilities = {
       return this.pax > 1 ? `${pax} Persons` : `${pax} Person`;
     },
     formatDate(date) {
-      return moment(date).format("MMM Do YYYY") || "";
+      return moment(new Date(date)).format("MMM Do YYYY") || "N/a";
+    },
+    formatDateFromNow(date) {
+      return moment(new Date(date)).format("MMM Do [at] h:mm a") || "N/a";
     },
     scrollToTop() {
       window.scrollTo(0, 0);

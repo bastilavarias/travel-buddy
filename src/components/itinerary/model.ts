@@ -74,6 +74,23 @@ const itineraryModel = {
     return inquiry!;
   },
 
+  async getInquiries(
+    postID: number,
+    skip: number
+  ): Promise<ItineraryPostInquiry[]> {
+    const result = await getRepository(ItineraryPostInquiry)
+      .createQueryBuilder("inquiry")
+      .select(["id"])
+      .where(`inquiry."postId" = :postID`, { postID })
+      .orderBy(`inquiry."createdAt"`, "DESC")
+      .skip(skip)
+      .take(5)
+      .getRawMany();
+    return await Promise.all(
+      result.map((item) => this.getInquiryItem(item.id))
+    );
+  },
+
   async fetch(): Promise<IItinerarySoftDetails[]> {
     const isDeleted = false;
     const raw = await getRepository(ItineraryPost)
