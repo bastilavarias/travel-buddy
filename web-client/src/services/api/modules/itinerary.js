@@ -9,6 +9,15 @@ const itineraryApiService = {
     return result.data || {};
   },
 
+  async createInquiry(postID, accountID, message) {
+    const result = await apiService.post("/itinerary/inquiry", {
+      postID,
+      accountID,
+      message,
+    });
+    return result.data;
+  },
+
   async uploadImages(formData) {
     const result = await apiService.post("/itinerary/upload-images", formData);
     return result.data || {};
