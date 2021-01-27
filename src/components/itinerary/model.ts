@@ -77,7 +77,15 @@ const itineraryModel = {
 
   async getInquiryItem(id: number): Promise<ItineraryPostInquiry> {
     const inquiry = await ItineraryPostInquiry.findOne(id, {
-      relations: ["author", "author.profile", "author.profile.image"],
+      relations: [
+        "author",
+        "author.profile",
+        "author.profile.image",
+        "replies",
+        "replies.author",
+        "replies.author.profile",
+        "replies.author.profile.image",
+      ],
     }).then((item) => {
       // @ts-ignore
       delete item.author.password;
