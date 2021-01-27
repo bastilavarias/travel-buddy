@@ -5,11 +5,12 @@
         <div class="mr-2 text-content flex-grow-1">
           <div class="px-4 py-3">
             <div class="caption mb-2">
-              Asked by
-              <span class="text-capitalize">{{
-                formatName(profile.firstName, profile.lastName)
-              }}</span>
-              - {{ formatDateFromNow(createdAt) }}
+              <div class="mb-3">
+                <span class="text-capitalize">
+                  Asked by {{ formatName(profile.firstName, profile.lastName) }}
+                </span>
+                <span> - {{ formatDateFromNow(createdAt) }} </span>
+              </div>
               <div
                 class="subtitle-2 text-justify"
                 :style="{ wordBreak: 'break-all' }"
@@ -24,7 +25,6 @@
         </v-avatar>
       </div>
     </div>
-
     <v-card-actions>
       <v-btn depressed text @click="shouldShowReplyField = true">
         <v-icon class="mr-1">mdi-reply-outline</v-icon>

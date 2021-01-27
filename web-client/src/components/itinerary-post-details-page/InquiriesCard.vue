@@ -19,6 +19,9 @@
           <template v-for="(reply, index) in inquiry.replies">
             <itinerary-post-details-inquiry-reply-media
               :key="index"
+              :profile="reply.author.profile"
+              :created-at="reply.createdAt"
+              :message="reply.message"
             ></itinerary-post-details-inquiry-reply-media>
           </template>
         </itinerary-post-details-inquiry-media>
