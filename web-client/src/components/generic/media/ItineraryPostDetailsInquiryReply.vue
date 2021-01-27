@@ -1,21 +1,32 @@
 <template>
-  <v-card :class="`${className}`" flat color="transparent">
+  <v-card
+    :class="`${className}`"
+    flat
+    color="transparent"
+    :id="`inquiry-reply-media-${replyID}`"
+  >
     <div class="pl-4 pt-3">
       <div class="d-flex align-start justify-space-between mb-2">
-        <div class="mr-2">
+        <div class="mr-2 flex-grow-1">
           <div class="px-4 py-3">
-            <div class="caption mb-2">Cardo Dalisay - 6 hrs ago</div>
-            <div class="subtitle-2 text-justify">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore
-              obcaecati qui temporibus. Distinctio, eveniet illum non obcaecati
-              quisquam repellendus ut.
+            <div class="caption mb-2">
+              <div class="mb-3">
+                <span class="text-capitalize">
+                  {{ formatName(profile.firstName, profile.lastName) }}
+                </span>
+                <span> - {{ formatDateFromNow(createdAt) }} </span>
+              </div>
+              <div
+                class="subtitle-2 text-justify"
+                :style="{ wordBreak: 'break-all' }"
+              >
+                {{ message }}
+              </div>
             </div>
           </div>
         </div>
         <v-avatar :size="40">
-          <v-img
-            src="https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg"
-          ></v-img>
+          <v-img :src="profile.image.url" :lazy-src="profile.image.url"></v-img>
         </v-avatar>
       </div>
     </div>
@@ -24,13 +35,36 @@
 
 <script>
 import "@/style/global.css";
+import commonUtilities from "@/common/utilities";
 export default {
   name: "itinerary-post-details-inquiry-reply-media",
+
+  mixins: [commonUtilities],
 
   props: {
     className: {
       type: String,
       required: false,
+    },
+
+    replyID: {
+      type: Number,
+      required: true,
+    },
+
+    profile: {
+      type: Object,
+      required: true,
+    },
+
+    createdAt: {
+      type: String,
+      required: true,
+    },
+
+    message: {
+      type: String,
+      required: true,
     },
   },
 };

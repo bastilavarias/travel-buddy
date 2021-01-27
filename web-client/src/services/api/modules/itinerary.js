@@ -18,6 +18,15 @@ const itineraryApiService = {
     return result.data;
   },
 
+  async createInquiryReply(inquiryID, accountID, message) {
+    const result = await apiService.post("/itinerary/inquiry/reply", {
+      inquiryID,
+      accountID,
+      message,
+    });
+    return result.data;
+  },
+
   async getInquiries(postID, skip) {
     const result = await apiService.get(
       `/itinerary/inquiry?postID=${postID}&skip=${skip}`

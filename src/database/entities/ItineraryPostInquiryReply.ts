@@ -3,15 +3,13 @@ import {
   Column,
   Entity,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import ItineraryPost from "./ItineraryPost";
 import Account from "./Account";
-import ItineraryPostInquiryReply from "./ItineraryPostInquiryReply";
+import ItineraryPostInquiry from "./ItineraryPostInquiry";
 
 @Entity()
-export default class ItineraryPostInquiry extends BaseEntity {
+export default class ItineraryPostInquiryReply extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -24,12 +22,9 @@ export default class ItineraryPostInquiry extends BaseEntity {
   })
   createdAt: Date;
 
-  @ManyToOne(() => ItineraryPost)
-  post: ItineraryPost;
+  @ManyToOne(() => ItineraryPostInquiry)
+  inquiry: ItineraryPostInquiry;
 
   @ManyToOne(() => Account)
   author: Account;
-
-  @OneToMany(() => ItineraryPostInquiryReply, (reply) => reply.inquiry)
-  replies: ItineraryPostInquiryReply[];
 }

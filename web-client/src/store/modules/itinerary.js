@@ -1,5 +1,6 @@
 import {
   CREATE_ITINERARY_INQUIRY,
+  CREATE_ITINERARY_INQUIRY_REPLY,
   CREATE_NEW_ITINERARY,
   DELETE_ITINERARY,
   DISABLE_ITINERARY,
@@ -66,6 +67,33 @@ const itineraryStore = {
       try {
         const data = await itineraryApiService.createInquiry(
           postID,
+          accountID,
+          message
+        );
+        return {
+          success: true,
+          data,
+        };
+      } catch (error) {
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Something went wrong to the server. Please try again.",
+          color: "error",
+        });
+        return {
+          success: false,
+          data: null,
+        };
+      }
+    },
+
+    async [CREATE_ITINERARY_INQUIRY_REPLY](
+      { commit },
+      { inquiryID, accountID, message }
+    ) {
+      try {
+        const data = await itineraryApiService.createInquiryReply(
+          inquiryID,
           accountID,
           message
         );

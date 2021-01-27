@@ -11,6 +11,7 @@ import ItineraryPost from "../../database/entities/ItineraryPost";
 import ItineraryPostImage from "../../database/entities/ItineraryPostImage";
 import { getRepository } from "typeorm";
 import ItineraryPostInquiry from "../../database/entities/ItineraryPostInquiry";
+import ItineraryPostInquiryReply from "../../database/entities/ItineraryPostInquiryReply";
 
 const itineraryModel = {
   async saveDetails(
@@ -61,9 +62,30 @@ const itineraryModel = {
     return await this.getInquiryItem(inquiry.id);
   },
 
+  async createInquiryReply(
+    inquiryID: number,
+    accountID: number,
+    message: string
+  ): Promise<ItineraryPostInquiryReply> {
+    const reply = await ItineraryPostInquiryReply.create({
+      inquiry: { id: inquiryID },
+      author: { id: accountID },
+      message,
+    }).save();
+    return await this.getInquiryReplyItem(reply.id);
+  },
+
   async getInquiryItem(id: number): Promise<ItineraryPostInquiry> {
     const inquiry = await ItineraryPostInquiry.findOne(id, {
-      relations: ["author", "author.profile", "author.profile.image"],
+      relations: [
+        "author",
+        "author.profile",
+        "author.profile.image",
+        "replies",
+        "replies.author",
+        "replies.author.profile",
+        "replies.author.profile.image",
+      ],
     }).then((item) => {
       // @ts-ignore
       delete item.author.password;
@@ -72,6 +94,19 @@ const itineraryModel = {
       return item;
     });
     return inquiry!;
+  },
+
+  async getInquiryReplyItem(id: number): Promise<ItineraryPostInquiryReply> {
+    const reply = await ItineraryPostInquiryReply.findOne(id, {
+      relations: ["author", "author.profile", "author.profile.image"],
+    }).then((item) => {
+      // @ts-ignore
+      delete item.author.password;
+      // @ts-ignore
+      delete item.author.profile.image.data;
+      return item;
+    });
+    return reply!;
   },
 
   async getInquiries(

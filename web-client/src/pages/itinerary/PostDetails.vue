@@ -41,10 +41,10 @@
               ></itinerary-post-details-page-table-card>
             </v-col>
             <v-col cols="12">
-              <itinerary-post-details-page-inquiries-card></itinerary-post-details-page-inquiries-card>
+              <itinerary-post-details-page-reviews-card></itinerary-post-details-page-reviews-card>
             </v-col>
             <v-col cols="12">
-              <itinerary-post-details-page-reviews-card></itinerary-post-details-page-reviews-card>
+              <itinerary-post-details-page-inquiries-card></itinerary-post-details-page-inquiries-card>
             </v-col>
           </v-row>
         </v-col>
