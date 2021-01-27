@@ -32,6 +32,18 @@ const itineraryService = {
     return await itineraryModel.createInquiry(postID, accountID, message);
   },
 
+  async createInquiryReply(
+    inquiryID: number,
+    accountID: number,
+    message: string
+  ) {
+    return await itineraryModel.createInquiryReply(
+      inquiryID,
+      accountID,
+      message
+    );
+  },
+
   async getInquiries(
     postID: number,
     skip: number
