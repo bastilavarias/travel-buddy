@@ -24,6 +24,7 @@
         </v-avatar>
       </div>
     </div>
+
     <v-card-actions>
       <v-btn depressed text @click="shouldShowReplyField = true">
         <v-icon class="mr-1">mdi-reply-outline</v-icon>
@@ -35,7 +36,9 @@
         <v-col cols="12" v-if="shouldShowReplyField">
           <v-card outlined tile>
             <div class="px-4 pt-3">
-              <span class="caption">Type your reply as Cardo D.</span>
+              <span class="caption text-capitalize"
+                >Type your reply as {{ displayName }}</span
+              >
             </div>
             <v-card-text>
               <v-row no-gutters>
@@ -99,11 +102,26 @@ export default {
       required: true,
     },
   },
+
   data() {
     return {
       shouldShowReplyField: false,
       shouldShowReplies: false,
     };
+  },
+
+  computed: {
+    credentials() {
+      return this.$store.state.authentication.credentials || null;
+    },
+
+    displayName() {
+      if (this.credentials) {
+        const { firstName, lastName } = this.credentials.profile;
+        return this.formatName(firstName, lastName);
+      }
+      return null;
+    },
   },
 };
 </script>

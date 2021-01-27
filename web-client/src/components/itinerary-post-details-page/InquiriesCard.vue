@@ -14,14 +14,15 @@
           :profile="inquiry.author.profile"
           :created-at="inquiry.createdAt"
           :message="inquiry.message"
-        ></itinerary-post-details-inquiry-media>
-        <!--        <itinerary-post-details-inquiry-media :key="n" class-name="mb-10">-->
-        <!--          <template v-for="n2 in [4]">-->
-        <!--            <itinerary-post-details-inquiry-reply-media-->
-        <!--              :key="n2"-->
-        <!--            ></itinerary-post-details-inquiry-reply-media>-->
-        <!--          </template>-->
-        <!--        </itinerary-post-details-inquiry-media>-->
+          class-name="py-3"
+        >
+          <template v-for="(reply, index) in inquiry.replies">
+            <itinerary-post-details-inquiry-reply-media
+              :key="index"
+            ></itinerary-post-details-inquiry-reply-media>
+          </template>
+        </itinerary-post-details-inquiry-media>
+        <v-divider v-if="index !== inquiries.length - 1"></v-divider>
       </template>
     </v-card-text>
     <v-card-actions>
