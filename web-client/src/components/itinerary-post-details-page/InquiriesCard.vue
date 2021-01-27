@@ -11,14 +11,17 @@
       <template v-for="(inquiry, index) in inquiries">
         <itinerary-post-details-inquiry-media
           :key="index"
+          :inquiryID="inquiry.id"
           :profile="inquiry.author.profile"
           :created-at="inquiry.createdAt"
           :message="inquiry.message"
+          :replies.sync="inquiry.replies"
           class-name="py-3"
         >
           <template v-for="(reply, index) in inquiry.replies">
             <itinerary-post-details-inquiry-reply-media
               :key="index"
+              :replyID="reply.id"
               :profile="reply.author.profile"
               :created-at="reply.createdAt"
               :message="reply.message"

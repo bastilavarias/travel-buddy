@@ -1,5 +1,10 @@
 <template>
-  <v-card :class="`${className}`" flat color="transparent">
+  <v-card
+    :class="`${className}`"
+    flat
+    color="transparent"
+    :id="`inquiry-reply-media-${replyID}`"
+  >
     <div class="pl-4 pt-3">
       <div class="d-flex align-start justify-space-between mb-2">
         <div class="mr-2 flex-grow-1">
@@ -40,6 +45,11 @@ export default {
     className: {
       type: String,
       required: false,
+    },
+
+    replyID: {
+      type: Number,
+      required: true,
     },
 
     profile: {

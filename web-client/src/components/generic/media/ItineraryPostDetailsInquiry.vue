@@ -28,7 +28,7 @@
     <v-card-actions>
       <v-btn depressed text @click="shouldShowReplyField = true">
         <v-icon class="mr-1">mdi-reply-outline</v-icon>
-        <span class="caption font-weight-bold">1</span>
+        <span class="caption font-weight-bold">{{ repliesLocal.length }}</span>
       </v-btn>
     </v-card-actions>
     <div class="pl-10 pr-3 pt-3">
@@ -46,6 +46,7 @@
                   <v-textarea
                     label="Type your reply here"
                     outlined
+                    v-model="replyMessage"
                   ></v-textarea>
                 </v-col>
                 <v-col cols="12">
@@ -58,7 +59,12 @@
                       @click="shouldShowReplyField = false"
                       >Cancel</v-btn
                     >
-                    <v-btn color="secondary">Reply</v-btn>
+                    <v-btn
+                      color="secondary"
+                      @click="sendReply"
+                      :disabled="!isFormValid"
+                      >Reply</v-btn
+                    >
                   </div>
                 </v-col>
               </v-row>
@@ -76,6 +82,7 @@
 <script>
 import "@/style/global.css";
 import utilities from "@/common/utilities";
+import { CREATE_ITINERARY_INQUIRY_REPLY } from "@/store/types/itinerary";
 export default {
   name: "itinerary-post-details-inquiry-media",
 
@@ -85,6 +92,11 @@ export default {
     className: {
       type: String,
       required: false,
+    },
+
+    inquiryID: {
+      type: Number,
+      required: true,
     },
 
     profile: {
@@ -101,12 +113,19 @@ export default {
       type: String,
       required: true,
     },
+
+    replies: {
+      type: Array,
+      required: true,
+    },
   },
 
   data() {
     return {
       shouldShowReplyField: false,
       shouldShowReplies: false,
+      repliesLocal: this.replies,
+      replyMessage: null,
     };
   },
 
@@ -121,6 +140,44 @@ export default {
         return this.formatName(firstName, lastName);
       }
       return null;
+    },
+
+    isFormValid() {
+      return !!this.replyMessage;
+    },
+  },
+
+  watch: {
+    replies(value) {
+      this.repliesLocal = value;
+    },
+
+    repliesLocal(value) {
+      this.$emit("update:replies", value);
+    },
+  },
+
+  methods: {
+    async sendReply() {
+      const payload = {
+        inquiryID: this.inquiryID,
+        message: this.replyMessage,
+        accountID: this.credentials.id,
+      };
+      const { success, data } = await this.$store.dispatch(
+        CREATE_ITINERARY_INQUIRY_REPLY,
+        payload
+      );
+      if (success) {
+        this.repliesLocal = [...this.repliesLocal, data];
+        this.shouldShowReplyField = false;
+        this.replyMessage = null;
+        this.$nextTick(() => {
+          this.$vuetify.goTo(`#inquiry-reply-media-${data.id}`, {
+            offset: 100,
+          });
+        });
+      }
     },
   },
 };
