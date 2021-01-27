@@ -10,9 +10,12 @@
                 formatName(profile.firstName, profile.lastName)
               }}</span>
               - {{ formatDateFromNow(createdAt) }}
-            </div>
-            <div class="subtitle-2 text-justify">
-              {{ message }}
+              <div
+                class="subtitle-2 text-justify"
+                :style="{ wordBreak: 'break-all' }"
+              >
+                {{ message }}
+              </div>
             </div>
           </div>
         </div>
