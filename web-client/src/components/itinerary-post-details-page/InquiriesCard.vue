@@ -31,7 +31,7 @@
         class="text-capitalize"
         :loading="isCreateInquiryStart"
         @click="getInquiries"
-        :disabled="shouldHideSeeMoreButton"
+        v-if="!shouldHideSeeMoreButton"
         >See More</v-btn
       >
     </v-card-actions>
@@ -136,6 +136,7 @@ export default {
         GET_ITINERARY_INQUIRIES,
         payload
       );
+      console.log(inquiries);
       if (inquiries.length === 5) {
         this.inquiries = [...this.inquiries, ...inquiries];
         this.skip += 5;
@@ -143,7 +144,6 @@ export default {
         return;
       }
       this.inquiries = [...this.inquiries, ...inquiries];
-      this.skip += 0;
       this.isGetInquiriesStart = false;
       this.shouldHideSeeMoreButton = true;
     },
