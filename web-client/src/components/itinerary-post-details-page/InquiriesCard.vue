@@ -140,7 +140,6 @@ export default {
         GET_ITINERARY_INQUIRIES,
         payload
       );
-      console.log(inquiries);
       if (inquiries.length === 5) {
         this.inquiries = [...this.inquiries, ...inquiries];
         this.skip += 5;
