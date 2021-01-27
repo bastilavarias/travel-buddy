@@ -30,7 +30,7 @@
         depressed
         text
         @click="shouldShowReplies = true"
-        v-if="!shouldShowReplies"
+        v-if="!shouldShowReplies && repliesLocal.length > 0"
       >
         <v-icon class="mr-1">mdi-chevron-down</v-icon>
         <span class="text-capitalize">
@@ -44,7 +44,7 @@
         depressed
         text
         @click="shouldShowReplies = false"
-        v-if="shouldShowReplies"
+        v-if="shouldShowReplies && repliesLocal.length > 0"
       >
         <v-icon class="mr-1">mdi-chevron-up</v-icon>
         <span class="text-capitalize"> Hide Replies </span>
