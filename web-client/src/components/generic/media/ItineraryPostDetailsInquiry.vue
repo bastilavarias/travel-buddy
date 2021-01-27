@@ -26,13 +26,43 @@
       </div>
     </div>
     <v-card-actions>
-      <v-btn depressed text @click="shouldShowReplyField = true">
-        <v-icon class="mr-1">mdi-reply-outline</v-icon>
-        <span class="caption font-weight-bold">{{ repliesLocal.length }}</span>
+      <v-btn
+        depressed
+        text
+        @click="shouldShowReplies = true"
+        v-if="!shouldShowReplies"
+      >
+        <v-icon class="mr-1">mdi-chevron-down</v-icon>
+        <span class="text-capitalize">
+          Show Replies (<span class="caption font-weight-bold">{{
+            repliesLocal.length
+          }}</span
+          >)
+        </span>
+      </v-btn>
+      <v-btn
+        depressed
+        text
+        @click="shouldShowReplies = false"
+        v-if="shouldShowReplies"
+      >
+        <v-icon class="mr-1">mdi-chevron-up</v-icon>
+        <span class="text-capitalize"> Hide Replies </span>
       </v-btn>
     </v-card-actions>
     <div class="pl-10 pr-3 pt-3">
       <v-row dense>
+        <v-col cols="12" v-if="shouldShowReplies">
+          <slot></slot>
+        </v-col>
+        <v-col cols="12" v-if="!shouldShowReplyField">
+          <div class="d-flex">
+            <div class="flex-grow-1"></div>
+            <v-btn icon @click="shouldShowReplyField = true">
+              <v-icon>mdi-reply</v-icon>
+            </v-btn>
+          </div>
+        </v-col>
         <v-col cols="12" v-if="shouldShowReplyField">
           <v-card outlined tile>
             <div class="px-4 pt-3">
@@ -70,9 +100,6 @@
               </v-row>
             </v-card-text>
           </v-card>
-        </v-col>
-        <v-col cols="12">
-          <slot></slot>
         </v-col>
       </v-row>
     </div>
@@ -170,6 +197,7 @@ export default {
       );
       if (success) {
         this.repliesLocal = [...this.repliesLocal, data];
+        this.shouldShowReplies = true;
         this.shouldShowReplyField = false;
         this.replyMessage = null;
         this.$nextTick(() => {
