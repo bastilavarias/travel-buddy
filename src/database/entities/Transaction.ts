@@ -49,10 +49,10 @@ export default class Transaction extends BaseEntity {
   tourGuide: Account;
 
   @OneToOne(() => TransactionItineraryPostReview, { nullable: true })
-  @JoinColumn()
+  @JoinColumn({ name: "postReviewId" })
   postReview: TransactionItineraryPostReview;
 
   @OneToOne(() => TransactionTourGuideReview, { nullable: true })
-  @JoinColumn()
+  @JoinColumn({ name: "tourGuideReviewId" })
   tourGuideReview: TransactionTourGuideReview;
 }
