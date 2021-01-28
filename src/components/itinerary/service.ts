@@ -4,7 +4,6 @@ import {
   IItineraryPostModelSaveDetails,
   IItineraryPostModelSaveImageInput,
   IItineraryPostModelUpdateDetails,
-  IItineraryPostReviewInput,
   IItineraryPostServiceCreateInput,
   IItinerarySoftDetails,
 } from "./typeDefs";
@@ -42,15 +41,6 @@ const itineraryService = {
       inquiryID,
       accountID,
       message
-    );
-  },
-
-  async createReview(input: IItineraryPostReviewInput) {
-    const { transactionID, accountID, review } = input;
-    await itineraryModel.createReview(
-      transactionID,
-      accountID,
-      review.itinerary
     );
   },
 

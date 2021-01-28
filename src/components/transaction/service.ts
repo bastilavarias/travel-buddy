@@ -9,6 +9,7 @@ import stripeService from "../stripe/service";
 import { IStripeServicePayPayload } from "../stripe/typeDefs";
 import itineraryModel from "../itinerary/model";
 import Transaction from "../../database/entities/Transaction";
+import { ITransactionReviewInput } from "../transaction/typeDefs";
 
 const transactionService = {
   async getTransactionNumber(): Promise<{
@@ -85,6 +86,15 @@ const transactionService = {
 
   async fetchClientBookings(clientID: number): Promise<Transaction[]> {
     return await transactionModel.fetchClientBooking(clientID);
+  },
+
+  async createReview(input: ITransactionReviewInput) {
+    const { transactionID, accountID, review } = input;
+    return await transactionModel.createReview(
+      transactionID,
+      accountID,
+      review.itinerary
+    );
   },
 };
 

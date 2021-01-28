@@ -20,3 +20,17 @@ export interface ITransactionServiceCheckoutPayload
 export interface ITransactionModelSavePayload extends ITransactionBasePayload {
   customNumber: string;
 }
+export interface ITransactionReviewInput {
+  transactionID: number;
+  accountID: number;
+  review: {
+    itinerary: {
+      text: string;
+      rating: number;
+    };
+    tourGuide: {
+      text: string;
+      rating: number;
+    };
+  };
+}

@@ -1,8 +1,5 @@
 import { Request, Response } from "express";
-import {
-  IItineraryPostReviewInput,
-  IItineraryPostServiceCreateInput,
-} from "./typeDefs";
+import { IItineraryPostServiceCreateInput } from "./typeDefs";
 import itineraryService from "./service";
 
 const itineraryController = {
@@ -60,16 +57,6 @@ const itineraryController = {
         accountID,
         message
       );
-      response.status(200).json(result);
-    } catch (error) {
-      response.status(400).json(error);
-    }
-  },
-
-  async createReview(request: Request, response: Response) {
-    try {
-      const input: IItineraryPostReviewInput = request.body;
-      const result = await itineraryService.createReview(input);
       response.status(200).json(result);
     } catch (error) {
       response.status(400).json(error);

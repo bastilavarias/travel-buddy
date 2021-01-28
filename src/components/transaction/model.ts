@@ -1,6 +1,8 @@
 import { IsTourGuideAvailable, ITransactionModelSavePayload } from "./typeDefs";
 import { getRepository } from "typeorm";
 import Transaction from "../../database/entities/Transaction";
+import { ITransactionReviewInput } from "../transaction/typeDefs";
+import ItineraryPostReview from "../../database/entities/TransactionReview";
 
 const transactionModel = {
   async save(payload: ITransactionModelSavePayload): Promise<Transaction> {
@@ -88,6 +90,19 @@ const transactionModel = {
       .orderBy(`"createdAt"`, "DESC")
       .getRawMany();
     return await Promise.all(raw.map((item) => this.get(item.id)));
+  },
+
+  async createReview(
+    transactionID: number,
+    accountID: number,
+    review: ITransactionReviewInput["review"]["itinerary"]
+  ) {
+    return await ItineraryPostReview.create({
+      transaction: { id: transactionID },
+      author: { id: accountID },
+      text: review.text,
+      rating: review.rating,
+    }).save();
   },
 };
 
