@@ -84,11 +84,19 @@
             <v-card-text>
               <v-row dense>
                 <v-col cols="12">
-                  <v-textarea outlined label="Experience Review"></v-textarea>
+                  <v-textarea
+                    outlined
+                    label="Experience Review"
+                    v-model="form.itinerary.text"
+                  ></v-textarea>
                 </v-col>
                 <v-col cols="12">
                   <div class="text-center">
-                    <v-rating></v-rating>
+                    <v-rating
+                      half-increments
+                      hover
+                      v-model="form.itinerary.rating"
+                    ></v-rating>
                   </div>
                 </v-col>
               </v-row>
@@ -98,11 +106,19 @@
             <v-card-text>
               <v-row dense>
                 <v-col cols="12">
-                  <v-textarea outlined label="Tour Guide Review"></v-textarea>
+                  <v-textarea
+                    outlined
+                    label="Tour Guide Review"
+                    v-model="form.tourGuide.text"
+                  ></v-textarea>
                 </v-col>
                 <v-col cols="12">
                   <div class="text-center">
-                    <v-rating></v-rating>
+                    <v-rating
+                      half-increments
+                      hover
+                      v-model="form.tourGuide.rating"
+                    ></v-rating>
                   </div>
                 </v-col>
               </v-row>
@@ -117,7 +133,13 @@
             @click="isReviewDialogOpen = false"
             >Close</v-btn
           >
-          <v-btn color="primary">Post</v-btn>
+          <v-btn
+            color="primary"
+            @click="submitReview"
+            :disabled="!isFormValid"
+            :loading="isSubmitReviewStart"
+            >Submit</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -126,14 +148,28 @@
 
 <script>
 import commonUtilities from "@/common/utilities";
-import moment from "moment";
 import GenericRatingChip from "@/components/generic/chip/Rating";
 import GenericBookingStatusChip from "@/components/generic/chip/BookingStatus";
 
+const defaultForm = {
+  itinerary: {
+    text: null,
+    rating: 1,
+  },
+
+  tourGuide: {
+    text: null,
+    rating: 1,
+  },
+};
+
 export default {
   name: "generic-booked-itinerary-details-preview-card",
+
   components: { GenericBookingStatusChip, GenericRatingChip },
+
   mixins: [commonUtilities],
+
   props: {
     transactionID: {
       type: Number,
@@ -189,6 +225,9 @@ export default {
       isReviewDialogOpen: false,
       reviewTabs: ["Experience", "Tour Guide"],
       reviewTab: null,
+      form: Object.assign({}, defaultForm),
+      defaultForm,
+      isSubmitReviewStart: false,
     };
   },
 
@@ -198,6 +237,19 @@ export default {
     },
     firstImageUrl() {
       return this.images[0].url;
+    },
+
+    isFormValid() {
+      const { itinerary, tourGuide } = this.form;
+      return itinerary.text && tourGuide.text;
+    },
+  },
+
+  methods: {
+    submitReview() {
+      this.isSubmitReviewStart = true;
+      console.log(this.form);
+      this.isSubmitReviewStart = true;
     },
   },
 };
