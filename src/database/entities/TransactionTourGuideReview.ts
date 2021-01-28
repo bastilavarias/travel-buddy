@@ -2,7 +2,9 @@ import {
   BaseEntity,
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import Account from "./Account";
@@ -28,7 +30,8 @@ export default class TransactionTourGuideReview extends BaseEntity {
   @ManyToOne(() => Account)
   account: Account;
 
-  @ManyToOne(() => Transaction)
+  @OneToOne(() => Transaction)
+  @JoinColumn({ name: "transactionId" })
   transaction: Transaction;
 
   @ManyToOne(() => Account)
