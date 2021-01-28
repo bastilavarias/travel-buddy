@@ -25,6 +25,11 @@ itineraryRouter.post(
   itineraryController.createInquiryReply
 );
 itineraryRouter.post(
+  "/review",
+  passport.authenticate("jwt", { session: false }),
+  itineraryController.createReview
+);
+itineraryRouter.post(
   "/upload-images",
   multer.array("images"),
   passport.authenticate("jwt", { session: false }),

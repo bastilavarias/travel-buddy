@@ -3,6 +3,7 @@ import {
   IItineraryPostModelSaveDetails,
   IItineraryPostModelSaveImageInput,
   IItineraryPostModelUpdateDetails,
+  IItineraryPostReviewInput,
   IItinerarySoftDetails,
 } from "./typeDefs";
 import ItineraryPostDayActivity from "../../database/entities/ItineraryPostDayActivity";
@@ -12,6 +13,7 @@ import ItineraryPostImage from "../../database/entities/ItineraryPostImage";
 import { getRepository } from "typeorm";
 import ItineraryPostInquiry from "../../database/entities/ItineraryPostInquiry";
 import ItineraryPostInquiryReply from "../../database/entities/ItineraryPostInquiryReply";
+import ItineraryPostReview from "../../database/entities/ItineraryPostReview";
 
 const itineraryModel = {
   async saveDetails(
@@ -73,6 +75,19 @@ const itineraryModel = {
       message,
     }).save();
     return await this.getInquiryReplyItem(reply.id);
+  },
+
+  async createReview(
+    postID: number,
+    accountID: number,
+    review: IItineraryPostReviewInput["review"]["itinerary"]
+  ) {
+    return await ItineraryPostReview.create({
+      post: { id: postID },
+      author: { id: accountID },
+      text: review.text,
+      rating: review.rating,
+    }).save();
   },
 
   async getInquiryItem(id: number): Promise<ItineraryPostInquiry> {

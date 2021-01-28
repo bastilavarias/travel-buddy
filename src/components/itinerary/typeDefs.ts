@@ -53,3 +53,18 @@ export interface IItineraryDaySoftDetails extends IItineraryDayBaseInput {
   id: number;
   destination: string;
 }
+
+export interface IItineraryPostReviewInput {
+  postID: number;
+  accountID: number;
+  review: {
+    itinerary: {
+      text: string;
+      rating: number;
+    };
+    tourGuide: {
+      text: string;
+      rating: number;
+    };
+  };
+}
