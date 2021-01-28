@@ -47,10 +47,13 @@
         >Summary</v-btn
       >
       <div class="flex-grow-1"></div>
-      <span class="caption font-italic text-decoration-underline" v-if="isDone"
-        >Write a review
-      </span>
-      <generic-rating-chip v-if="isDone"></generic-rating-chip>
+      <v-btn text small v-if="isDone">
+        <span
+          class="caption font-italic text-decoration-underline text-capitalize"
+          >Write a review
+        </span>
+      </v-btn>
+      <!--      <generic-rating-chip v-if="isDone"></generic-rating-chip>-->
     </v-card-actions>
   </v-card>
 </template>

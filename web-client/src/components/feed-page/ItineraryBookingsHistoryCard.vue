@@ -7,7 +7,7 @@
         <span class="font-italic caption">No bookings yet</span>
       </div>
       <v-row dense v-if="bookings.length > 0">
-        <template v-for="(booking, index) in bookings">
+        <template v-for="(booking, index) in formattedBookings">
           <v-col cols="12" sm="6" md="4" lg="3" :key="index">
             <generic-booked-itinerary-details-preview-card
               :transactionID="booking.id"
@@ -31,13 +31,27 @@
 
 <script>
 import GenericBookedItineraryDetailsPreviewCard from "@/components/generic/card/BookedItineraryDetailsPreview";
+import moment from "moment";
 export default {
   name: "feed-page-bookings",
+
   components: { GenericBookedItineraryDetailsPreviewCard },
+
   props: {
     bookings: {
       type: Array,
       required: true,
+    },
+  },
+
+  computed: {
+    formattedBookings() {
+      return this.bookings.map((booking) => {
+        const toDate = moment(booking.toDate).valueOf() || null;
+        const currentDate = moment().valueOf() || null;
+        booking.isDone = currentDate > toDate;
+        return booking;
+      });
     },
   },
 };
