@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import transactionService from "./service";
 import { ITransactionServiceCheckoutPayload } from "./typeDefs";
+import { ITransactionReviewInput } from "../transaction/typeDefs";
 
 const transactionController = {
   async getTransactionNumber(_: Request, response: Response) {
@@ -77,6 +78,16 @@ const transactionController = {
       response.status(200).json(result);
     } catch (error) {
       console.log(error);
+      response.status(400).json(error);
+    }
+  },
+
+  async createReview(request: Request, response: Response) {
+    try {
+      const input: ITransactionReviewInput = request.body;
+      const result = await transactionService.createReview(input);
+      response.status(200).json(result);
+    } catch (error) {
       response.status(400).json(error);
     }
   },

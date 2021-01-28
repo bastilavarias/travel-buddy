@@ -33,4 +33,10 @@ transactionRouter.post(
   transactionController.checkout
 );
 
+transactionRouter.post(
+  "/review",
+  passport.authenticate("jwt", { session: false }),
+  transactionController.createReview
+);
+
 export default transactionRouter;

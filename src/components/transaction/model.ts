@@ -1,6 +1,9 @@
 import { IsTourGuideAvailable, ITransactionModelSavePayload } from "./typeDefs";
 import { getRepository } from "typeorm";
 import Transaction from "../../database/entities/Transaction";
+import { ITransactionReviewInput } from "../transaction/typeDefs";
+import TransactionItineraryPostReview from "../../database/entities/TransactionItineraryPostReview";
+import TransactionTourGuideReview from "../../database/entities/TransactionTourGuideReview";
 
 const transactionModel = {
   async save(payload: ITransactionModelSavePayload): Promise<Transaction> {
@@ -62,6 +65,8 @@ const transactionModel = {
         "tourGuide",
         "tourGuide.profile",
         "tourGuide.profile.image",
+        "postReview",
+        "tourGuideReview",
       ],
     });
     //@ts-ignore
@@ -88,6 +93,45 @@ const transactionModel = {
       .orderBy(`"createdAt"`, "DESC")
       .getRawMany();
     return await Promise.all(raw.map((item) => this.get(item.id)));
+  },
+
+  async createItineraryPostReview(
+    accountID: number,
+    review: ITransactionReviewInput["review"]["itinerary"]
+  ): Promise<TransactionItineraryPostReview> {
+    return await TransactionItineraryPostReview.create({
+      post: { id: review.id },
+      author: { id: accountID },
+      text: review.text,
+      rating: review.rating,
+    }).save();
+  },
+
+  async createTourGuideReview(
+    authorID: number,
+    review: ITransactionReviewInput["review"]["tourGuide"]
+  ): Promise<TransactionTourGuideReview> {
+    return await TransactionTourGuideReview.create({
+      account: { id: review.id },
+      author: { id: authorID },
+      text: review.text,
+      rating: review.rating,
+    }).save();
+  },
+
+  async updateReview(
+    transactionID: number,
+    postReviewID: number,
+    tourGuideReviewID: number
+  ): Promise<Transaction> {
+    await Transaction.update(
+      { id: transactionID },
+      {
+        postReview: { id: postReviewID },
+        tourGuideReview: { id: tourGuideReviewID },
+      }
+    );
+    return await this.get(transactionID);
   },
 };
 

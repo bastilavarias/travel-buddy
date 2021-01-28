@@ -47,6 +47,15 @@ const transactionApiService = {
     );
     return result.data || {};
   },
+
+  async createReview({ transactionID, accountID, review }) {
+    const result = await apiService.post("/transaction/review", {
+      transactionID,
+      accountID,
+      review,
+    });
+    return result.data || null;
+  },
 };
 
 export default transactionApiService;

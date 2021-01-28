@@ -2,11 +2,15 @@ import {
   BaseEntity,
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import ItineraryPost from "./ItineraryPost";
 import Account from "./Account";
+import TransactionItineraryPostReview from "./TransactionItineraryPostReview";
+import TransactionTourGuideReview from "./TransactionTourGuideReview";
 
 @Entity()
 export default class Transaction extends BaseEntity {
@@ -43,4 +47,12 @@ export default class Transaction extends BaseEntity {
 
   @ManyToOne(() => Account)
   tourGuide: Account;
+
+  @OneToOne(() => TransactionItineraryPostReview, { nullable: true })
+  @JoinColumn({ name: "postReviewId" })
+  postReview: TransactionItineraryPostReview;
+
+  @OneToOne(() => TransactionTourGuideReview, { nullable: true })
+  @JoinColumn({ name: "tourGuideReviewId" })
+  tourGuideReview: TransactionTourGuideReview;
 }
