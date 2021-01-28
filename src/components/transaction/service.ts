@@ -90,11 +90,20 @@ const transactionService = {
 
   async createReview(input: ITransactionReviewInput) {
     const { transactionID, accountID, review } = input;
-    return await transactionModel.createReview(
+    const itineraryReview = await transactionModel.createItineraryPostReview(
       transactionID,
       accountID,
       review.itinerary
     );
+    const accountReview = await transactionModel.createTourGuideReview(
+      transactionID,
+      accountID,
+      review.tourGuide
+    );
+    return {
+      itinerary: itineraryReview,
+      account: accountReview,
+    };
   },
 };
 

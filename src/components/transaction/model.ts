@@ -2,7 +2,8 @@ import { IsTourGuideAvailable, ITransactionModelSavePayload } from "./typeDefs";
 import { getRepository } from "typeorm";
 import Transaction from "../../database/entities/Transaction";
 import { ITransactionReviewInput } from "../transaction/typeDefs";
-import ItineraryPostReview from "../../database/entities/TransactionReview";
+import TransactionItineraryPostReview from "../../database/entities/TransactionItineraryPostReview";
+import TransactionTourGuideReview from "../../database/entities/TransactionTourGuideReview";
 
 const transactionModel = {
   async save(payload: ITransactionModelSavePayload): Promise<Transaction> {
@@ -92,14 +93,29 @@ const transactionModel = {
     return await Promise.all(raw.map((item) => this.get(item.id)));
   },
 
-  async createReview(
+  async createItineraryPostReview(
     transactionID: number,
     accountID: number,
     review: ITransactionReviewInput["review"]["itinerary"]
-  ) {
-    return await ItineraryPostReview.create({
+  ): Promise<TransactionItineraryPostReview> {
+    return await TransactionItineraryPostReview.create({
       transaction: { id: transactionID },
+      post: { id: review.id },
       author: { id: accountID },
+      text: review.text,
+      rating: review.rating,
+    }).save();
+  },
+
+  async createTourGuideReview(
+    transactionID: number,
+    authorID: number,
+    review: ITransactionReviewInput["review"]["tourGuide"]
+  ): Promise<TransactionTourGuideReview> {
+    return await TransactionTourGuideReview.create({
+      transaction: { id: transactionID },
+      account: { id: review.id },
+      author: { id: authorID },
       text: review.text,
       rating: review.rating,
     }).save();

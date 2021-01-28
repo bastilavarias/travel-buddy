@@ -6,8 +6,6 @@ import {
 } from "./typeDefs";
 import AccountType from "../../database/entities/AccountType";
 import { getRepository } from "typeorm";
-import { ITransactionReviewInput } from "../transaction/typeDefs";
-import AccountReview from "../../database/entities/AccountReview";
 
 const accountModel = {
   async getPartialDetailsByEmail(email: string): Promise<Account> {
@@ -146,19 +144,6 @@ const accountModel = {
   async updateVerifiedStatus(accountID: number): Promise<IAccountSoftDetails> {
     await Account.update({ id: accountID }, { isVerified: true });
     return await this.getGenericDetails(accountID);
-  },
-
-  async createReview(
-    accountID: number,
-    authorID: number,
-    review: ITransactionReviewInput["review"]["tourGuide"]
-  ) {
-    return await AccountReview.create({
-      account: { id: accountID },
-      author: { id: authorID },
-      text: review.text,
-      rating: review.rating,
-    }).save();
   },
 };
 

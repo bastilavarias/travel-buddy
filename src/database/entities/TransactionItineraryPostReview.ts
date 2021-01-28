@@ -7,9 +7,10 @@ import {
 } from "typeorm";
 import Account from "./Account";
 import Transaction from "./Transaction";
+import ItineraryPost from "./ItineraryPost";
 
 @Entity()
-export default class TransactionReview extends BaseEntity {
+export default class TransactionItineraryPostReview extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -24,6 +25,9 @@ export default class TransactionReview extends BaseEntity {
     default: () => "CURRENT_TIMESTAMP",
   })
   createdAt: Date;
+
+  @ManyToOne(() => ItineraryPost)
+  post: ItineraryPost;
 
   @ManyToOne(() => Transaction)
   transaction: Transaction;

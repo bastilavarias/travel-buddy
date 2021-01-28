@@ -6,9 +6,10 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import Account from "./Account";
+import Transaction from "./Transaction";
 
 @Entity()
-export default class AccountReview extends BaseEntity {
+export default class TransactionTourGuideReview extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -26,6 +27,9 @@ export default class AccountReview extends BaseEntity {
 
   @ManyToOne(() => Account)
   account: Account;
+
+  @ManyToOne(() => Transaction)
+  transaction: Transaction;
 
   @ManyToOne(() => Account)
   author: Account;

@@ -25,10 +25,12 @@ export interface ITransactionReviewInput {
   accountID: number;
   review: {
     itinerary: {
+      id: number;
       text: string;
       rating: number;
     };
     tourGuide: {
+      id: number;
       text: string;
       rating: number;
     };
