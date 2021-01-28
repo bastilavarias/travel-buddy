@@ -150,6 +150,7 @@
 import commonUtilities from "@/common/utilities";
 import GenericRatingChip from "@/components/generic/chip/Rating";
 import GenericBookingStatusChip from "@/components/generic/chip/BookingStatus";
+import { CREATE_TRANSACTION_REVIEW } from "@/store/types/transaction";
 
 const defaultForm = {
   itinerary: {
@@ -253,7 +254,7 @@ export default {
   },
 
   methods: {
-    submitReview() {
+    async submitReview() {
       this.isSubmitReviewStart = true;
       const payload = {
         transactionID: this.transactionID,
@@ -271,7 +272,16 @@ export default {
           },
         },
       };
-      console.log(payload);
+      const { success, data } = await this.$store.dispatch(
+        CREATE_TRANSACTION_REVIEW,
+        payload
+      );
+      if (success) {
+        console.log(data);
+        this.isReviewDialogOpen = false;
+        this.isSubmitReviewStart = false;
+        return;
+      }
       this.isSubmitReviewStart = false;
     },
   },

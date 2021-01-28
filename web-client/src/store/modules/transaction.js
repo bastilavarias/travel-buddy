@@ -1,4 +1,5 @@
 import {
+  CREATE_TRANSACTION_REVIEW,
   FETCH_CLIENT_BOOKINGS,
   FETCH_TRANSACTION_AVAILABLE_TOUR_GUIDES,
   FETCH_TRANSACTIONS,
@@ -104,6 +105,39 @@ const transactionStore = {
           color: "error",
         });
         throw new Error(`[RWV] ApiService ${error}`);
+      }
+    },
+
+    async [CREATE_TRANSACTION_REVIEW](
+      { commit },
+      { transactionID, accountID, review }
+    ) {
+      try {
+        const result = await transactionApiService.createReview({
+          transactionID,
+          accountID,
+          review,
+        });
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Creating review done!",
+          color: "success",
+        });
+        return {
+          success: true,
+          data: result,
+        };
+      } catch (error) {
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Something went wrong to the server. Please try again.",
+          color: "error",
+        });
+
+        return {
+          success: false,
+          data: null,
+        };
       }
     },
   },
