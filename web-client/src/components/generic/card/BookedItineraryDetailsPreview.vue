@@ -47,7 +47,7 @@
         >Summary</v-btn
       >
       <div class="flex-grow-1"></div>
-      <v-btn text small v-if="isDone">
+      <v-btn text small @click="isReviewDialogOpen = true" v-if="isDone">
         <span
           class="caption font-italic text-decoration-underline text-capitalize"
           >Write a review
@@ -55,6 +55,64 @@
       </v-btn>
       <!--      <generic-rating-chip v-if="isDone"></generic-rating-chip>-->
     </v-card-actions>
+    <v-dialog v-model="isReviewDialogOpen" width="500" persistent>
+      <v-card>
+        <v-card-title>
+          <span>Write a Review</span>
+          <v-spacer></v-spacer>
+          <v-btn icon @click="isReviewDialogOpen = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-tabs fixed-tabs v-model="reviewTab">
+          <template v-for="(tab, index) in reviewTabs">
+            <v-tab :key="index" class="text-capitalize">
+              {{ tab }}
+            </v-tab>
+          </template>
+        </v-tabs>
+        <v-tabs-items v-model="reviewTab">
+          <v-tab-item>
+            <v-card-text>
+              <v-row dense>
+                <v-col cols="12">
+                  <v-textarea outlined label="Experience Review"></v-textarea>
+                </v-col>
+                <v-col cols="12">
+                  <div class="text-center">
+                    <v-rating></v-rating>
+                  </div>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-tab-item>
+          <v-tab-item>
+            <v-card-text>
+              <v-row dense>
+                <v-col cols="12">
+                  <v-textarea outlined label="Tour Guide Review"></v-textarea>
+                </v-col>
+                <v-col cols="12">
+                  <div class="text-center">
+                    <v-rating></v-rating>
+                  </div>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-tab-item>
+        </v-tabs-items>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            text
+            class="text-capitalize"
+            @click="isReviewDialogOpen = false"
+            >Close</v-btn
+          >
+          <v-btn color="primary">Post</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-card>
 </template>
 
@@ -113,6 +171,14 @@ export default {
       type: Boolean,
       required: true,
     },
+  },
+
+  data() {
+    return {
+      isReviewDialogOpen: false,
+      reviewTabs: ["Experience", "Tour Guide"],
+      reviewTab: null,
+    };
   },
 
   computed: {
