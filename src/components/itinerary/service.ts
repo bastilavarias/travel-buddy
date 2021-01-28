@@ -46,8 +46,12 @@ const itineraryService = {
   },
 
   async createReview(input: IItineraryPostReviewInput) {
-    const { postID, accountID, review } = input;
-    await itineraryModel.createReview(postID, accountID, review.itinerary);
+    const { transactionID, accountID, review } = input;
+    await itineraryModel.createReview(
+      transactionID,
+      accountID,
+      review.itinerary
+    );
   },
 
   async getInquiries(

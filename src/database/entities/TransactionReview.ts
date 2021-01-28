@@ -5,11 +5,11 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import ItineraryPost from "./ItineraryPost";
 import Account from "./Account";
+import Transaction from "./Transaction";
 
 @Entity()
-export default class ItineraryPostReview extends BaseEntity {
+export default class TransactionReview extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -25,8 +25,8 @@ export default class ItineraryPostReview extends BaseEntity {
   })
   createdAt: Date;
 
-  @ManyToOne(() => ItineraryPost)
-  post: ItineraryPost;
+  @ManyToOne(() => Transaction)
+  transaction: Transaction;
 
   @ManyToOne(() => Account)
   author: Account;

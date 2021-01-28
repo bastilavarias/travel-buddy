@@ -55,7 +55,7 @@ export interface IItineraryDaySoftDetails extends IItineraryDayBaseInput {
 }
 
 export interface IItineraryPostReviewInput {
-  postID: number;
+  transactionID: number;
   accountID: number;
   review: {
     itinerary: {

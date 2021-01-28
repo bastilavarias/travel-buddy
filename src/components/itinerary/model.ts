@@ -13,7 +13,7 @@ import ItineraryPostImage from "../../database/entities/ItineraryPostImage";
 import { getRepository } from "typeorm";
 import ItineraryPostInquiry from "../../database/entities/ItineraryPostInquiry";
 import ItineraryPostInquiryReply from "../../database/entities/ItineraryPostInquiryReply";
-import ItineraryPostReview from "../../database/entities/ItineraryPostReview";
+import ItineraryPostReview from "../../database/entities/TransactionReview";
 
 const itineraryModel = {
   async saveDetails(
@@ -78,12 +78,12 @@ const itineraryModel = {
   },
 
   async createReview(
-    postID: number,
+    transactionID: number,
     accountID: number,
     review: IItineraryPostReviewInput["review"]["itinerary"]
   ) {
     return await ItineraryPostReview.create({
-      post: { id: postID },
+      transaction: { id: transactionID },
       author: { id: accountID },
       text: review.text,
       rating: review.rating,
