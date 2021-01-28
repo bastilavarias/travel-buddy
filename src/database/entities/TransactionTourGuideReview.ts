@@ -15,7 +15,7 @@ export default class TransactionTourGuideReview extends BaseEntity {
   @Column("text", { nullable: false })
   text: string;
 
-  @Column("int", { nullable: false })
+  @Column("float", { nullable: false })
   rating: number;
 
   @Column("timestamp with time zone", {
