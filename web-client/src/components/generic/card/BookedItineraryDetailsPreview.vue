@@ -47,13 +47,21 @@
         >Summary</v-btn
       >
       <div class="flex-grow-1"></div>
-      <v-btn text small @click="isReviewDialogOpen = true" v-if="isDone">
+      <v-btn
+        text
+        small
+        @click="isReviewDialogOpen = true"
+        v-if="isDone && !postReview"
+      >
         <span
           class="caption font-italic text-decoration-underline text-capitalize"
           >Write a review
         </span>
       </v-btn>
-      <!--      <generic-rating-chip v-if="isDone"></generic-rating-chip>-->
+      <generic-rating-chip
+        v-if="isDone && postReview"
+        :rating="postReview.rating"
+      ></generic-rating-chip>
     </v-card-actions>
     <v-dialog v-model="isReviewDialogOpen" width="500" persistent>
       <v-card>
@@ -169,6 +177,9 @@ export default {
     },
     isDone: {
       type: Boolean,
+      required: true,
+    },
+    postReview: {
       required: true,
     },
   },
