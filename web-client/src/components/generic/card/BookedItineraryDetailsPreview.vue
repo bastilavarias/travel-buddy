@@ -218,6 +218,9 @@ export default {
     postReview: {
       required: true,
     },
+    tourGuide: {
+      required: true,
+    },
   },
 
   data() {
@@ -243,13 +246,33 @@ export default {
       const { itinerary, tourGuide } = this.form;
       return itinerary.text && tourGuide.text;
     },
+
+    credentials() {
+      return this.$store.state.authentication.credentials;
+    },
   },
 
   methods: {
     submitReview() {
       this.isSubmitReviewStart = true;
-      console.log(this.form);
-      this.isSubmitReviewStart = true;
+      const payload = {
+        transactionID: this.transactionID,
+        accountID: this.credentials.id,
+        review: {
+          itinerary: {
+            id: this.postID,
+            text: this.form.itinerary.text,
+            rating: this.form.itinerary.rating,
+          },
+          tourGuide: {
+            id: this.tourGuide.id,
+            text: this.form.tourGuide.text,
+            rating: this.form.tourGuide.rating,
+          },
+        },
+      };
+      console.log(payload);
+      this.isSubmitReviewStart = false;
     },
   },
 };

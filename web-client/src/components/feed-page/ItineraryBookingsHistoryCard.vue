@@ -22,6 +22,7 @@
               :to-date="booking.toDate"
               :is-done="booking.isDone"
               :postReview="booking.postReview"
+              :tourGuide="booking.tourGuide"
             ></generic-booked-itinerary-details-preview-card>
           </v-col>
         </template>
