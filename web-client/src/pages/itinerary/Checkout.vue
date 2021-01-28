@@ -141,15 +141,12 @@
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12">
-                  <stripe-elements
-                    ref="elementsRef"
+                  <stripe-element-card
+                    ref="elementRef"
                     :pk="publishableKey"
-                    :amount="postDetails.price"
-                    locale="en"
                     @token="tokenCreated"
-                    @loading="loading = $event"
-                  >
-                  </stripe-elements>
+                    :disabled="isTransactionCheckoutStart"
+                  ></stripe-element-card>
                 </v-col>
                 <v-col cols="12">
                   <v-checkbox v-model="hasAcceptedTermsCondition">
@@ -171,7 +168,7 @@
                 color="success"
                 block
                 large
-                @click="submit"
+                @click="checkout"
                 :disabled="!isFormValid"
                 :loading="isTransactionCheckoutStart"
                 >Confirm Transaction ({{ formatMoney(amount) }})</v-btn
@@ -224,7 +221,6 @@
   </section>
 </template>
 <script>
-import { StripeElements } from "vue-stripe-checkout";
 import commonUtilities from "@/common/utilities";
 import ItineraryPostDetailsPageDatePicker from "@/components/itinerary-post-details-page/DatePicker";
 import CustomDatePicker from "@/components/custom/DatePicker";
@@ -240,6 +236,7 @@ import {
 import CustomLabelAndContent from "@/components/custom/LabelAndContent";
 import CheckoutPageTermsConditionDialog from "@/components/checkout-page/TermsConditionDialog";
 import CheckoutPageThankYouDialog from "@/components/checkout-page/ThankYouDialog";
+import { StripeElementCard } from "@vue-stripe/vue-stripe";
 
 const defaultCheckoutForm = {
   fromDate: null,
@@ -255,7 +252,7 @@ export default {
     GenericRatingChip,
     CustomDatePicker,
     ItineraryPostDetailsPageDatePicker,
-    StripeElements,
+    StripeElementCard,
   },
   data() {
     return {
@@ -344,9 +341,9 @@ export default {
     },
   },
   methods: {
-    submit() {
+    checkout() {
       this.isTransactionCheckoutStart = true;
-      this.$refs.elementsRef.submit();
+      this.$refs.elementRef.submit();
     },
     tokenCreated(token) {
       this.token = token;
