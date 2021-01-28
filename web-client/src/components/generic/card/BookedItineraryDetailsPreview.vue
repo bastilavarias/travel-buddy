@@ -222,6 +222,10 @@ export default {
     tourGuide: {
       required: true,
     },
+    bookings: {
+      type: Array,
+      required: true,
+    },
   },
 
   data() {
@@ -232,6 +236,7 @@ export default {
       form: Object.assign({}, defaultForm),
       defaultForm,
       isSubmitReviewStart: false,
+      bookingsLocal: this.bookings,
     };
   },
 
@@ -250,6 +255,16 @@ export default {
 
     credentials() {
       return this.$store.state.authentication.credentials;
+    },
+  },
+
+  watch: {
+    bookings(value) {
+      this.bookingsLocal = value;
+    },
+
+    bookingsLocal(value) {
+      this.$emit("update:bookings", value);
     },
   },
 
@@ -277,7 +292,12 @@ export default {
         payload
       );
       if (success) {
-        console.log(data);
+        this.bookingsLocal = this.bookingsLocal.map((booking) => {
+          if (booking.id === this.transactionID) {
+            booking = Object.assign(booking, data);
+          }
+          return booking;
+        });
         this.isReviewDialogOpen = false;
         this.isSubmitReviewStart = false;
         return;

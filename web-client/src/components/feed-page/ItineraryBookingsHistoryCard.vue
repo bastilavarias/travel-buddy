@@ -23,6 +23,7 @@
               :is-done="booking.isDone"
               :postReview="booking.postReview"
               :tourGuide="booking.tourGuide"
+              :bookings.sync="bookingsLocal"
             ></generic-booked-itinerary-details-preview-card>
           </v-col>
         </template>
@@ -46,14 +47,30 @@ export default {
     },
   },
 
+  data() {
+    return {
+      bookingsLocal: this.bookings,
+    };
+  },
+
   computed: {
     formattedBookings() {
-      return this.bookings.map((booking) => {
+      return this.bookingsLocal.map((booking) => {
         const toDate = moment(booking.toDate).valueOf() || null;
         const currentDate = moment().valueOf() || null;
         booking.isDone = currentDate > toDate;
         return booking;
       });
+    },
+  },
+
+  watch: {
+    bookings(value) {
+      this.bookingsLocal = value;
+    },
+
+    bookingsLocal(value) {
+      this.$emit("update:bookings", value);
     },
   },
 };

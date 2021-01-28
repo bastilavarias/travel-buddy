@@ -35,7 +35,7 @@
             </v-tab-item>
             <v-tab-item>
               <feed-page-bookings
-                :bookings="clientBookings"
+                :bookings.sync="clientBookings"
               ></feed-page-bookings>
             </v-tab-item>
           </v-tabs-items>
