@@ -2,13 +2,10 @@ import {
   BaseEntity,
   Column,
   Entity,
-  JoinColumn,
   ManyToOne,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import Account from "./Account";
-import Transaction from "./Transaction";
 import ItineraryPost from "./ItineraryPost";
 
 @Entity()
@@ -30,10 +27,6 @@ export default class TransactionItineraryPostReview extends BaseEntity {
 
   @ManyToOne(() => ItineraryPost)
   post: ItineraryPost;
-
-  @OneToOne(() => Transaction)
-  @JoinColumn({ name: "transactionId" })
-  transaction: Transaction;
 
   @ManyToOne(() => Account)
   author: Account;

@@ -65,6 +65,8 @@ const transactionModel = {
         "tourGuide",
         "tourGuide.profile",
         "tourGuide.profile.image",
+        "postReview",
+        "tourGuideReview",
       ],
     });
     //@ts-ignore
@@ -94,12 +96,10 @@ const transactionModel = {
   },
 
   async createItineraryPostReview(
-    transactionID: number,
     accountID: number,
     review: ITransactionReviewInput["review"]["itinerary"]
   ): Promise<TransactionItineraryPostReview> {
     return await TransactionItineraryPostReview.create({
-      transaction: { id: transactionID },
       post: { id: review.id },
       author: { id: accountID },
       text: review.text,
@@ -108,17 +108,30 @@ const transactionModel = {
   },
 
   async createTourGuideReview(
-    transactionID: number,
     authorID: number,
     review: ITransactionReviewInput["review"]["tourGuide"]
   ): Promise<TransactionTourGuideReview> {
     return await TransactionTourGuideReview.create({
-      transaction: { id: transactionID },
       account: { id: review.id },
       author: { id: authorID },
       text: review.text,
       rating: review.rating,
     }).save();
+  },
+
+  async updateReview(
+    transactionID: number,
+    postReviewID: number,
+    tourGuideReviewID: number
+  ): Promise<Transaction> {
+    await Transaction.update(
+      { id: transactionID },
+      {
+        postReview: { id: postReviewID },
+        tourGuideReview: { id: tourGuideReviewID },
+      }
+    );
+    return await this.get(transactionID);
   },
 };
 

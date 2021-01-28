@@ -88,22 +88,21 @@ const transactionService = {
     return await transactionModel.fetchClientBooking(clientID);
   },
 
-  async createReview(input: ITransactionReviewInput) {
+  async createReview(input: ITransactionReviewInput): Promise<Transaction> {
     const { transactionID, accountID, review } = input;
-    const itineraryReview = await transactionModel.createItineraryPostReview(
-      transactionID,
+    const postReview = await transactionModel.createItineraryPostReview(
       accountID,
       review.itinerary
     );
     const accountReview = await transactionModel.createTourGuideReview(
-      transactionID,
       accountID,
       review.tourGuide
     );
-    return {
-      itinerary: itineraryReview,
-      account: accountReview,
-    };
+    return await transactionModel.updateReview(
+      transactionID,
+      postReview.id,
+      accountReview.id
+    );
   },
 };
 

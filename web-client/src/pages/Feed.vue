@@ -84,6 +84,7 @@ export default {
         FETCH_CLIENT_BOOKINGS,
         this.credentials.id
       );
+      console.log(this.clientBookings);
       this.isFetchClientBookingsStart = false;
     },
   },
