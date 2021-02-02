@@ -14,6 +14,11 @@ itineraryRouter.get(
   passport.authenticate("jwt", { session: false }),
   itineraryController.getInquiries
 );
+itineraryRouter.get(
+  "/reviews",
+  passport.authenticate("jwt", { session: false }),
+  itineraryController.getReviews
+);
 itineraryRouter.post(
   "/inquiry",
   passport.authenticate("jwt", { session: false }),
