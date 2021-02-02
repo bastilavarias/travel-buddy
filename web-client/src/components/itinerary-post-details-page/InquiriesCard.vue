@@ -47,6 +47,7 @@
         class="text-capitalize"
         :loading="isCreateInquiryStart"
         @click="getInquiries"
+        :disabled="isGetInquiriesStart"
         v-if="showMoreButton"
         >See More</v-btn
       >

@@ -29,6 +29,7 @@
         color="secondary"
         class="text-capitalize"
         @click="getReviews"
+        :disabled="isGetReviewsStart"
         v-if="showMoreButton"
         >See All</v-btn
       >
