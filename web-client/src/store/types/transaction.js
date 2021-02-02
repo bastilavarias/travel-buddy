@@ -6,3 +6,5 @@ export const FETCH_TRANSACTIONS = "transaction/FETCH";
 export const FETCH_CLIENT_BOOKINGS = "transaction/FETCH_CLIENT_BOOKINGS";
 export const GET_CLIENT_BOOKING = "transaction/GET_CLIENT_BOOKING";
 export const CREATE_TRANSACTION_REVIEW = "transaction/CREATE_REVIEW";
+export const GET_TOUR_GUIDE_TRANSACTION_SCHEDULE =
+  "transaction/GET_TOUR_GUIDE_SCHEDULE";

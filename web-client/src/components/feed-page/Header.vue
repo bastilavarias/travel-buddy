@@ -13,23 +13,6 @@
         <span class="text-capitalize">My Bookings</span>
       </v-tab>
     </v-tabs>
-    <v-card-text>
-      <v-row dense>
-        <v-col cols="12" md="10">
-          <v-text-field
-            hide-details
-            rounded
-            filled
-            label="Search"
-          ></v-text-field>
-        </v-col>
-        <v-col cols="12" md="2">
-          <v-btn color="primary" block rounded class="text-capitalize" x-large
-            >Search</v-btn
-          >
-        </v-col>
-      </v-row>
-    </v-card-text>
   </v-card>
 </template>
 
