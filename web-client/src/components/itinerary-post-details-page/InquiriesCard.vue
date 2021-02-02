@@ -7,6 +7,12 @@
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </v-card-title>
+    <v-card-text
+      class="text-center py-15"
+      v-if="!isGetInquiriesStart && inquiries.length === 0"
+    >
+      No inquiries yet.
+    </v-card-text>
     <v-card-text>
       <template v-for="(inquiry, index) in inquiries">
         <itinerary-post-details-inquiry-media
@@ -31,6 +37,9 @@
         <v-divider v-if="index !== inquiries.length - 1"></v-divider>
       </template>
     </v-card-text>
+    <div class="text-center py-15" v-if="isGetInquiriesStart">
+      <v-progress-circular indeterminate></v-progress-circular>
+    </div>
     <v-card-actions>
       <div class="flex-grow-1"></div>
       <v-btn
@@ -38,7 +47,7 @@
         class="text-capitalize"
         :loading="isCreateInquiryStart"
         @click="getInquiries"
-        v-if="!shouldHideSeeMoreButton"
+        v-if="showMoreButton"
         >See More</v-btn
       >
     </v-card-actions>
@@ -96,7 +105,7 @@ export default {
       message: null,
       skip: 0,
       inquiries: [],
-      shouldHideSeeMoreButton: false,
+      showMoreButton: true,
       isGetInquiriesStart: false,
     };
   },
@@ -150,8 +159,8 @@ export default {
         return;
       }
       this.inquiries = [...this.inquiries, ...inquiries];
+      this.showMoreButton = false;
       this.isGetInquiriesStart = false;
-      this.shouldHideSeeMoreButton = true;
     },
   },
 

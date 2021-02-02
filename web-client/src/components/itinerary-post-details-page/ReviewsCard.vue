@@ -1,16 +1,13 @@
 <template>
   <v-card outlined>
     <v-card-title class="subtitle-2">Reviews</v-card-title>
-    <div class="text-center py-15" v-if="isGetReviewsStart">
-      <v-progress-circular indeterminate></v-progress-circular>
-    </div>
     <v-card-text
       class="text-center py-15"
       v-if="!isGetReviewsStart && reviews.length === 0"
     >
       No reviews yet.
     </v-card-text>
-    <v-card-text v-if="!isGetReviewsStart && reviews.length > 0">
+    <v-card-text>
       <template v-for="(review, index) in reviews">
         <itinerary-post-details-review-media
           :key="index"
@@ -23,6 +20,9 @@
         <v-divider v-if="index !== reviews.length - 1"></v-divider>
       </template>
     </v-card-text>
+    <div class="text-center py-15" v-if="isGetReviewsStart">
+      <v-progress-circular indeterminate></v-progress-circular>
+    </div>
     <v-card-actions>
       <div class="flex-grow-1"></div>
       <v-btn
@@ -51,7 +51,7 @@ export default {
     return {
       skip: 0,
       reviews: [],
-      showMoreButton: false,
+      showMoreButton: true,
       isGetReviewsStart: false,
     };
   },
@@ -77,10 +77,10 @@ export default {
         this.reviews = [...this.reviews, ...reviews];
         this.skip += 5;
         this.isGetReviewsStart = false;
-        this.showMoreButton = true;
         return;
       }
       this.reviews = [...this.reviews, ...reviews];
+      this.showMoreButton = false;
       this.isGetReviewsStart = false;
     },
   },
