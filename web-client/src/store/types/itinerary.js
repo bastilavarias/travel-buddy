@@ -7,4 +7,5 @@ export const ENABLE_ITINERARY = "itinerary/ENABLE";
 export const GET_ITINERARY_SOFT_DETAILS = "itinerary/GET_SOFT_DETAILS";
 export const CREATE_ITINERARY_INQUIRY = "itinerary/CREATE_INQUIRY";
 export const GET_ITINERARY_INQUIRIES = "itinerary/GET_INQUIRIES";
+export const GET_ITINERARY_REVIEWS = "itinerary/GET_REVIEWS";
 export const CREATE_ITINERARY_INQUIRY_REPLY = "itinerary/CREATE_INQUIRY_REPLY";

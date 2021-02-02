@@ -15,7 +15,7 @@ itineraryRouter.get(
   itineraryController.getInquiries
 );
 itineraryRouter.get(
-  "/reviews",
+  "/review",
   passport.authenticate("jwt", { session: false }),
   itineraryController.getReviews
 );
