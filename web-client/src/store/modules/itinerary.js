@@ -7,6 +7,7 @@ import {
   ENABLE_ITINERARY,
   FETCH_ITINERARIES,
   GET_ITINERARY_INQUIRIES,
+  GET_ITINERARY_REVIEWS,
   GET_ITINERARY_SOFT_DETAILS,
   SET_ITINERARIES,
 } from "@/store/types/itinerary";
@@ -117,6 +118,19 @@ const itineraryStore = {
     async [GET_ITINERARY_INQUIRIES]({ commit }, { postID, skip }) {
       try {
         return await itineraryApiService.getInquiries(postID, skip);
+      } catch (error) {
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Something went wrong to the server. Please try again.",
+          color: "error",
+        });
+        return [];
+      }
+    },
+
+    async [GET_ITINERARY_REVIEWS]({ commit }, { postID, skip }) {
+      try {
+        return await itineraryApiService.getReviews(postID, skip);
       } catch (error) {
         commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
           isOpen: true,

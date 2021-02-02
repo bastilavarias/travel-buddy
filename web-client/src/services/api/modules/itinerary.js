@@ -34,6 +34,13 @@ const itineraryApiService = {
     return result.data;
   },
 
+  async getReviews(postID, skip) {
+    const result = await apiService.get(
+      `/itinerary/review?postID=${postID}&skip=${skip}`
+    );
+    return result.data;
+  },
+
   async uploadImages(formData) {
     const result = await apiService.post("/itinerary/upload-images", formData);
     return result.data || {};

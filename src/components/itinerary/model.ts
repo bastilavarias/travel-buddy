@@ -12,6 +12,7 @@ import ItineraryPostImage from "../../database/entities/ItineraryPostImage";
 import { getRepository } from "typeorm";
 import ItineraryPostInquiry from "../../database/entities/ItineraryPostInquiry";
 import ItineraryPostInquiryReply from "../../database/entities/ItineraryPostInquiryReply";
+import TransactionItineraryPostReview from "../../database/entities/TransactionItineraryPostReview";
 
 const itineraryModel = {
   async saveDetails(
@@ -89,8 +90,6 @@ const itineraryModel = {
     }).then((item) => {
       // @ts-ignore
       delete item.author.password;
-      // @ts-ignore
-      delete item.author.profile.image.data;
       return item;
     });
     return inquiry!;
@@ -102,8 +101,6 @@ const itineraryModel = {
     }).then((item) => {
       // @ts-ignore
       delete item.author.password;
-      // @ts-ignore
-      delete item.author.profile.image.data;
       return item;
     });
     return reply!;
@@ -124,6 +121,32 @@ const itineraryModel = {
     return await Promise.all(
       result.map((item) => this.getInquiryItem(item.id))
     );
+  },
+
+  async getReviews(
+    postID: number,
+    skip: number
+  ): Promise<TransactionItineraryPostReview[]> {
+    const result = await getRepository(TransactionItineraryPostReview)
+      .createQueryBuilder("preview")
+      .select(["id"])
+      .where(`preview."postId" = :postID`, { postID })
+      .orderBy(`preview."createdAt"`, "DESC")
+      .skip(skip)
+      .take(5)
+      .getRawMany();
+    return await Promise.all(result.map((item) => this.getReview(item.id)));
+  },
+
+  async getReview(id: number): Promise<TransactionItineraryPostReview> {
+    const review = await TransactionItineraryPostReview.findOne(id, {
+      relations: ["author", "author.profile", "author.profile.image"],
+    }).then((review) => {
+      // @ts-ignore
+      delete review.author.password;
+      return review;
+    });
+    return review!;
   },
 
   async fetch(): Promise<IItinerarySoftDetails[]> {
