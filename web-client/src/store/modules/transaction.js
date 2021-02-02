@@ -4,6 +4,7 @@ import {
   FETCH_TRANSACTION_AVAILABLE_TOUR_GUIDES,
   FETCH_TRANSACTIONS,
   GET_CLIENT_BOOKING,
+  GET_TOUR_GUIDE_TRANSACTION_SCHEDULE,
   GET_TRANSACTION_NUMBER,
   TRANSACTION_CHECKOUT,
 } from "@/store/types/transaction";
@@ -138,6 +139,19 @@ const transactionStore = {
           success: false,
           data: null,
         };
+      }
+    },
+
+    async [GET_TOUR_GUIDE_TRANSACTION_SCHEDULE]({ commit }, tourGuideID) {
+      try {
+        return await transactionApiService.getTourGuideSchedule(tourGuideID);
+      } catch (error) {
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Something went wrong to the server. Please try again.",
+          color: "error",
+        });
+        throw new Error(`[RWV] ApiService ${error}`);
       }
     },
   },

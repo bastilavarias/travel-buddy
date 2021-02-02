@@ -69,7 +69,7 @@
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-subtitle>Tour Guide</v-list-item-subtitle>
-            <v-list-item-title class="font-weight-bold">{{
+            <v-list-item-title class="font-weight-bold text-capitalize">{{
               formatName(
                 booking.tourGuide.profile.firstName,
                 booking.tourGuide.profile.lastName

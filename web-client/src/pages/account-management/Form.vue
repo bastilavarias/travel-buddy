@@ -91,7 +91,7 @@
               <h1 class="subtitle-2">Note</h1>
               <span class="body-2"
                 >Default password will be the combination of last name and birth
-                date. Eg; <strong>LASTNAME-10-10-10</strong></span
+                date. Eg; <strong>FIRSTNAME_LASTNAME</strong></span
               >
             </v-col>
           </v-row>

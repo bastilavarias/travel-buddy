@@ -48,6 +48,13 @@ const transactionApiService = {
     return result.data || {};
   },
 
+  async getTourGuideSchedule(tourGuideID) {
+    const result = await apiService.get(
+      `/transaction/tour-guide?tourGuideID=${tourGuideID}`
+    );
+    return result.data || [];
+  },
+
   async createReview({ transactionID, accountID, review }) {
     const result = await apiService.post("/transaction/review", {
       transactionID,

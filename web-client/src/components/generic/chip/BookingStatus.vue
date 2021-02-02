@@ -10,10 +10,6 @@ import moment from "moment";
 export default {
   name: "generic-booking-status-chip",
   props: {
-    isDone: {
-      type: Boolean,
-      required: true,
-    },
     fromDate: {
       type: String,
       required: true,

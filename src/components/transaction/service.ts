@@ -80,6 +80,10 @@ const transactionService = {
     return await transactionModel.save(transactionModelSavePayload);
   },
 
+  async getTourGuideSchedule(tourGuideID: number): Promise<Transaction[]> {
+    return await transactionModel.getTourGuideSchedule(tourGuideID);
+  },
+
   async fetch(): Promise<Transaction[]> {
     return await transactionModel.fetch();
   },
