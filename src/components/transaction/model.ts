@@ -76,6 +76,16 @@ const transactionModel = {
     return gotDetails!;
   },
 
+  async getTourGuideSchedule(tourGuideID: number): Promise<Transaction[]> {
+    const raw = await getRepository(Transaction)
+      .createQueryBuilder("transaction")
+      .select(["id"])
+      .where(`transaction."tourGuideId" = :tourGuideID`, { tourGuideID })
+      .orderBy(`"createdAt"`, "DESC")
+      .getRawMany();
+    return await Promise.all(raw.map((item) => this.get(item.id)));
+  },
+
   async fetch(): Promise<Transaction[]> {
     const raw = await getRepository(Transaction)
       .createQueryBuilder("transaction")

@@ -38,6 +38,17 @@ const transactionController = {
     }
   },
 
+  async getTourGuideSchedule(request: Request, response: Response) {
+    try {
+      const tourGuideID = parseInt(<string>request.query.tourGuideID);
+      const result = await transactionService.getTourGuideSchedule(tourGuideID);
+      response.status(200).json(result);
+    } catch (error) {
+      console.log(error);
+      response.status(400).json(error);
+    }
+  },
+
   async fetch(_: Request, response: Response) {
     try {
       const fetchedTransactions = await transactionService.fetch();
