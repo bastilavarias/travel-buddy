@@ -5,6 +5,10 @@ const accountApiService = {
     const result = await apiService.post("/account/create-new", formData);
     return result.data || {};
   },
+  async getInformation(id) {
+    const result = await apiService.get(`/account/${id}`);
+    return result.data || null;
+  },
   async fetchTypes() {
     const result = await apiService.get("/account/types");
     return result.data || [];

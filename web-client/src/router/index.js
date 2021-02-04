@@ -123,7 +123,7 @@ const routes = [
             component: () => import("@/pages/account-management/Table"),
           },
           {
-            path: "form",
+            path: "form/:operation/:id?",
             name: "account-management-page/form",
             component: () => import("@/pages/account-management/Form"),
           },

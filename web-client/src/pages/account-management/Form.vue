@@ -14,6 +14,13 @@
         </v-card-title>
         <v-card-text>
           <v-row dense>
+            <v-col cols="12" v-if="form.imageUrl">
+              <div class="text-center">
+                <v-avatar :size="150">
+                  <v-img :src="form.imageUrl" :lazy-src="form.imageUrl"></v-img>
+                </v-avatar>
+              </div>
+            </v-col>
             <v-col cols="12">
               <span class="subtitle-1">Personal Information</span>
             </v-col>
@@ -58,7 +65,14 @@
                 v-model="form.sex"
               ></v-select>
             </v-col>
-            <v-col cols="12">
+            <v-col cols="12" v-if="form.imageUrl">
+              <custom-image-input
+                :multiple="false"
+                label="New Image"
+                :images.sync="form.images"
+              ></custom-image-input>
+            </v-col>
+            <v-col cols="12" v-if="!form.imageUrl">
               <custom-image-input
                 :multiple="false"
                 label="Image"
@@ -103,7 +117,15 @@
             block
             @click="createNewAccount"
             :disabled="!isFormValid"
+            v-if="operation === 'create'"
             >Create</v-btn
+          >
+          <v-btn
+            color="primary"
+            block
+            :disabled="!isFormValid"
+            v-if="operation === 'update'"
+            >Update</v-btn
           >
         </v-card-actions>
       </v-card>
@@ -113,14 +135,18 @@
 
 <script>
 import CustomTooltipButton from "@/components/custom/TooltipButton";
-import commonUtlities from "@/common/utilities";
+import commonUtilities from "@/common/utilities";
 import AccountManagementPageBirthDatePicker from "@/components/account-management-page/BirthDateDatePicker";
 import CustomImageInput from "@/components/custom/ImageInput";
 import {
   FETCH_GENERIC_NATIONALITIES,
   FETCH_GENERIC_SEXES,
 } from "@/store/types/generic";
-import { CREATE_NEW_ACCOUNT, FETCH_ACCOUNT_TYPES } from "@/store/types/account";
+import {
+  CREATE_NEW_ACCOUNT,
+  FETCH_ACCOUNT_TYPES,
+  GET_ACCOUNT,
+} from "@/store/types/account";
 import CustomDatePicker from "@/components/custom/DatePicker";
 import commonValidation from "@/common/validation";
 
@@ -133,6 +159,7 @@ const defaultAccountForm = {
   sex: "",
   typeID: null,
   images: null,
+  imageUrl: null,
 };
 
 export default {
@@ -151,10 +178,12 @@ export default {
       createAccountError: {
         email: "",
       },
+      operation: null,
+      currentAccountID: null,
     };
   },
 
-  mixins: [commonUtlities, commonValidation],
+  mixins: [commonUtilities, commonValidation],
 
   computed: {
     genericSexes() {
@@ -227,9 +256,39 @@ export default {
       }
       this.createAccountError = error;
     },
+
+    async getInformation() {
+      const result = await this.$store.dispatch(
+        GET_ACCOUNT,
+        this.currentAccountID
+      );
+      this.form = Object.assign(
+        {},
+        {
+          firstName: result.profile.firstName,
+          nationality: result.profile.nationality,
+          lastName: result.profile.lastName,
+          email: result.email,
+          birthDate: result.profile.birthDate,
+          sex: result.profile.sex,
+          typeID: result.type.id,
+          images: null,
+          imageUrl: result.profile.image.url,
+        }
+      );
+    },
   },
 
   async created() {
+    const { operation, id } = this.$route.params;
+    const validPageCondition =
+      operation ||
+      ["create", "update"].includes(operation) ||
+      (operation === "update" && id);
+    if (!validPageCondition) this.$router.go(-1);
+    this.operation = operation;
+    this.currentAccountID = id;
+    if (operation === "update" && id) await this.getInformation();
     await this.$store.dispatch(FETCH_GENERIC_NATIONALITIES);
     await this.$store.dispatch(FETCH_GENERIC_SEXES);
     await this.$store.dispatch(FETCH_ACCOUNT_TYPES);

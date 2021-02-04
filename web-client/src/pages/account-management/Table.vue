@@ -9,7 +9,10 @@
             icon="mdi-plus"
             text="Create new Account"
             :disabled="isFetchAccountsStart"
-            :to="{ name: 'account-management-page/form' }"
+            :to="{
+              name: 'account-management-page/form',
+              params: { operation: 'create' },
+            }"
           ></custom-tooltip-button>
           <custom-tooltip-button
             icon="mdi-refresh"
@@ -71,6 +74,7 @@
             <custom-tooltip-button
               icon="mdi-pencil-outline"
               text="Edit Account"
+              :action="() => goToAccountInformation(item.id)"
             ></custom-tooltip-button>
             <custom-tooltip-button
               icon="mdi-stop"
@@ -299,6 +303,12 @@ export default {
     },
     isAccountTypeAdministrator(type) {
       return type.name === "administrator";
+    },
+    async goToAccountInformation(id) {
+      await this.$router.push({
+        name: "account-management-page/form",
+        params: { operation: "update", id },
+      });
     },
   },
 

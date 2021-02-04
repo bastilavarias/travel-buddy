@@ -11,11 +11,6 @@ accountRouter.post(
   accountController.createNew
 );
 accountRouter.get(
-  "/",
-  passport.authenticate("jwt", { session: false }),
-  accountController.getInformation
-);
-accountRouter.get(
   "/types",
   passport.authenticate("jwt", { session: false }),
   accountController.fetchTypes
@@ -29,6 +24,11 @@ accountRouter.get(
   "/tour-guides",
   passport.authenticate("jwt", { session: false }),
   accountController.fetchTourGuides
+);
+accountRouter.get(
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
+  accountController.getInformation
 );
 accountRouter.put(
   "/disable/:accountID",

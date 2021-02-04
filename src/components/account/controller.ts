@@ -60,7 +60,7 @@ const accountController = {
 
   async getInformation(request: Request, response: Response) {
     try {
-      const id = parseInt(<string>request.query.id) || null;
+      const id = parseInt(request.params.id) || null;
       //@ts-ignore
       const result = await accountService.getInformation(id);
       response.status(200).json(result);

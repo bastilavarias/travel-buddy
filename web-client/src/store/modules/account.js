@@ -6,6 +6,7 @@ import {
   FETCH_ACCOUNT_TYPES,
   FETCH_ACCOUNTS_DETAILS,
   FETCH_TOUR_GUIDE_ACCOUNTS,
+  GET_ACCOUNT,
   SET_ACCOUNT_TYPES,
   VERIFY_ACCOUNT,
 } from "@/store/types/account";
@@ -81,6 +82,24 @@ const accountStore = {
     async [FETCH_ACCOUNTS_DETAILS]({ commit }) {
       try {
         return await accountApiService.fetchDetails();
+      } catch (_) {
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Something went wrong to the server. Please try again.",
+          color: "error",
+        });
+        return [];
+      }
+    },
+
+    async [GET_ACCOUNT]({ commit }, id) {
+      try {
+        const result = await accountApiService.getInformation(id);
+        if (!result)
+          throw new Error(
+            "Something went wrong to the server. Please try again."
+          );
+        return result;
       } catch (_) {
         commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
           isOpen: true,
