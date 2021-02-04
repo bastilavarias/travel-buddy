@@ -58,6 +58,17 @@ const accountController = {
     }
   },
 
+  async getInformation(request: Request, response: Response) {
+    try {
+      const id = parseInt(<string>request.query.id) || null;
+      //@ts-ignore
+      const result = await accountService.getInformation(id);
+      response.status(200).json(result);
+    } catch (error) {
+      response.status(400).json(error);
+    }
+  },
+
   async disable(request: Request, response: Response) {
     try {
       const accountID = parseInt(request.params.accountID);

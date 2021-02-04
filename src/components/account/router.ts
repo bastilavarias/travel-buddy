@@ -11,6 +11,11 @@ accountRouter.post(
   accountController.createNew
 );
 accountRouter.get(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  accountController.getInformation
+);
+accountRouter.get(
   "/types",
   passport.authenticate("jwt", { session: false }),
   accountController.fetchTypes
