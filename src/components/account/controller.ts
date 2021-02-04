@@ -27,6 +27,30 @@ const accountController = {
     }
   },
 
+  async update(request: Request, response: Response) {
+    try {
+      const accountID = parseInt(<string>request.body.accountID);
+      const input: IAccountServiceCreateNewInput = {
+        firstName: request.body.firstName || "",
+        lastName: request.body.lastName || "",
+        nationality: request.body.nationality || "",
+        email: request.body.email || "",
+        birthDate: request.body.birthDate || "",
+        sex: request.body.sex || "",
+        image: request.file || null,
+        typeID: request.body.typeID || null,
+      };
+      const result = await accountService.update(accountID, input);
+      if (utilityService.checkErrorIfValid(result.error)) throw result.error;
+      // @ts-ignore
+      delete result.error;
+      response.status(200).json(result);
+    } catch (error) {
+      console.log(error);
+      response.status(400).json(error);
+    }
+  },
+
   async fetchTypes(_request: Request, response: Response) {
     try {
       const types = await accountService.fetchTypes();
@@ -53,6 +77,17 @@ const accountController = {
       if (query) tourGuides = await accountService.searchTourGuides(query);
       if (!query) tourGuides = await accountService.fetchTourGuides();
       response.status(200).json(tourGuides);
+    } catch (error) {
+      response.status(400).json(error);
+    }
+  },
+
+  async getInformation(request: Request, response: Response) {
+    try {
+      const id = parseInt(request.params.id) || null;
+      //@ts-ignore
+      const result = await accountService.getInformation(id);
+      response.status(200).json(result);
     } catch (error) {
       response.status(400).json(error);
     }

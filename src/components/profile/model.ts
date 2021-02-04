@@ -21,10 +21,41 @@ const profileModel = {
     }).save();
   },
 
+  async updateDetails(
+    profileID: number,
+    input: IProfileModelSaveDetailsPayload
+  ) {
+    const { firstName, lastName, nationality, birthDate, sex } = input;
+    await Profile.update(
+      { id: profileID },
+      {
+        firstName,
+        lastName,
+        nationality,
+        birthDate,
+        sex,
+      }
+    );
+  },
+
   async saveImageDetails(
     input: IProfileModelSaveImageDetailsPayload
   ): Promise<ProfileImage> {
     return await ProfileImage.create(input).save();
+  },
+
+  async updateImageDetails(
+    imageID: number,
+    input: IProfileModelSaveImageDetailsPayload
+  ) {
+    const { url, publicID } = input;
+    await ProfileImage.update(
+      { id: imageID },
+      {
+        url,
+        publicID,
+      }
+    );
   },
 
   async getSoftDetails(profileID: number): Promise<IProfileSoftDetails> {

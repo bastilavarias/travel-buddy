@@ -10,6 +10,12 @@ accountRouter.post(
   passport.authenticate("jwt", { session: false }),
   accountController.createNew
 );
+accountRouter.put(
+  "/update",
+  multer.single("image"),
+  passport.authenticate("jwt", { session: false }),
+  accountController.update
+);
 accountRouter.get(
   "/types",
   passport.authenticate("jwt", { session: false }),
@@ -24,6 +30,11 @@ accountRouter.get(
   "/tour-guides",
   passport.authenticate("jwt", { session: false }),
   accountController.fetchTourGuides
+);
+accountRouter.get(
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
+  accountController.getInformation
 );
 accountRouter.put(
   "/disable/:accountID",

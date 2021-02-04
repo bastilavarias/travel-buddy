@@ -7,3 +7,5 @@ export const ENABLE_ACCOUNT = "account/ENABLE";
 export const DELETE_ACCOUNT = "account/DELETE";
 export const VERIFY_ACCOUNT = "account/VERIFY";
 export const FETCH_TOUR_GUIDE_ACCOUNTS = "account/FETCH_TOUR_GUIDES";
+export const UPDATE_ACCOUNT = "account/UPDATE";
+export const GET_ACCOUNT = "account/GET";
