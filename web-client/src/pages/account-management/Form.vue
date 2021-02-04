@@ -89,6 +89,7 @@
                 v-model="form.email"
                 :error="!!createAccountError.email"
                 :error-messages="createAccountError.email"
+                :disabled="operation === 'update'"
               ></v-text-field>
             </v-col>
             <v-col cols="12" md="4">
@@ -122,9 +123,11 @@
           >
           <v-btn
             color="primary"
+            :loading="isUpdateAccountStart"
             block
-            :disabled="!isFormValid"
+            @click="updateAccount"
             v-if="operation === 'update'"
+            :disabled="!isFormValid"
             >Update</v-btn
           >
         </v-card-actions>
@@ -146,6 +149,7 @@ import {
   CREATE_NEW_ACCOUNT,
   FETCH_ACCOUNT_TYPES,
   GET_ACCOUNT,
+  UPDATE_ACCOUNT,
 } from "@/store/types/account";
 import CustomDatePicker from "@/components/custom/DatePicker";
 import commonValidation from "@/common/validation";
@@ -175,6 +179,7 @@ export default {
       form: Object.assign({}, defaultAccountForm),
       defaultAccountForm,
       isCreateAccountStart: false,
+      isUpdateAccountStart: false,
       createAccountError: {
         email: "",
       },
@@ -255,6 +260,37 @@ export default {
         return;
       }
       this.createAccountError = error;
+    },
+
+    async updateAccount() {
+      this.isUpdateAccountStart = true;
+      const {
+        firstName,
+        lastName,
+        nationality,
+        birthDate,
+        sex,
+        email,
+        typeID,
+        images,
+      } = this.form;
+      const payload = {
+        accountID: this.currentAccountID,
+        firstName: firstName || "",
+        lastName: lastName || "",
+        nationality: nationality || "",
+        email: email || "",
+        birthDate: birthDate || "",
+        sex: sex || "",
+        images: images || [],
+        typeID: typeID || null,
+      };
+      const { account } = await this.$store.dispatch(UPDATE_ACCOUNT, payload);
+      this.isUpdateAccountStart = false;
+      const isValid = this.validateObject(account);
+      if (isValid) {
+        await this.$router.push({ name: "account-management-page/table" });
+      }
     },
 
     async getInformation() {

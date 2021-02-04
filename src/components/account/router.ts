@@ -10,6 +10,12 @@ accountRouter.post(
   passport.authenticate("jwt", { session: false }),
   accountController.createNew
 );
+accountRouter.put(
+  "/update",
+  multer.single("image"),
+  passport.authenticate("jwt", { session: false }),
+  accountController.update
+);
 accountRouter.get(
   "/types",
   passport.authenticate("jwt", { session: false }),

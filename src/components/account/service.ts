@@ -94,6 +94,75 @@ const accountService = {
     return result;
   },
 
+  async update(
+    accountID: number,
+    input: IAccountServiceCreateNewInput
+  ): Promise<IAccountServiceCreateNewResult> {
+    const result: IAccountServiceCreateNewResult = {
+      error: {
+        email: "",
+      },
+    };
+    let uploadedImageMeta: ICloudinaryFileMeta = {
+      url: "",
+      publicID: "",
+      fileName: "",
+    };
+    if (input.image) {
+      const uploadFolder = "accounts";
+      uploadedImageMeta = await cloudinaryService.upload(
+        input.image,
+        uploadFolder
+      );
+    }
+    const gotFullAccountInformation = await accountModel.getDetailsByID(
+      accountID
+    );
+    const imageSaveDetailsInput: IProfileModelSaveImageDetailsPayload = {
+      url: uploadedImageMeta.url,
+      fileName: uploadedImageMeta.fileName,
+      publicID: uploadedImageMeta.publicID,
+      // @ts-ignore
+      data: input.image,
+    };
+    await profileModel.updateImageDetails(
+      gotFullAccountInformation.profile.image.id,
+      imageSaveDetailsInput
+    );
+    const profileUpdateDetailsPayload: IProfileModelSaveDetailsPayload = {
+      firstName: input.firstName,
+      lastName: input.lastName,
+      nationality: input.nationality,
+      birthDate: input.birthDate,
+      sex: input.sex,
+      imageID: gotFullAccountInformation.profile.image.id,
+    };
+    await profileModel.updateDetails(
+      gotFullAccountInformation.profile.id,
+      profileUpdateDetailsPayload
+    );
+    const accountUpdateDetailsInput: IAccountModelSaveDetailsPayload = {
+      email: input.email,
+      password: "",
+      accountTypeID: input.typeID,
+      profileID: gotFullAccountInformation.profile.id,
+      isVerified: true,
+    };
+    const updateAccountDetails = await accountModel.updateDetails(
+      accountID,
+      accountUpdateDetailsInput
+    );
+    const gotAccount = await accountModel.getGenericDetails(
+      updateAccountDetails.id
+    );
+    gotAccount.profile = await profileModel.getSoftDetails(
+      gotAccount.profileID!
+    );
+    delete gotAccount.profileID;
+    result.account = gotAccount;
+    return result;
+  },
+
   async fetchTypes(): Promise<AccountType[]> {
     return await accountModel.fetchTypes();
   },

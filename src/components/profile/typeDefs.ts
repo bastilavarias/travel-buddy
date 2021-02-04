@@ -10,9 +10,7 @@ export interface IProfileModelSaveDetailsPayload {
 }
 
 export interface IProfileModelSaveImageDetailsPayload
-  extends ICloudinaryFileMeta {
-  data: Buffer;
-}
+  extends ICloudinaryFileMeta {}
 
 export interface IProfileSoftDetails {
   id: number;

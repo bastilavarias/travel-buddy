@@ -65,6 +65,21 @@ const accountModel = {
     return this.getDetailsByID(gotDetails.id);
   },
 
+  async updateDetails(
+    accountID: number,
+    input: IAccountModelSaveDetailsPayload
+  ): Promise<Account> {
+    const { email, accountTypeID } = input;
+    await Account.update(
+      { id: accountID },
+      {
+        email,
+        type: { id: accountTypeID },
+      }
+    );
+    return this.getDetailsByID(accountID);
+  },
+
   async fetchTypes(): Promise<AccountType[]> {
     return await AccountType.find();
   },

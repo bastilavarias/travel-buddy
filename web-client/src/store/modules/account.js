@@ -8,6 +8,7 @@ import {
   FETCH_TOUR_GUIDE_ACCOUNTS,
   GET_ACCOUNT,
   SET_ACCOUNT_TYPES,
+  UPDATE_ACCOUNT,
   VERIFY_ACCOUNT,
 } from "@/store/types/account";
 import accountApiService from "@/services/api/modules/account";
@@ -52,6 +53,48 @@ const accountStore = {
         commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
           isOpen: true,
           text: "Creating account done!",
+          color: "success",
+        });
+        return { account: createdNewAccount, error: {} };
+      } catch (error) {
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Something went wrong to the server. Please try again.",
+          color: "error",
+        });
+        return { account: {}, error: error.response.data };
+      }
+    },
+
+    async [UPDATE_ACCOUNT](
+      { commit },
+      {
+        accountID,
+        firstName,
+        lastName,
+        nationality,
+        birthDate,
+        sex,
+        email,
+        typeID,
+        images,
+      }
+    ) {
+      try {
+        const formData = new FormData();
+        formData.append("accountID", accountID);
+        formData.append("firstName", firstName);
+        formData.append("lastName", lastName);
+        formData.append("nationality", nationality);
+        formData.append("birthDate", birthDate);
+        formData.append("sex", sex);
+        formData.append("email", email);
+        formData.append("typeID", typeID);
+        formData.append("image", images[0]);
+        const createdNewAccount = await accountApiService.update(formData);
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Updating account done!",
           color: "success",
         });
         return { account: createdNewAccount, error: {} };
