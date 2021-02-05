@@ -9,6 +9,7 @@ import {
   GET_ACCOUNT,
   SET_ACCOUNT_TYPES,
   UPDATE_ACCOUNT,
+  UPDATE_ACCOUNT_PASSWORD,
   VERIFY_ACCOUNT,
 } from "@/store/types/account";
 import accountApiService from "@/services/api/modules/account";
@@ -98,6 +99,28 @@ const accountStore = {
           color: "success",
         });
         return { account: result.account, error: {} };
+      } catch (error) {
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Something went wrong to the server. Please try again.",
+          color: "error",
+        });
+        return { account: {}, error: error.response.data };
+      }
+    },
+
+    async [UPDATE_ACCOUNT_PASSWORD]({ commit }, { accountID, password }) {
+      try {
+        const result = await accountApiService.updatePassword(
+          accountID,
+          password
+        );
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Updating account password done!",
+          color: "success",
+        });
+        return { account: result, error: {} };
       } catch (error) {
         commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
           isOpen: true,

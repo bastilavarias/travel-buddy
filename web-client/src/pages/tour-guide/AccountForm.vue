@@ -94,6 +94,45 @@
               >
             </v-card-actions>
           </v-tab-item>
+          <v-tab-item>
+            <v-card-text>
+              <v-row dense>
+                <v-col cols="12">
+                  <v-text-field
+                    outlined
+                    label="Email"
+                    disabled
+                    v-model="credentialsForm.email"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12" md="6">
+                  <custom-password-text-field
+                    label="New Password"
+                    outlined
+                    :password.sync="credentialsForm.password"
+                  ></custom-password-text-field>
+                </v-col>
+                <v-col cols="12" md="6">
+                  <custom-password-text-field
+                    label="Confirm New Password"
+                    outlined
+                    :password.sync="credentialsForm.confirmPassword"
+                  ></custom-password-text-field>
+                </v-col>
+              </v-row>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="primary"
+                block
+                :disabled="!isCredentialsFormValid"
+                :loading="isUpdatePasswordStart"
+                @click="updatePassword"
+                >Update</v-btn
+              >
+            </v-card-actions>
+          </v-tab-item>
         </v-tabs-items>
       </v-card>
     </v-container>
@@ -107,8 +146,13 @@ import {
 } from "@/store/types/generic";
 import CustomDatePicker from "@/components/custom/DatePicker";
 import CustomImageInput from "@/components/custom/ImageInput";
-import { GET_ACCOUNT, UPDATE_ACCOUNT } from "@/store/types/account";
+import {
+  GET_ACCOUNT,
+  UPDATE_ACCOUNT,
+  UPDATE_ACCOUNT_PASSWORD,
+} from "@/store/types/account";
 import commonValidation from "@/common/validation";
+import CustomPasswordTextField from "@/components/custom/PasswordTextField";
 
 const defaultAccountForm = {
   firstName: null,
@@ -125,10 +169,11 @@ const defaultAccountForm = {
 const defaultCredentialsForm = {
   email: null,
   password: null,
+  confirmPassword: null,
 };
 
 export default {
-  components: { CustomImageInput, CustomDatePicker },
+  components: { CustomPasswordTextField, CustomImageInput, CustomDatePicker },
 
   data() {
     return {
@@ -138,6 +183,7 @@ export default {
       defaultAccountForm,
       credentialsForm: Object.assign({}, defaultCredentialsForm),
       isUpdateAccountStart: false,
+      isUpdatePasswordStart: false,
     };
   },
 
@@ -162,6 +208,11 @@ export default {
       } = this.accountForm;
       return firstName && lastName && nationality && birthDate && sex;
     },
+
+    isCredentialsFormValid() {
+      const { password, confirmPassword } = this.credentialsForm;
+      return password && password === confirmPassword;
+    },
   },
 
   methods: {
@@ -180,6 +231,12 @@ export default {
           typeID: result.type.id,
           images: null,
           imageUrl: result.profile.image.url,
+        }
+      );
+      this.credentialsForm = Object.assign(
+        {},
+        {
+          email: result.email,
         }
       );
     },
@@ -214,6 +271,27 @@ export default {
         this.accountForm = Object.assign(this.accountForm, {
           imageUrl: account.profile.image.url,
           images: [],
+        });
+      }
+    },
+
+    async updatePassword() {
+      const { password } = this.credentialsForm;
+      const payload = {
+        accountID: this.$store.state.authentication.credentials.id,
+        password,
+      };
+      this.isUpdatePasswordStart = true;
+      const { account } = await this.$store.dispatch(
+        UPDATE_ACCOUNT_PASSWORD,
+        payload
+      );
+      this.isUpdatePasswordStart = false;
+      const isValid = this.validateObject(account);
+      if (isValid) {
+        this.credentialsForm = Object.assign(this.credentialsForm, {
+          password: null,
+          confirmPassword: null,
         });
       }
     },

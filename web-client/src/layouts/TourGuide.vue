@@ -56,6 +56,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
+    <custom-global-snackbar></custom-global-snackbar>
   </v-app>
 </template>
 
@@ -63,9 +64,14 @@
 import CustomRouterLink from "@/components/custom/RouterLink";
 import MainLayoutToolbarAccountButtonMenu from "@/components/main-layout/ToolbarAccountButtonMenu";
 import commonUtilities from "@/common/utilities";
+import CustomGlobalSnackbar from "@/components/custom/GlobalSnackbar";
 export default {
   name: "tour-guide-layout",
-  components: { MainLayoutToolbarAccountButtonMenu, CustomRouterLink },
+  components: {
+    CustomGlobalSnackbar,
+    MainLayoutToolbarAccountButtonMenu,
+    CustomRouterLink,
+  },
   computed: {
     credentials() {
       return this.$store.state.authentication.credentials;

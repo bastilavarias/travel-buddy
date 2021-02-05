@@ -9,3 +9,4 @@ export const VERIFY_ACCOUNT = "account/VERIFY";
 export const FETCH_TOUR_GUIDE_ACCOUNTS = "account/FETCH_TOUR_GUIDES";
 export const UPDATE_ACCOUNT = "account/UPDATE";
 export const GET_ACCOUNT = "account/GET";
+export const UPDATE_ACCOUNT_PASSWORD = "account/UPDATE_PASSWORD";
