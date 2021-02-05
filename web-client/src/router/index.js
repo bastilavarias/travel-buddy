@@ -157,7 +157,12 @@ const routes = [
       {
         path: "",
         name: "tour-guide-personal-bookings-page/table",
-        component: () => import("@/pages/TourGuidePersonalBookingsTable"),
+        component: () => import("@/pages/tour-guide/PersonalBookingsTable"),
+      },
+      {
+        path: "account",
+        name: "tour-guide-personal-account-page",
+        component: () => import("@/pages/tour-guide/AccountForm"),
       },
     ],
     meta: {

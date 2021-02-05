@@ -9,6 +9,13 @@ const accountApiService = {
     const result = await apiService.put("/account/update", formData);
     return result.data || null;
   },
+  async updatePassword(accountID, password) {
+    const result = await apiService.put("/account/update/password", {
+      accountID,
+      password,
+    });
+    return result.data || null;
+  },
   async getInformation(id) {
     const result = await apiService.get(`/account/${id}`);
     return result.data || null;

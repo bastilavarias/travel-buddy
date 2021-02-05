@@ -37,14 +37,26 @@
         <v-list-item
           :to="{ name: 'tour-guide-personal-bookings-page/table' }"
           active-class="primary--text"
+          exact
         >
           <v-list-item-icon>
             <v-icon>mdi-book</v-icon>
           </v-list-item-icon>
           <v-list-item-title> My Bookings </v-list-item-title>
         </v-list-item>
+        <v-list-item
+          :to="{ name: 'tour-guide-personal-account-page' }"
+          active-class="primary--text"
+          exact
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-account-edit</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title> Account </v-list-item-title>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
+    <custom-global-snackbar></custom-global-snackbar>
   </v-app>
 </template>
 
@@ -52,9 +64,14 @@
 import CustomRouterLink from "@/components/custom/RouterLink";
 import MainLayoutToolbarAccountButtonMenu from "@/components/main-layout/ToolbarAccountButtonMenu";
 import commonUtilities from "@/common/utilities";
+import CustomGlobalSnackbar from "@/components/custom/GlobalSnackbar";
 export default {
   name: "tour-guide-layout",
-  components: { MainLayoutToolbarAccountButtonMenu, CustomRouterLink },
+  components: {
+    CustomGlobalSnackbar,
+    MainLayoutToolbarAccountButtonMenu,
+    CustomRouterLink,
+  },
   computed: {
     credentials() {
       return this.$store.state.authentication.credentials;

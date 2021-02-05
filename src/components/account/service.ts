@@ -118,17 +118,19 @@ const accountService = {
     const gotFullAccountInformation = await accountModel.getDetailsByID(
       accountID
     );
-    const imageSaveDetailsInput: IProfileModelSaveImageDetailsPayload = {
-      url: uploadedImageMeta.url,
-      fileName: uploadedImageMeta.fileName,
-      publicID: uploadedImageMeta.publicID,
-      // @ts-ignore
-      data: input.image,
-    };
-    await profileModel.updateImageDetails(
-      gotFullAccountInformation.profile.image.id,
-      imageSaveDetailsInput
-    );
+    if (input.image) {
+      const imageSaveDetailsInput: IProfileModelSaveImageDetailsPayload = {
+        url: uploadedImageMeta.url,
+        fileName: uploadedImageMeta.fileName,
+        publicID: uploadedImageMeta.publicID,
+        // @ts-ignore
+        data: input.image,
+      };
+      await profileModel.updateImageDetails(
+        gotFullAccountInformation.profile.image.id,
+        imageSaveDetailsInput
+      );
+    }
     const profileUpdateDetailsPayload: IProfileModelSaveDetailsPayload = {
       firstName: input.firstName,
       lastName: input.lastName,
@@ -180,6 +182,11 @@ const accountService = {
         return account;
       })
     );
+  },
+
+  async updatePassword(accountID: number, password: string) {
+    const hashedPassword = utilityService.hashPassword(password);
+    return await accountModel.updatePassword(accountID, hashedPassword);
   },
 
   async fetchTourGuides(): Promise<Account[]> {

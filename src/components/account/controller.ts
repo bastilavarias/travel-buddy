@@ -51,6 +51,18 @@ const accountController = {
     }
   },
 
+  async updatePassword(request: Request, response: Response) {
+    try {
+      const accountID = parseInt(<string>request.body.accountID);
+      const password = request.body.password;
+      const result = await accountService.updatePassword(accountID, password);
+      response.status(200).json(result);
+    } catch (error) {
+      console.log(error);
+      response.status(400).json(error);
+    }
+  },
+
   async fetchTypes(_request: Request, response: Response) {
     try {
       const types = await accountService.fetchTypes();

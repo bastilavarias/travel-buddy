@@ -16,6 +16,11 @@ accountRouter.put(
   passport.authenticate("jwt", { session: false }),
   accountController.update
 );
+accountRouter.put(
+  "/update/password",
+  passport.authenticate("jwt", { session: false }),
+  accountController.updatePassword
+);
 accountRouter.get(
   "/types",
   passport.authenticate("jwt", { session: false }),
