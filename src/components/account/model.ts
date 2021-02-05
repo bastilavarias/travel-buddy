@@ -80,6 +80,16 @@ const accountModel = {
     return this.getDetailsByID(accountID);
   },
 
+  async updatePassword(accountID: number, password: string): Promise<Account> {
+    await Account.update(
+      { id: accountID },
+      {
+        password,
+      }
+    );
+    return this.getDetailsByID(accountID);
+  },
+
   async fetchTypes(): Promise<AccountType[]> {
     return await AccountType.find();
   },

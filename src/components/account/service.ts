@@ -184,6 +184,11 @@ const accountService = {
     );
   },
 
+  async updatePassword(accountID: number, password: string) {
+    const hashedPassword = utilityService.hashPassword(password);
+    return await accountModel.updatePassword(accountID, hashedPassword);
+  },
+
   async fetchTourGuides(): Promise<Account[]> {
     return await accountModel.fetchTourGuides();
   },
