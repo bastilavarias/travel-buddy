@@ -91,13 +91,13 @@ const accountStore = {
         formData.append("email", email);
         formData.append("typeID", typeID);
         formData.append("image", images[0]);
-        const createdNewAccount = await accountApiService.update(formData);
+        const result = await accountApiService.update(formData);
         commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
           isOpen: true,
           text: "Updating account done!",
           color: "success",
         });
-        return { account: createdNewAccount, error: {} };
+        return { account: result.account, error: {} };
       } catch (error) {
         commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
           isOpen: true,

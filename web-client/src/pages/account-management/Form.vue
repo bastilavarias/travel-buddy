@@ -79,6 +79,7 @@
                 :images.sync="form.images"
               ></custom-image-input>
             </v-col>
+
             <v-col cols="12">
               <span class="subtitle-1">Sign In Credentials</span>
             </v-col>
