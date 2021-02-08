@@ -204,7 +204,6 @@ export default {
         GET_TOUR_GUIDE_TRANSACTION_SCHEDULE,
         id
       );
-      console.log(this.schedule);
       this.isGetScheduleStart = false;
     },
 

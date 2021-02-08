@@ -62,7 +62,7 @@ const accountModel = {
       .where(`tour_guide."accountId" = :id`, { id })
       .getRawOne();
     //@ts-ignore
-    tourGuide.rating = parseFloat(averageResult.average.toFixed(2)) || 0.0;
+    tourGuide.rating = parseFloat(averageResult.average.toFixed(1)) || 0.0;
     return tourGuide!;
   },
 
