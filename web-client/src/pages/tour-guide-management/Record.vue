@@ -76,6 +76,10 @@
                 :headers="tableHeaders"
                 :items="schedule"
                 :loading="isGetScheduleStart"
+                :single-expand="singleExpand"
+                :expanded.sync="expanded"
+                item-key="id"
+                show-expand
               >
                 <template v-slot:item.itineraryName="{ item }">
                   <span class="text-capitalize">{{ item.post.name }}</span>
@@ -99,6 +103,17 @@
                   <span v-if="!item.tourGuideReview" class="font-italic">
                     No review yet.
                   </span>
+                </template>
+                <template v-slot:expanded-item="{ headers, item }">
+                  <td :colspan="headers.length">
+                    Review:
+                    <span v-if="item.tourGuideReview" class="text-capitalize">
+                      {{ item.tourGuideReview.text }}
+                    </span>
+                    <span v-if="!item.tourGuideReview" class="font-italic">
+                      No review yet.
+                    </span>
+                  </td>
                 </template>
                 <template v-slot:item.status="{ item }">
                   <generic-booking-status-chip
@@ -170,11 +185,14 @@ export default {
           value: "status",
           sortable: false,
         },
+        { text: "", value: "data-table-expand" },
       ],
       isGetScheduleStart: false,
       schedule: [],
       recordForm: Object.assign({}, defaultRecordForm),
       defaultRecordForm,
+      expanded: [],
+      singleExpand: true,
     };
   },
 
@@ -186,6 +204,7 @@ export default {
         GET_TOUR_GUIDE_TRANSACTION_SCHEDULE,
         id
       );
+      console.log(this.schedule);
       this.isGetScheduleStart = false;
     },
 
@@ -195,7 +214,6 @@ export default {
         GET_ACCOUNT_TOUR_GUIDE_RECORD,
         id
       );
-      console.log(data);
       this.recordForm = Object.assign(this.recordForm, {
         name: this.formatName(data.profile.firstName, data.profile.lastName),
         email: data.email,
