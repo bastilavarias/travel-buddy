@@ -105,6 +105,17 @@ const accountController = {
     }
   },
 
+  async getTourGuideRecord(request: Request, response: Response) {
+    try {
+      const id = parseInt(request.params.id) || null;
+      //@ts-ignore
+      const result = await accountService.getTourGuideRecord(id);
+      response.status(200).json(result);
+    } catch (error) {
+      response.status(400).json(error);
+    }
+  },
+
   async disable(request: Request, response: Response) {
     try {
       const accountID = parseInt(request.params.accountID);

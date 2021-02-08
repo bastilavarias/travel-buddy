@@ -1,7 +1,7 @@
 import { IsTourGuideAvailable, ITransactionModelSavePayload } from "./typeDefs";
 import { getRepository } from "typeorm";
 import Transaction from "../../database/entities/Transaction";
-import { ITransactionReviewInput } from "../transaction/typeDefs";
+import { ITransactionReviewInput } from "./typeDefs";
 import TransactionItineraryPostReview from "../../database/entities/TransactionItineraryPostReview";
 import TransactionTourGuideReview from "../../database/entities/TransactionTourGuideReview";
 

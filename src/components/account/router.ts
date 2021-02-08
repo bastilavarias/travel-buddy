@@ -37,6 +37,11 @@ accountRouter.get(
   accountController.fetchTourGuides
 );
 accountRouter.get(
+  "/tour-guide/record/:id",
+  passport.authenticate("jwt", { session: false }),
+  accountController.getTourGuideRecord
+);
+accountRouter.get(
   "/:id",
   passport.authenticate("jwt", { session: false }),
   accountController.getInformation

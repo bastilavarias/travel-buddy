@@ -201,6 +201,10 @@ const accountService = {
     return await accountModel.getDetailsByID(id);
   },
 
+  async getTourGuideRecord(id: number): Promise<Account> {
+    return await accountModel.getTourGuideRecord(id);
+  },
+
   async disable(accountID: number): Promise<IAccountSoftDetails> {
     const disabledStatus = false;
     return await accountModel.updateActiveStatus(accountID, disabledStatus);

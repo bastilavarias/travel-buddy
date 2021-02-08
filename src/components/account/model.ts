@@ -6,6 +6,7 @@ import {
 } from "./typeDefs";
 import AccountType from "../../database/entities/AccountType";
 import { getRepository } from "typeorm";
+import TransactionTourGuideReview from "../../database/entities/TransactionTourGuideReview";
 
 const accountModel = {
   async getPartialDetailsByEmail(email: string): Promise<Account> {
@@ -51,6 +52,18 @@ const accountModel = {
   async getType(typeID: number): Promise<AccountType> {
     const foundType = await AccountType.findOne(typeID);
     return foundType!;
+  },
+
+  async getTourGuideRecord(id: number): Promise<Account> {
+    const tourGuide = await this.getDetailsByID(id);
+    const averageResult = await getRepository(TransactionTourGuideReview)
+      .createQueryBuilder("tour_guide")
+      .select("AVG(tour_guide.rating)", "average")
+      .where(`tour_guide."accountId" = :id`, { id })
+      .getRawOne();
+    //@ts-ignore
+    tourGuide.rating = parseFloat(averageResult.average.toFixed(2)) || 0.0;
+    return tourGuide!;
   },
 
   async saveDetails(input: IAccountModelSaveDetailsPayload): Promise<Account> {
