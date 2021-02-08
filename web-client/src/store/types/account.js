@@ -10,3 +10,4 @@ export const FETCH_TOUR_GUIDE_ACCOUNTS = "account/FETCH_TOUR_GUIDES";
 export const UPDATE_ACCOUNT = "account/UPDATE";
 export const GET_ACCOUNT = "account/GET";
 export const UPDATE_ACCOUNT_PASSWORD = "account/UPDATE_PASSWORD";
+export const GET_ACCOUNT_TOUR_GUIDE_RECORD = "account/GET_TOUR_GUIDE_RECORD";

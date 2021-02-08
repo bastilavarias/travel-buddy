@@ -20,6 +20,10 @@ const accountApiService = {
     const result = await apiService.get(`/account/${id}`);
     return result.data || null;
   },
+  async getTourGuideRecord(id) {
+    const result = await apiService.get(`/account/tour-guide/record/${id}`);
+    return result.data || null;
+  },
   async fetchTypes() {
     const result = await apiService.get("/account/types");
     return result.data || [];

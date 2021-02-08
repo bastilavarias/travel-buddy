@@ -7,6 +7,7 @@ import {
   FETCH_ACCOUNTS_DETAILS,
   FETCH_TOUR_GUIDE_ACCOUNTS,
   GET_ACCOUNT,
+  GET_ACCOUNT_TOUR_GUIDE_RECORD,
   SET_ACCOUNT_TYPES,
   UPDATE_ACCOUNT,
   UPDATE_ACCOUNT_PASSWORD,
@@ -161,6 +162,24 @@ const accountStore = {
     async [GET_ACCOUNT]({ commit }, id) {
       try {
         const result = await accountApiService.getInformation(id);
+        if (!result)
+          throw new Error(
+            "Something went wrong to the server. Please try again."
+          );
+        return result;
+      } catch (_) {
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Something went wrong to the server. Please try again.",
+          color: "error",
+        });
+        return [];
+      }
+    },
+
+    async [GET_ACCOUNT_TOUR_GUIDE_RECORD]({ commit }, id) {
+      try {
+        const result = await accountApiService.getTourGuideRecord(id);
         if (!result)
           throw new Error(
             "Something went wrong to the server. Please try again."

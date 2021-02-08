@@ -14,44 +14,57 @@
         </v-card-title>
         <v-card-text>
           <v-row dense>
-            <v-col cols="12">
+            <v-col cols="12" v-if="recordForm.imageUrl">
               <div class="text-center">
                 <v-avatar :size="120" color="secondary" class="mr-1">
                   <v-img
-                    src="https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg"
-                    lazy-src="https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg"
+                    :src="recordForm.imageUrl"
+                    :lazy-src="recordForm.imageUrl"
                   ></v-img>
                 </v-avatar>
               </div>
             </v-col>
-            <v-col cols="12">
-              <custom-label-and-content
+            <v-col cols="12"></v-col>
+            <v-col cols="12" md="8">
+              <v-text-field
                 label="Name"
-                content="Cardo Dalisay"
-                content-class-name="text-capitalize"
-              ></custom-label-and-content>
+                outlined
+                readonly
+                v-model="recordForm.name"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="4">
+              <v-text-field
+                label="Name"
+                outlined
+                readonly
+                v-model="recordForm.email"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-text-field
+                label="Nationality"
+                outlined
+                readonly
+                v-model="recordForm.nationality"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-text-field
+                label="Sex"
+                outlined
+                readonly
+                v-model="recordForm.sex"
+              ></v-text-field>
             </v-col>
             <v-col cols="12">
-              <custom-label-and-content
-                label="Email"
-                content="cardodalisay@gmail.com"
-              ></custom-label-and-content>
-            </v-col>
-            <v-col cols="12">
-              <custom-label-and-content
-                label="Location"
-                content="Manila, Philippines"
-              ></custom-label-and-content>
-            </v-col>
-            <v-col cols="12">
-              <custom-label-and-content
-                label="Contact"
-                content="Manila, Philippines"
-              ></custom-label-and-content>
-            </v-col>
-            <v-col cols="12">
-              <div class="subtitle-1 mb-2">Rating</div>
-              <!--              <generic-rating-chip></generic-rating-chip>-->
+              <v-text-field
+                label="Overall Rating"
+                outlined
+                readonly
+                v-model="recordForm.rating"
+              >
+              </v-text-field>
             </v-col>
           </v-row>
         </v-card-text>
@@ -97,10 +110,6 @@
             </v-col>
           </v-row>
         </v-card-text>
-        <v-card-actions>
-          <div class="flex-grow-1"></div>
-          <v-btn color="secondary" class="text-capitalize">Edit Account</v-btn>
-        </v-card-actions>
       </v-card>
     </v-container>
   </section>
@@ -112,6 +121,17 @@ import CustomLabelAndContent from "@/components/custom/LabelAndContent";
 import GenericRatingChip from "@/components/generic/chip/Rating";
 import { GET_TOUR_GUIDE_TRANSACTION_SCHEDULE } from "@/store/types/transaction";
 import GenericBookingStatusChip from "@/components/generic/chip/BookingStatus";
+import { GET_ACCOUNT_TOUR_GUIDE_RECORD } from "@/store/types/account";
+
+const defaultRecordForm = {
+  name: null,
+  email: null,
+  nationality: null,
+  sex: null,
+  rating: null,
+  imageUrl: null,
+};
+
 export default {
   components: {
     GenericBookingStatusChip,
@@ -153,6 +173,8 @@ export default {
       ],
       isGetScheduleStart: false,
       schedule: [],
+      recordForm: Object.assign({}, defaultRecordForm),
+      defaultRecordForm,
     };
   },
 
@@ -164,12 +186,29 @@ export default {
         GET_TOUR_GUIDE_TRANSACTION_SCHEDULE,
         id
       );
-      console.log(this.schedule);
       this.isGetScheduleStart = false;
+    },
+
+    async getRecord() {
+      const { id } = this.$route.params;
+      const data = await this.$store.dispatch(
+        GET_ACCOUNT_TOUR_GUIDE_RECORD,
+        id
+      );
+      console.log(data);
+      this.recordForm = Object.assign(this.recordForm, {
+        name: this.formatName(data.profile.firstName, data.profile.lastName),
+        email: data.email,
+        nationality: data.profile.nationality,
+        sex: data.profile.sex,
+        rating: data.rating,
+        imageUrl: data.profile.image.url,
+      });
     },
   },
 
   async created() {
+    await this.getRecord();
     await this.getSchedule();
   },
 };
