@@ -57,7 +57,10 @@
             <custom-tooltip-button
               icon="mdi-file-find"
               text="View Record"
-              :to="{ name: 'tour-guide-management-page/record' }"
+              :to="{
+                name: 'tour-guide-management-page/record',
+                params: { id: item.id },
+              }"
             ></custom-tooltip-button>
           </template>
         </v-data-table>

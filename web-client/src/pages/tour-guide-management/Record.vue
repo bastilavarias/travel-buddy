@@ -51,7 +51,7 @@
             </v-col>
             <v-col cols="12">
               <div class="subtitle-1 mb-2">Rating</div>
-              <generic-rating-chip></generic-rating-chip>
+              <!--              <generic-rating-chip></generic-rating-chip>-->
             </v-col>
           </v-row>
         </v-card-text>
@@ -60,21 +60,38 @@
             <v-col cols="12">
               <span class="subtitle-1">Bookings History</span>
               <v-data-table
-                :items-per-page="-1"
                 :headers="tableHeaders"
-                :items="sampleItems"
+                :items="schedule"
+                :loading="isGetScheduleStart"
               >
                 <template v-slot:item.itineraryName="{ item }">
-                  <span class="text-capitalize">{{ item.itineraryName }}</span>
+                  <span class="text-capitalize">{{ item.post.name }}</span>
                 </template>
                 <template v-slot:item.clientName="{ item }">
-                  <span class="text-capitalize">{{ item.clientName }}</span>
+                  <span class="text-capitalize">{{
+                    item.client.profile.firstName
+                  }}</span>
                 </template>
-                <template v-slot:item.date.from="{ item }">
-                  <span>{{ item.date.from }} - {{ item.date.to }}</span>
+                <template v-slot:item.fromDate="{ item }">
+                  <span
+                    >{{ formatDate(item.fromDate) }} -
+                    {{ formatDate(item.toDate) }}</span
+                  >
                 </template>
                 <template v-slot:item.rating="{ item }">
-                  <generic-rating-chip></generic-rating-chip>
+                  <generic-rating-chip
+                    :rating="item.tourGuideReview.rating"
+                    v-if="item.tourGuideReview"
+                  ></generic-rating-chip>
+                  <span v-if="!item.tourGuideReview" class="font-italic">
+                    No review yet.
+                  </span>
+                </template>
+                <template v-slot:item.status="{ item }">
+                  <generic-booking-status-chip
+                    :from-date="item.fromDate"
+                    :to-date="item.toDate"
+                  ></generic-booking-status-chip>
                 </template>
               </v-data-table>
             </v-col>
@@ -93,13 +110,18 @@ import CustomTooltipButton from "@/components/custom/TooltipButton";
 import commonUtilities from "@/common/utilities";
 import CustomLabelAndContent from "@/components/custom/LabelAndContent";
 import GenericRatingChip from "@/components/generic/chip/Rating";
+import { GET_TOUR_GUIDE_TRANSACTION_SCHEDULE } from "@/store/types/transaction";
+import GenericBookingStatusChip from "@/components/generic/chip/BookingStatus";
 export default {
   components: {
+    GenericBookingStatusChip,
     GenericRatingChip,
     CustomLabelAndContent,
     CustomTooltipButton,
   },
+
   mixins: [commonUtilities],
+
   data() {
     return {
       tableHeaders: [
@@ -115,13 +137,13 @@ export default {
         },
         {
           text: "Date",
-          value: "date.from",
+          value: "fromDate",
           sortable: true,
         },
         {
           text: "Rating",
           value: "rating",
-          sortable: true,
+          sortable: false,
         },
         {
           text: "Status",
@@ -129,39 +151,26 @@ export default {
           sortable: false,
         },
       ],
-      sampleItems: [
-        {
-          itineraryName: "Itinerary Name",
-          clientName: "Client Name",
-          date: {
-            from: "March 25, 2020",
-            to: "March 28, 2020",
-          },
-          rating: 5,
-          status: "Done",
-        },
-        {
-          itineraryName: "Itinerary Name",
-          clientName: "Client Name",
-          date: {
-            from: "March 25, 2020",
-            to: "March 28, 2020",
-          },
-          rating: 5,
-          status: "Done",
-        },
-        {
-          itineraryName: "Itinerary Name",
-          clientName: "Client Name",
-          date: {
-            from: "March 25, 2020",
-            to: "March 28, 2020",
-          },
-          rating: 5,
-          status: "Done",
-        },
-      ],
+      isGetScheduleStart: false,
+      schedule: [],
     };
+  },
+
+  methods: {
+    async getSchedule() {
+      this.isGetScheduleStart = true;
+      const { id } = this.$route.params;
+      this.schedule = await this.$store.dispatch(
+        GET_TOUR_GUIDE_TRANSACTION_SCHEDULE,
+        id
+      );
+      console.log(this.schedule);
+      this.isGetScheduleStart = false;
+    },
+  },
+
+  async created() {
+    await this.getSchedule();
   },
 };
 </script>

@@ -107,7 +107,7 @@ const routes = [
             component: () => import("@/pages/tour-guide-management/Table"),
           },
           {
-            path: "record",
+            path: "record/:id",
             name: "tour-guide-management-page/record",
             component: () => import("@/pages/tour-guide-management/Record"),
           },
