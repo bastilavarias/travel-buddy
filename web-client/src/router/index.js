@@ -91,7 +91,7 @@ const routes = [
             component: () => import("@/pages/itinerary/management/Table"),
           },
           {
-            path: "form",
+            path: "form/:operation/:id?",
             name: "itinerary-management-page/form",
             component: () => import("@/pages/itinerary/management/Form"),
           },

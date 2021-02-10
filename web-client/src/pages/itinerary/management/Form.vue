@@ -49,9 +49,52 @@
                 step="0.01"
               ></v-text-field>
             </v-col>
-            <v-col cols="12">
+            <v-col cols="12" v-if="operation === 'create'">
               <custom-image-input
                 label="Images *"
+                multiple
+                :images.sync="form.images"
+              ></custom-image-input>
+            </v-col>
+            <v-col cols="12" v-if="operation === 'update'">
+              <v-expansion-panels class="elevation-0">
+                <v-expansion-panel class="elevation-0">
+                  <v-expansion-panel-header class="font-weight-medium">
+                    Current Images
+                  </v-expansion-panel-header>
+                  <v-expansion-panel-content>
+                    <v-row dense>
+                      <template v-for="(image, index) in form.imagesUrl">
+                        <v-col cols="12" md="4" :key="index">
+                          <v-dialog width="800">
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-img
+                                :src="image.url"
+                                :lazy-src="image.url"
+                                width="100%"
+                                height="auto"
+                                v-bind="attrs"
+                                v-on="on"
+                                :style="{ cursor: 'pointer' }"
+                              ></v-img>
+                            </template>
+                            <v-img
+                              :src="image.url"
+                              :lazy-src="image.url"
+                              width="100%"
+                              height="auto"
+                            ></v-img>
+                          </v-dialog>
+                        </v-col>
+                      </template>
+                    </v-row>
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
+              </v-expansion-panels>
+            </v-col>
+            <v-col cols="12" v-if="operation === 'update'">
+              <custom-image-input
+                label="New Images *"
                 multiple
                 :images.sync="form.images"
               ></custom-image-input>
@@ -99,6 +142,16 @@
             :disabled="!isFormValid"
             @click="createNewItinerary"
             :loading="isCreateNewItineraryStart"
+            v-if="operation === 'update'"
+            >Update</v-btn
+          >
+          <v-btn
+            color="primary"
+            block
+            :disabled="!isFormValid"
+            @click="createNewItinerary"
+            :loading="isCreateNewItineraryStart"
+            v-if="operation === 'create'"
             >Create</v-btn
           >
         </v-card-actions>
@@ -127,10 +180,16 @@ import ItineraryManagementPageTransportationCombobox from "@/components/itinerar
 import ItineraryManagementPageActivityCombobox from "@/components/itinerary-management-page/ActivityCombobox";
 import CustomImageInput from "@/components/custom/ImageInput";
 import CustomDestinationSearchAutocomplete from "@/components/custom/DestinationSearchAutocomplete";
-import { FETCH_GENERIC_TRANSPORTATION } from "@/store/types/generic";
+import {
+  FETCH_GENERIC_TRANSPORTATION,
+  SEARCH_GENERIC_DESTINATIONS,
+} from "@/store/types/generic";
 import ItineraryManagementPageDayFormDialog from "@/components/itinerary-management-page/DayFormDialog";
 import CustomAlertDialog from "@/components/custom/AlertDialog";
-import { CREATE_NEW_ITINERARY } from "@/store/types/itinerary";
+import {
+  CREATE_NEW_ITINERARY,
+  GET_ITINERARY_SOFT_DETAILS,
+} from "@/store/types/itinerary";
 import commonValidation from "@/common/validation";
 
 const defaultItineraryForm = {
@@ -140,6 +199,7 @@ const defaultItineraryForm = {
   pax: 0,
   days: [],
   images: [],
+  imagesUrl: [],
 };
 
 export default {
@@ -191,10 +251,11 @@ export default {
       isDayFormDialogOpen: false,
       form: Object.assign({}, defaultItineraryForm),
       defaultItineraryForm,
-      selectedDay: {},
+      selectedDay: null,
       dayFormDialogOperation: "add",
       isCustomAlertDialogOpen: false,
       isCreateNewItineraryStart: false,
+      operation: null,
     };
   },
   mixins: [commonUtilities, commonValidation],
@@ -215,12 +276,12 @@ export default {
   methods: {
     openAddDayDialog() {
       this.dayFormDialogOperation = "add";
-      this.selectedDay = {};
+      this.selectedDay = this.selectedDay = Object.assign({}, {});
       this.isDayFormDialogOpen = true;
     },
     openUpdateFormDialog(day) {
       this.dayFormDialogOperation = "update";
-      this.selectedDay = day;
+      this.selectedDay = Object.assign({}, day);
       this.isDayFormDialogOpen = true;
     },
     openRemoveDayDialog(day) {
@@ -252,9 +313,39 @@ export default {
     clearForm() {
       this.form = Object.assign({}, this.defaultItineraryForm);
     },
+    async getItineraryDetails() {
+      const { id } = this.$route.params;
+      const itinerary = await this.$store.dispatch(
+        GET_ITINERARY_SOFT_DETAILS,
+        id
+      );
+      const days = itinerary.days.map((day) => {
+        day.activities = day.activities.map((activity) => activity.name);
+        return day;
+      });
+      this.form = Object.assign(this.form, {
+        name: itinerary.name,
+        description: itinerary.description,
+        price: itinerary.price,
+        pax: itinerary.pax,
+        days: days,
+        imagesUrl: itinerary.images,
+      });
+      this.form.days.map(
+        async (day) =>
+          await this.$store.dispatch(
+            SEARCH_GENERIC_DESTINATIONS,
+            day.destination
+          )
+      );
+    },
   },
   async created() {
     await this.$store.dispatch(FETCH_GENERIC_TRANSPORTATION);
+    const { id, operation } = this.$route.params;
+    this.operation = operation;
+    if (this.operation === "update" && !id) return this.$router.go(-1);
+    if (this.operation === "update" && id) await this.getItineraryDetails();
   },
 };
 </script>

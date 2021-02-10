@@ -100,7 +100,6 @@ export default {
       required: true,
     },
     selectedDay: {
-      type: Object,
       required: true,
     },
     operation: {
@@ -141,7 +140,10 @@ export default {
       this.$emit("update:days", val);
     },
     selectedDay(val) {
-      if (this.validateObject(val)) return (this.form = Object.assign({}, val));
+      if (val && this.validateObject(val)) {
+        this.form = Object.assign(this.form, val);
+        return;
+      }
       this.form = Object.assign({}, this.defaultDayForm);
     },
   },
