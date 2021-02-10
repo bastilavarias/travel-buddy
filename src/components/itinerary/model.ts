@@ -209,6 +209,14 @@ const itineraryModel = {
     await ItineraryPost.update(postID, { isActive: status });
     return await this.getSoftDetails(postID);
   },
+
+  async deleteDays(postID: number) {
+    await ItineraryPostDay.delete({ post: { id: postID } });
+  },
+
+  async deleteImages(postID: number) {
+    await ItineraryPostImage.delete({ post: { id: postID } });
+  },
 };
 
 export default itineraryModel;

@@ -9,6 +9,12 @@ itineraryRouter.post(
   passport.authenticate("jwt", { session: false }),
   itineraryController.createNew
 );
+
+itineraryRouter.put(
+  "/update",
+  passport.authenticate("jwt", { session: false }),
+  itineraryController.update
+);
 itineraryRouter.get(
   "/inquiry",
   passport.authenticate("jwt", { session: false }),
@@ -34,6 +40,12 @@ itineraryRouter.post(
   multer.array("images"),
   passport.authenticate("jwt", { session: false }),
   itineraryController.uploadImages
+);
+itineraryRouter.put(
+  "/update-images",
+  multer.array("images"),
+  passport.authenticate("jwt", { session: false }),
+  itineraryController.updateImages
 );
 itineraryRouter.get("/", itineraryController.fetch);
 itineraryRouter.get(

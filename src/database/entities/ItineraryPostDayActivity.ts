@@ -15,6 +15,8 @@ export default class ItineraryPostDayActivity extends BaseEntity {
   @Column({ nullable: false })
   name: string;
 
-  @ManyToOne(() => ItineraryPostDay)
+  @ManyToOne(() => ItineraryPostDay, {
+    onDelete: "CASCADE",
+  })
   day: ItineraryPostDay;
 }
