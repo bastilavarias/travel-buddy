@@ -52,7 +52,12 @@ export default {
     },
   },
   watch: {
-    destination(val) {
+    async destination(val) {
+      if (val) {
+        this.isSearchStart = true;
+        await this.$store.dispatch(SEARCH_GENERIC_DESTINATIONS, val);
+        this.isSearchStart = false;
+      }
       this.destinationLocal = val;
     },
     destinationLocal(val) {

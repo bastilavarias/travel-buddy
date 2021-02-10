@@ -9,6 +9,11 @@ const itineraryApiService = {
     return result.data || {};
   },
 
+  async update(form) {
+    const result = await apiService.put("/itinerary/update", form);
+    return result.data || {};
+  },
+
   async createInquiry(postID, accountID, message) {
     const result = await apiService.post("/itinerary/inquiry", {
       postID,
@@ -43,6 +48,11 @@ const itineraryApiService = {
 
   async uploadImages(formData) {
     const result = await apiService.post("/itinerary/upload-images", formData);
+    return result.data || {};
+  },
+
+  async updateImages(formData) {
+    const result = await apiService.put("/itinerary/update-images", formData);
     return result.data || {};
   },
 

@@ -8,7 +8,10 @@
           <custom-tooltip-button
             icon="mdi-plus"
             text="Create new Itinerary"
-            :to="{ name: 'itinerary-management-page/form' }"
+            :to="{
+              name: 'itinerary-management-page/form',
+              params: { operation: 'create' },
+            }"
           ></custom-tooltip-button>
           <custom-tooltip-button
             icon="mdi-refresh"
@@ -68,12 +71,15 @@
           </template>
           <template v-slot:item.actions="{ item }">
             <custom-tooltip-button
-              icon="mdi-file-find"
-              text="View Itinerary"
-            ></custom-tooltip-button>
-            <custom-tooltip-button
               icon="mdi-pencil-outline"
               text="Edit Itinerary"
+              :action="
+                () =>
+                  $router.push({
+                    name: 'itinerary-management-page/form',
+                    params: { operation: 'update', id: item.id },
+                  })
+              "
             ></custom-tooltip-button>
             <custom-tooltip-button
               icon="mdi-stop"
@@ -134,7 +140,6 @@ import {
 } from "@/store/types/itinerary";
 import commonUtilities from "@/common/utilities";
 import CustomAlertDialog from "@/components/custom/AlertDialog";
-import { ENABLE_ACCOUNT } from "@/store/types/account";
 export default {
   components: { CustomAlertDialog, CustomTooltipButton },
   data() {

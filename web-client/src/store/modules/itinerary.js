@@ -10,6 +10,7 @@ import {
   GET_ITINERARY_REVIEWS,
   GET_ITINERARY_SOFT_DETAILS,
   SET_ITINERARIES,
+  UPDATE_ITINERARY,
 } from "@/store/types/itinerary";
 import itineraryApiService from "@/services/api/modules/itinerary";
 import { SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS } from "@/store/types/generic";
@@ -48,6 +49,40 @@ const itineraryStore = {
         commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
           isOpen: true,
           text: "Creating itinerary done!",
+          color: "success",
+        });
+        return createdItinerary;
+      } catch (error) {
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Something went wrong to the server. Please try again.",
+          color: "error",
+        });
+        throw new Error(`[RWV] ApiService ${error}`);
+      }
+    },
+
+    async [UPDATE_ITINERARY]({ commit }, form) {
+      try {
+        const { postID, name, description, price, pax, images, days } = form;
+        if (images.length > 0) {
+          const formData = new FormData();
+          formData.append("postID", postID);
+          images.map((image) => formData.append("images", image));
+          await itineraryApiService.updateImages(formData);
+        }
+        const payload = {
+          name,
+          description,
+          price,
+          pax,
+          days,
+          postID,
+        };
+        const createdItinerary = await itineraryApiService.update(payload);
+        commit(SET_GENERIC_GLOBAL_SNACKBAR_CONFIGS, {
+          isOpen: true,
+          text: "Updating itinerary done!",
           color: "success",
         });
         return createdItinerary;

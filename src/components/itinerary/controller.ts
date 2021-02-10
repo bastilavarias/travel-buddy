@@ -20,11 +20,40 @@ const itineraryController = {
     }
   },
 
+  async update(request: Request, response: Response) {
+    try {
+      const postID = parseInt(request.body.postID);
+      const input: IItineraryPostServiceCreateInput = {
+        name: request.body.name || "",
+        description: request.body.description || "",
+        pax: request.body.pax || 0,
+        price: request.body.price || 0,
+        days: request.body.days || [],
+      };
+      const result = await itineraryService.update(postID, input);
+      response.status(200).json(result);
+    } catch (error) {
+      response.status(400).json(error);
+    }
+  },
+
   async uploadImages(request: Request, response: Response) {
     try {
       const images = request.files || [];
       // @ts-ignore
       const result = await itineraryService.uploadImages(images);
+      response.status(200).json(result);
+    } catch (error) {
+      response.status(400).json(error);
+    }
+  },
+
+  async updateImages(request: Request, response: Response) {
+    try {
+      const postID = parseInt(request.body.postID);
+      const images = request.files || [];
+      // @ts-ignore
+      const result = await itineraryService.updateImages(postID, images);
       response.status(200).json(result);
     } catch (error) {
       response.status(400).json(error);

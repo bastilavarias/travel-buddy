@@ -29,6 +29,22 @@ const itineraryService = {
     return await itineraryModel.getSoftDetails(postID);
   },
 
+  async update(
+    postID: number,
+    input: IItineraryPostServiceCreateInput
+  ): Promise<IItinerarySoftDetails> {
+    const updateDetailsInput: IItineraryPostModelUpdateDetails = {
+      name: input.name,
+      description: input.description,
+      pax: input.pax,
+      price: input.price,
+    };
+    await itineraryModel.updateDetails(postID, updateDetailsInput);
+    await itineraryModel.deleteDays(postID);
+    await this.addDays(postID, input.days);
+    return await itineraryModel.getSoftDetails(postID);
+  },
+
   async createInquiry(postID: number, accountID: number, message: string) {
     return await itineraryModel.createInquiry(postID, accountID, message);
   },
@@ -105,6 +121,35 @@ const itineraryService = {
       })
     );
     return savedDetails;
+  },
+
+  async updateImages(
+    postID: number,
+    images: Express.Multer.File[]
+  ): Promise<IItinerarySoftDetails> {
+    const gotImages = await itineraryModel.getImagesSoftDetails(postID);
+    gotImages.map(
+      async (image) => await cloudinaryService.delete(image.publicID)
+    );
+    await itineraryModel.deleteImages(postID);
+    await Promise.all(
+      images.map(async (image) => {
+        const folderPath = "posts";
+        const uploadedImageMeta = await cloudinaryService.upload(
+          image,
+          folderPath
+        );
+        const saveImageInput: IItineraryPostModelSaveImageInput = {
+          url: uploadedImageMeta.url,
+          publicID: uploadedImageMeta.publicID,
+          fileName: uploadedImageMeta.fileName,
+          data: image,
+        };
+        await itineraryModel.saveImage(postID, saveImageInput);
+      })
+    );
+
+    return await this.getSoftDetails(postID);
   },
 
   async fetch(): Promise<IItinerarySoftDetails[]> {
