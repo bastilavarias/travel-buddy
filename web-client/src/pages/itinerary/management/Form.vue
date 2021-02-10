@@ -139,16 +139,16 @@
           <v-btn
             color="primary"
             block
-            :disabled="!isFormValid"
-            @click="createNewItinerary"
-            :loading="isCreateNewItineraryStart"
+            :disabled="!isUpdateFormValid"
+            @click="updateItinerary"
+            :loading="isUpdateItineraryStart"
             v-if="operation === 'update'"
             >Update</v-btn
           >
           <v-btn
             color="primary"
             block
-            :disabled="!isFormValid"
+            :disabled="!isCreateFormValid"
             @click="createNewItinerary"
             :loading="isCreateNewItineraryStart"
             v-if="operation === 'create'"
@@ -189,6 +189,7 @@ import CustomAlertDialog from "@/components/custom/AlertDialog";
 import {
   CREATE_NEW_ITINERARY,
   GET_ITINERARY_SOFT_DETAILS,
+  UPDATE_ITINERARY,
 } from "@/store/types/itinerary";
 import commonValidation from "@/common/validation";
 
@@ -255,12 +256,13 @@ export default {
       dayFormDialogOperation: "add",
       isCustomAlertDialogOpen: false,
       isCreateNewItineraryStart: false,
+      isUpdateItineraryStart: false,
       operation: null,
     };
   },
   mixins: [commonUtilities, commonValidation],
   computed: {
-    isFormValid() {
+    isCreateFormValid() {
       const { name, pax, images, days, price } = this.form;
       return (
         name &&
@@ -268,7 +270,19 @@ export default {
         parseInt(price) > 0 &&
         pax &&
         parseInt(pax) > 0 &&
-        images.length > 0 &&
+        days.length > 0 &&
+        images.length > 0
+      );
+    },
+
+    isUpdateFormValid() {
+      const { name, pax, days, price } = this.form;
+      return (
+        name &&
+        price &&
+        parseInt(price) > 0 &&
+        pax &&
+        parseInt(pax) > 0 &&
         days.length > 0
       );
     },
@@ -308,6 +322,21 @@ export default {
       this.isCreateNewItineraryStart = false;
       if (this.validateObject(createdItinerary)) {
         this.clearForm();
+      }
+    },
+    async updateItinerary() {
+      const { id } = this.$route.params;
+      const payload = Object.assign(this.form, {
+        postID: id,
+      });
+      this.isUpdateItineraryStart = true;
+      const updatedItinerary = await this.$store.dispatch(
+        UPDATE_ITINERARY,
+        payload
+      );
+      this.isUpdateItineraryStart = false;
+      if (this.validateObject(updatedItinerary)) {
+        await this.$router.push({ name: "itinerary-management-page/table" });
       }
     },
     clearForm() {
