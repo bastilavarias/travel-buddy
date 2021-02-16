@@ -32,6 +32,7 @@
       <router-view></router-view>
       <generic-basic-footer></generic-basic-footer>
     </v-main>
+    <custom-global-snackbar></custom-global-snackbar>
   </v-app>
 </template>
 
@@ -39,9 +40,11 @@
 import CustomRouterLink from "@/components/custom/RouterLink";
 import MainLayoutToolbarAccountButtonMenu from "@/components/main-layout/ToolbarAccountButtonMenu";
 import GenericBasicFooter from "@/components/generic/footer/Basic";
+import CustomGlobalSnackbar from "@/components/custom/GlobalSnackbar";
 export default {
   name: "main-layout",
   components: {
+    CustomGlobalSnackbar,
     GenericBasicFooter,
     MainLayoutToolbarAccountButtonMenu,
     CustomRouterLink,

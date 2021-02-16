@@ -38,6 +38,9 @@
                 :bookings.sync="clientBookings"
               ></feed-page-bookings>
             </v-tab-item>
+            <v-tab-item>
+              <feed-page-account-form></feed-page-account-form>
+            </v-tab-item>
           </v-tabs-items>
         </v-col>
       </v-row>
@@ -51,8 +54,10 @@ import FeedPageTourGuides from "@/components/feed-page/TourGuides";
 import FeedPageBookings from "@/components/feed-page/ItineraryBookingsHistoryCard";
 import { FETCH_ITINERARIES } from "@/store/types/itinerary";
 import { FETCH_CLIENT_BOOKINGS } from "@/store/types/transaction";
+import FeedPageAccountForm from "@/components/feed-page/AccountForm";
 export default {
   components: {
+    FeedPageAccountForm,
     FeedPageBookings,
     FeedPageTourGuides,
     FeedPageItineraries,
