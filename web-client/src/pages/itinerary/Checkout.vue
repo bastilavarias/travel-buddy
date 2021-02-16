@@ -198,8 +198,16 @@
                       ><span class="font-weight-bold text-capitalize">
                         {{ formatMoney(postDetails.price) }}
                       </span>
-                      | <generic-rating-chip></generic-rating-chip
-                      ><span class="caption">(99)</span>
+                      |
+                      <generic-rating-chip
+                        :rating="postDetails.rating"
+                      ></generic-rating-chip
+                      ><span class="caption"
+                        >({{ postDetails.reviewsCount }})
+                        {{
+                          postDetails.reviewsCount > 1 ? "Reviews" : "Review"
+                        }}</span
+                      >
                     </v-list-item-subtitle>
                     <v-list-item-subtitle>
                       {{ formatItineraryDetails(postDetails.days) }}

@@ -15,19 +15,19 @@
     </v-img>
     <v-list-item two-line>
       <v-list-item-content>
-        <v-list-item-subtitle class="font-weight-bold secondary--text">
+        <v-list-item-subtitle class="font-weight-bold secondary--text mb-2">
           {{ name }}
         </v-list-item-subtitle>
         <v-list-item-subtitle>
           <div class="d-flex align-center">
-            <v-chip small class="mr-1">
-              <v-icon color="primary" small left>mdi-star</v-icon>
-              <span class="primary--text">5.0</span>
-            </v-chip>
+            <generic-rating-chip :rating="rating"></generic-rating-chip>
             <div>
-              <span>1 Reviews</span>
+              <span
+                >{{ reviewsCount }}
+                {{ reviewsCount > 1 ? "Reviews" : "Review" }}</span
+              >
               <span class="mx-1">|</span>
-              <span>100 Booked</span>
+              <span>{{ transactionCount }} Booked</span>
             </div>
           </div>
         </v-list-item-subtitle>
@@ -65,9 +65,11 @@
 
 <script>
 import commonUtilities from "@/common/utilities";
+import GenericRatingChip from "@/components/generic/chip/Rating";
 
 export default {
   name: "generic-itinerary-details-preview-card",
+  components: { GenericRatingChip },
   mixins: [commonUtilities],
   props: {
     postID: {
@@ -95,6 +97,18 @@ export default {
       required: true,
     },
     pax: {
+      type: Number,
+      required: true,
+    },
+    rating: {
+      type: Number,
+      required: true,
+    },
+    reviewsCount: {
+      type: Number,
+      required: true,
+    },
+    transactionCount: {
       type: Number,
       required: true,
     },

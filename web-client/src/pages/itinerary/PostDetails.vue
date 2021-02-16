@@ -19,7 +19,6 @@
           <v-skeleton-loader type="card"></v-skeleton-loader>
         </v-col>
       </v-row>
-
       <v-row v-if="!isGetPostDetailsStart">
         <v-col cols="12">
           <itinerary-post-details-page-header
@@ -33,6 +32,8 @@
               <itinerary-post-details-page-content-card
                 :name="postDetails.name"
                 :description="postDetails.description"
+                :rating="postDetails.rating"
+                :reviews-count="postDetails.reviewsCount"
               ></itinerary-post-details-page-content-card>
             </v-col>
             <v-col cols="12">

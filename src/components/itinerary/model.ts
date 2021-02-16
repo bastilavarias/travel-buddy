@@ -13,6 +13,7 @@ import { getRepository } from "typeorm";
 import ItineraryPostInquiry from "../../database/entities/ItineraryPostInquiry";
 import ItineraryPostInquiryReply from "../../database/entities/ItineraryPostInquiryReply";
 import TransactionItineraryPostReview from "../../database/entities/TransactionItineraryPostReview";
+import Transaction from "../../database/entities/Transaction";
 
 const itineraryModel = {
   async saveDetails(
@@ -167,6 +168,29 @@ const itineraryModel = {
     );
     foundDetails.images = await this.getImagesSoftDetails(postID);
     foundDetails.days = await this.getDays(postID);
+    const reviewCountResult = await getRepository(
+      TransactionItineraryPostReview
+    )
+      .createQueryBuilder("review")
+      .select("COUNT(review.id)", "count")
+      .where(`review."postId" = :postID`, { postID })
+      .getRawOne();
+    // @ts-ignore
+    foundDetails.reviewsCount = parseInt(reviewCountResult.count) || 0;
+    const transactionCountResult = await getRepository(Transaction)
+      .createQueryBuilder("transaction")
+      .select("COUNT(transaction.id)", "count")
+      .where(`transaction."postId" = :postID`, { postID })
+      .getRawOne();
+    // @ts-ignore
+    foundDetails.transactionCount = parseInt(transactionCountResult.count) || 0;
+    const averageResult = await getRepository(TransactionItineraryPostReview)
+      .createQueryBuilder("review")
+      .select("AVG(review.rating)", "average")
+      .where(`review."postId" = :postID`, { postID })
+      .getRawOne();
+    // @ts-ignore
+    foundDetails.rating = parseFloat(averageResult.average.toFixed(1)) || 0.0;
     return foundDetails;
   },
 

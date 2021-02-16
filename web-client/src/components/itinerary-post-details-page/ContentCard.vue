@@ -13,11 +13,11 @@
         {{ description }}
       </div>
       <div class="d-flex align-center">
-        <v-chip small class="mr-1">
-          <v-icon color="primary" small left>mdi-star</v-icon>
-          <span class="primary--text">5.0</span>
-        </v-chip>
-        <span>(666)</span>
+        <generic-rating-chip :rating="rating"></generic-rating-chip>
+        <span
+          >({{ reviewsCount }})
+          {{ reviewsCount > 1 ? "Reviews" : "Review" }}</span
+        >
       </div>
     </v-card-text>
   </v-card>
@@ -25,9 +25,11 @@
 
 <script>
 import commonUtilities from "@/common/utilities";
+import GenericRatingChip from "@/components/generic/chip/Rating";
 
 export default {
   name: "itinerary-post-details-page-content-card",
+  components: { GenericRatingChip },
   props: {
     name: {
       type: String,
@@ -35,6 +37,14 @@ export default {
     },
     description: {
       type: String,
+      required: true,
+    },
+    rating: {
+      type: Number,
+      required: true,
+    },
+    reviewsCount: {
+      type: Number,
       required: true,
     },
   },

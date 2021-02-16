@@ -15,6 +15,9 @@
             :images="itinerary.images"
             :is-active="itinerary.isActive"
             :pax="itinerary.pax"
+            :rating="itinerary.rating"
+            :reviews-count="itinerary.reviewsCount"
+            :transaction-count="itinerary.transactionCount"
           ></generic-itinerary-details-preview-card>
         </v-col>
       </template>

@@ -57,9 +57,9 @@ const accountModel = {
   async getTourGuideRecord(id: number): Promise<Account> {
     const tourGuide = await this.getDetailsByID(id);
     const averageResult = await getRepository(TransactionTourGuideReview)
-      .createQueryBuilder("tour_guide")
-      .select("AVG(tour_guide.rating)", "average")
-      .where(`tour_guide."accountId" = :id`, { id })
+      .createQueryBuilder("review")
+      .select("AVG(review.rating)", "average")
+      .where(`review."accountId" = :id`, { id })
       .getRawOne();
     //@ts-ignore
     tourGuide.rating = parseFloat(averageResult.average.toFixed(1)) || 0.0;
@@ -139,9 +139,9 @@ const accountModel = {
     return await Promise.all(
       gotTourGuides.map(async (tourGuide) => {
         const averageResult = await getRepository(TransactionTourGuideReview)
-          .createQueryBuilder("tour_guide")
-          .select("AVG(tour_guide.rating)", "average")
-          .where(`tour_guide."accountId" = :id`, { id: tourGuide.id })
+          .createQueryBuilder("review")
+          .select("AVG(review.rating)", "average")
+          .where(`review."accountId" = :id`, { id: tourGuide.id })
           .getRawOne();
         //@ts-ignore
         tourGuide.rating = parseFloat(averageResult.average.toFixed(1)) || 0.0;
