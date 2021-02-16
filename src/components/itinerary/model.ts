@@ -167,8 +167,15 @@ const itineraryModel = {
     );
     foundDetails.images = await this.getImagesSoftDetails(postID);
     foundDetails.days = await this.getDays(postID);
+    const reviewCountResult = await getRepository(
+      TransactionItineraryPostReview
+    )
+      .createQueryBuilder("review")
+      .select("COUNT(review.id)", "count")
+      .where(`review."postId" = :postID`, { postID })
+      .getRawOne();
     // @ts-ignore
-    foundDetails.reviewsCount = 999;
+    foundDetails.reviewsCount = parseInt(reviewCountResult.count) || 0;
     const transactionCountResult = await getRepository(
       TransactionItineraryPostReview
     )
