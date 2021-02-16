@@ -169,8 +169,15 @@ const itineraryModel = {
     foundDetails.days = await this.getDays(postID);
     // @ts-ignore
     foundDetails.reviewsCount = 999;
+    const transactionCountResult = await getRepository(
+      TransactionItineraryPostReview
+    )
+      .createQueryBuilder("review")
+      .select("COUNT(review.id)", "count")
+      .where(`review."postId" = :postID`, { postID })
+      .getRawOne();
     // @ts-ignore
-    foundDetails.transactionCount = 999;
+    foundDetails.transactionCount = parseInt(transactionCountResult.count) || 0;
     const averageResult = await getRepository(TransactionItineraryPostReview)
       .createQueryBuilder("review")
       .select("AVG(review.rating)", "average")
