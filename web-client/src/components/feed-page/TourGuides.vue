@@ -12,9 +12,15 @@
           ></v-progress-circular>
         </div>
       </v-col>
-      <template v-for="n in 9">
-        <v-col cols="12" md="6" lg="4" :key="n">
-          <generic-tour-guide-profile-preview-card></generic-tour-guide-profile-preview-card>
+      <template v-for="(tourGuide, index) in tourGuides">
+        <v-col cols="12" md="6" lg="4" :key="index">
+          <generic-tour-guide-profile-preview-card
+            :image="tourGuide.profile.image"
+            :nationality="tourGuide.profile.nationality"
+            :first-name="tourGuide.profile.firstName"
+            :last-name="tourGuide.profile.lastName"
+            :rating="tourGuide.rating"
+          ></generic-tour-guide-profile-preview-card>
         </v-col>
       </template>
     </v-row>
@@ -42,7 +48,6 @@ export default {
         FETCH_TOUR_GUIDE_ACCOUNTS,
         this.query
       );
-      console.log(this.tourGuides);
       this.isGetTourGuidesStart = false;
     },
   },
