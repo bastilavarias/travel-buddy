@@ -46,7 +46,7 @@
             </span>
           </template>
           <template v-slot:item.rating="{ item }">
-            <generic-rating-chip></generic-rating-chip>
+            <generic-rating-chip :rating="item.rating"></generic-rating-chip>
           </template>
           <template v-slot:item.isActive="{ item }">
             <generic-account-status-chip
@@ -105,6 +105,11 @@ export default {
           text: "Email",
           value: "email",
           sortable: true,
+        },
+        {
+          text: "Rating",
+          value: "rating",
+          sortable: false,
         },
         {
           text: "Status",

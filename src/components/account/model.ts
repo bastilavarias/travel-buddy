@@ -136,13 +136,22 @@ const accountModel = {
       },
       relations: ["profile", "profile.image", "type"],
     });
-    return gotTourGuides.map((tourGuide) => {
-      //@ts-ignore
-      delete tourGuide.password;
-      //@ts-ignore
-      delete tourGuide.profile.image.data;
-      return tourGuide;
-    });
+    return await Promise.all(
+      gotTourGuides.map(async (tourGuide) => {
+        const averageResult = await getRepository(TransactionTourGuideReview)
+          .createQueryBuilder("tour_guide")
+          .select("AVG(tour_guide.rating)", "average")
+          .where(`tour_guide."accountId" = :id`, { id: tourGuide.id })
+          .getRawOne();
+        //@ts-ignore
+        tourGuide.rating = parseFloat(averageResult.average.toFixed(1)) || 0.0;
+        //@ts-ignore
+        delete tourGuide.password;
+        //@ts-ignore
+        delete tourGuide.profile.image.data;
+        return tourGuide;
+      })
+    );
   },
 
   async searchTourGuides(query: string): Promise<Account[]> {
