@@ -13,6 +13,7 @@ import { getRepository } from "typeorm";
 import ItineraryPostInquiry from "../../database/entities/ItineraryPostInquiry";
 import ItineraryPostInquiryReply from "../../database/entities/ItineraryPostInquiryReply";
 import TransactionItineraryPostReview from "../../database/entities/TransactionItineraryPostReview";
+import Transaction from "../../database/entities/Transaction";
 
 const itineraryModel = {
   async saveDetails(
@@ -176,12 +177,10 @@ const itineraryModel = {
       .getRawOne();
     // @ts-ignore
     foundDetails.reviewsCount = parseInt(reviewCountResult.count) || 0;
-    const transactionCountResult = await getRepository(
-      TransactionItineraryPostReview
-    )
-      .createQueryBuilder("review")
-      .select("COUNT(review.id)", "count")
-      .where(`review."postId" = :postID`, { postID })
+    const transactionCountResult = await getRepository(Transaction)
+      .createQueryBuilder("transaction")
+      .select("COUNT(transaction.id)", "count")
+      .where(`transaction."postId" = :postID`, { postID })
       .getRawOne();
     // @ts-ignore
     foundDetails.transactionCount = parseInt(transactionCountResult.count) || 0;
