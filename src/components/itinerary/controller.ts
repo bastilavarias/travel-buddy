@@ -119,6 +119,7 @@ const itineraryController = {
       const itineraries = await itineraryService.fetch();
       response.status(200).json(itineraries);
     } catch (error) {
+      console.log(error);
       response.status(400).json(error);
     }
   },

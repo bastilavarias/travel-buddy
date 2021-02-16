@@ -171,8 +171,13 @@ const itineraryModel = {
     foundDetails.reviewsCount = 999;
     // @ts-ignore
     foundDetails.transactionCount = 999;
+    const averageResult = await getRepository(TransactionItineraryPostReview)
+      .createQueryBuilder("review")
+      .select("AVG(review.rating)", "average")
+      .where(`review."postId" = :postID`, { postID })
+      .getRawOne();
     // @ts-ignore
-    foundDetails.rating = 4.5;
+    foundDetails.rating = parseFloat(averageResult.average.toFixed(1)) || 0.0;
     return foundDetails;
   },
 
