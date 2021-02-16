@@ -167,6 +167,12 @@ const itineraryModel = {
     );
     foundDetails.images = await this.getImagesSoftDetails(postID);
     foundDetails.days = await this.getDays(postID);
+    // @ts-ignore
+    foundDetails.reviewsCount = 999;
+    // @ts-ignore
+    foundDetails.transactionCount = 999;
+    // @ts-ignore
+    foundDetails.rating = 4.5;
     return foundDetails;
   },
 
