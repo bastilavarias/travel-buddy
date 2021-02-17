@@ -13,7 +13,7 @@ const authenticationStore = {
   state: {
     isAuthenticated: false,
     token: tokenService.get(),
-    credentials: {},
+    credentials: null,
   },
 
   mutations: {
@@ -26,7 +26,34 @@ const authenticationStore = {
     [PURGE_AUTHENTICATION](state) {
       tokenService.remove();
       state.isAuthenticated = false;
-      state.credentials = {};
+      state.credentials = {
+        createdAt: "2021-01-21T12:48:48.894Z",
+        email: "defaultadmin@gmail.com",
+        id: 1,
+        isActive: true,
+        isDeleted: false,
+        isVerified: true,
+        profile: {
+          birthDate: "2000-05-21",
+          firstName: "Default",
+          id: 1,
+          image: {
+            id: 1,
+            publicID:
+              "travel-buddy-development/accounts/4d82da51fd2872187a1501a89c752994_r1eapg",
+            url:
+              "https://res.cloudinary.com/deqllunb9/image/upload/v1613536444/travel-buddy-development/accounts/4d82da51fd2872187a1501a89c752994_r1eapg.png",
+          },
+          lastName: "Admin",
+          nationality: "filipino",
+          sex: "male",
+        },
+        type: {
+          id: 3,
+          label: "Administrator",
+          name: "administrator",
+        },
+      };
     },
   },
 

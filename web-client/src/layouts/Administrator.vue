@@ -18,8 +18,8 @@
       <v-list-item>
         <v-list-item-avatar>
           <v-img
-            src="https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg"
-            lazy-src="https://images.generated.photos/0kaPE29NyIpDnse_CZlvGFct1V_GbYwneRYswJJ9kzE/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yz/XzAyNTA0NTguanBn.jpg"
+            :src="credentials.profile.image.url"
+            :lazy-src="credentials.profile.image.url"
           ></v-img>
         </v-list-item-avatar>
         <v-list-item-content>
