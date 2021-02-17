@@ -15,6 +15,7 @@
       <template v-for="(tourGuide, index) in tourGuides">
         <v-col cols="12" md="6" lg="4" :key="index">
           <generic-tour-guide-profile-preview-card
+            :id="tourGuide.id"
             :image="tourGuide.profile.image"
             :nationality="tourGuide.profile.nationality"
             :first-name="tourGuide.profile.firstName"
