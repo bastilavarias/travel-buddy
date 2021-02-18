@@ -84,7 +84,42 @@
               </v-card-text>
             </v-card>
           </v-tab-item>
-          <v-tab-item>x</v-tab-item>
+          <v-tab-item>
+            <v-card outlined>
+              <v-card-title class="font-weight-bold"
+                >Travel Buddies</v-card-title
+              >
+              <v-card-text>
+                <v-row dense>
+                  <v-col cols="12" v-if="isGetTourGuidesStart">
+                    <div
+                      class="d-flex justify-center align-content-center align-center"
+                    >
+                      <v-progress-circular
+                        :width="3"
+                        indeterminate
+                        color="primary"
+                        :size="50"
+                      ></v-progress-circular>
+                    </div>
+                  </v-col>
+                  <template v-for="(tourGuide, index) in tourGuides">
+                    <v-col cols="12" md="6" lg="4" :key="index">
+                      <generic-tour-guide-profile-preview-card
+                        :id="tourGuide.id"
+                        :image="tourGuide.profile.image"
+                        :nationality="tourGuide.profile.nationality"
+                        :first-name="tourGuide.profile.firstName"
+                        :last-name="tourGuide.profile.lastName"
+                        :rating="tourGuide.rating"
+                        private
+                      ></generic-tour-guide-profile-preview-card>
+                    </v-col>
+                  </template>
+                </v-row>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
         </v-tabs-items>
       </v-container>
     </v-main>
@@ -101,8 +136,11 @@ import commonUtilities from "@/common/utilities";
 import CustomRouterLink from "@/components/custom/RouterLink";
 import { FETCH_ITINERARIES } from "@/store/types/itinerary";
 import GenericItineraryDetailsPreviewCard from "@/components/generic/card/ItineraryDetailsPreview";
+import { FETCH_TOUR_GUIDE_ACCOUNTS } from "@/store/types/account";
+import GenericTourGuideProfilePreviewCard from "@/components/generic/card/TourGuideProfilePreview";
 export default {
   components: {
+    GenericTourGuideProfilePreviewCard,
     GenericItineraryDetailsPreviewCard,
     CustomRouterLink,
     GenericBasicFooter,
@@ -119,6 +157,8 @@ export default {
       itineraries: [],
       isFetchItinerariesStart: false,
       search: null,
+      isGetTourGuidesStart: false,
+      tourGuides: [],
     };
   },
 
@@ -140,10 +180,19 @@ export default {
       this.itineraries = await this.$store.dispatch(FETCH_ITINERARIES);
       this.isFetchItinerariesStart = false;
     },
+    async getTourGuides() {
+      this.isGetTourGuidesStart = true;
+      this.tourGuides = await this.$store.dispatch(
+        FETCH_TOUR_GUIDE_ACCOUNTS,
+        this.query
+      );
+      this.isGetTourGuidesStart = false;
+    },
   },
 
   async created() {
     await this.fetchItineraries();
+    await this.getTourGuides();
   },
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <v-card outlined :class="`${className}`" :width="width ? width : '100%'">
+  <v-card :class="`${className} elevation-1`" :width="width ? width : '100%'">
     <v-list-item three-line>
       <v-list-item-avatar :size="75">
         <v-img :src="image.url" :lazy-src="image.url"></v-img>
@@ -19,7 +19,14 @@
     </v-list-item>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn small depressed color="primary" class="ma-1" @click="openDialog">
+      <v-btn
+        small
+        depressed
+        color="primary"
+        class="ma-1"
+        @click="openDialog"
+        v-if="!private"
+      >
         <span class="text-capitalize mr-1">View Record</span>
         <v-icon small>mdi-account</v-icon>
       </v-btn>
@@ -222,6 +229,10 @@ export default {
     rating: {
       type: Number,
       required: true,
+    },
+    private: {
+      type: Boolean,
+      required: false,
     },
   },
 

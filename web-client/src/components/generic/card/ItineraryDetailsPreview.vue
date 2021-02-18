@@ -1,5 +1,5 @@
 <template>
-  <v-card outlined :disabled="!isActive">
+  <v-card class="elevation-1" :disabled="!isActive">
     <v-img
       class="white--text align-end"
       height="200px"
