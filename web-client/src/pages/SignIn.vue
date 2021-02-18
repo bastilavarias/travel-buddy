@@ -76,8 +76,8 @@
           </v-container>
         </v-col>
       </v-row>
-      <generic-basic-footer></generic-basic-footer>
     </v-main>
+    <generic-basic-footer></generic-basic-footer>
   </v-app>
 </template>
 

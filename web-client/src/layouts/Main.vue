@@ -21,8 +21,8 @@
     </v-app-bar>
     <v-main>
       <router-view></router-view>
-      <generic-basic-footer></generic-basic-footer>
     </v-main>
+    <generic-basic-footer></generic-basic-footer>
     <custom-global-snackbar></custom-global-snackbar>
   </v-app>
 </template>
