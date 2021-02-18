@@ -19,6 +19,10 @@ import ItineraryPost from "../entities/ItineraryPost";
 import defaultItineraryPosts from "./modules/default-itineraries/post";
 import defaultItineraryPostDays from "./modules/default-itineraries/days";
 import ItineraryPostDay from "../entities/ItineraryPostDay";
+import defaultItineraryPostDayActivities from "./modules/default-itineraries/activities";
+import ItineraryPostDayActivity from "../entities/ItineraryPostDayActivity";
+import defaultItineraryPostImages from "./modules/default-itineraries/images";
+import ItineraryPostImage from "../entities/ItineraryPostImage";
 
 const generateSeeds = async () => {
   const connection = await Database.init();
@@ -90,6 +94,20 @@ const generateSeeds = async () => {
     .insert()
     .into(ItineraryPostDay)
     .values(defaultItineraryPostDays)
+    .onConflict(`("id") do nothing`)
+    .execute();
+  await connection
+    .createQueryBuilder()
+    .insert()
+    .into(ItineraryPostDayActivity)
+    .values(defaultItineraryPostDayActivities)
+    .onConflict(`("id") do nothing`)
+    .execute();
+  await connection
+    .createQueryBuilder()
+    .insert()
+    .into(ItineraryPostImage)
+    .values(defaultItineraryPostImages)
     .onConflict(`("id") do nothing`)
     .execute();
 };

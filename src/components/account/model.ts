@@ -61,8 +61,9 @@ const accountModel = {
       .select("AVG(review.rating)", "average")
       .where(`review."accountId" = :id`, { id })
       .getRawOne();
+    const average = averageResult.average || 0;
     //@ts-ignore
-    tourGuide.rating = parseFloat(averageResult.average.toFixed(1)) || 0.0;
+    tourGuide.rating = parseFloat(average.toFixed(1)) || 0.0;
     return tourGuide!;
   },
 
@@ -143,8 +144,9 @@ const accountModel = {
           .select("AVG(review.rating)", "average")
           .where(`review."accountId" = :id`, { id: tourGuide.id })
           .getRawOne();
+        const average = averageResult.average || 0;
         //@ts-ignore
-        tourGuide.rating = parseFloat(averageResult.average.toFixed(1)) || 0.0;
+        tourGuide.rating = parseFloat(average.toFixed(1)) || 0.0;
         //@ts-ignore
         delete tourGuide.password;
         //@ts-ignore
