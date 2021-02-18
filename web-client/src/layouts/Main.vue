@@ -16,15 +16,6 @@
           </span>
         </custom-router-link>
       </v-toolbar-title>
-      <v-text-field
-        hide-details
-        label="Search"
-        rounded
-        dense
-        filled
-        append-icon="mdi-magnify"
-        single-line
-      ></v-text-field>
       <v-spacer> </v-spacer>
       <main-layout-toolbar-account-button-menu></main-layout-toolbar-account-button-menu>
     </v-app-bar>

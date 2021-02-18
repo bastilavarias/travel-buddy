@@ -203,9 +203,9 @@ export default {
       if (this.search === "") return this.accounts;
       return this.accounts.filter((account) => {
         const { firstName, lastName } = account.profile;
-        const keyword = this.search.toLowerCase();
-        if (firstName.toLowerCase().includes(keyword)) return account;
-        if (lastName.toLowerCase().includes(keyword)) return account;
+        const keyword = this.search.toLowerCase().trim();
+        if (firstName.toLowerCase().trim().includes(keyword)) return account;
+        if (lastName.toLowerCase().trim().includes(keyword)) return account;
       });
     },
   },
