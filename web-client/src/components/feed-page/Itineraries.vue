@@ -19,7 +19,8 @@
     <v-card-subtitle v-if="search">
       Search results for: {{ search }}
     </v-card-subtitle>
-    <div class="text-center" v-if="itineraries.length === 0">
+
+    <div class="text-center" v-if="itinerariesLocal.length === 0">
       <span class="font-italic caption">No data.</span>
     </div>
     <v-card-text>
