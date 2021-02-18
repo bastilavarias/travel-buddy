@@ -189,8 +189,9 @@ const itineraryModel = {
       .select("AVG(review.rating)", "average")
       .where(`review."postId" = :postID`, { postID })
       .getRawOne();
+    const average = averageResult.average || 0;
     // @ts-ignore
-    foundDetails.rating = parseFloat(averageResult.average.toFixed(1)) || 0.0;
+    foundDetails.rating = parseFloat(average.toFixed(1)) || 0.0;
     return foundDetails;
   },
 

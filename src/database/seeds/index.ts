@@ -15,6 +15,17 @@ import Profile from "../entities/Profile";
 import defaultAdministratorProfile from "./modules/default-administrator/profile";
 import Account from "../entities/Account";
 import defaultAdministratorAccount from "./modules/default-administrator/account";
+import ItineraryPost from "../entities/ItineraryPost";
+import defaultItineraryPosts from "./modules/default-itineraries/post";
+import defaultItineraryPostDays from "./modules/default-itineraries/days";
+import ItineraryPostDay from "../entities/ItineraryPostDay";
+import defaultItineraryPostDayActivities from "./modules/default-itineraries/activities";
+import ItineraryPostDayActivity from "../entities/ItineraryPostDayActivity";
+import defaultItineraryPostImages from "./modules/default-itineraries/images";
+import ItineraryPostImage from "../entities/ItineraryPostImage";
+import defaultTourGuideAccounts from "./modules/default-tour-guides/accounts";
+import defaultTourGuideAccountProfiles from "./modules/default-tour-guides/profiles";
+import defaultTourGuideAccountProfileImages from "./modules/default-tour-guides/profileImages";
 
 const generateSeeds = async () => {
   const connection = await Database.init();
@@ -72,6 +83,55 @@ const generateSeeds = async () => {
     .insert()
     .into(Account)
     .values(defaultAdministratorAccount)
+    .onConflict(`("email") do nothing`)
+    .execute();
+  await connection
+    .createQueryBuilder()
+    .insert()
+    .into(ItineraryPost)
+    .values(defaultItineraryPosts)
+    .onConflict(`("id") do nothing`)
+    .execute();
+  await connection
+    .createQueryBuilder()
+    .insert()
+    .into(ItineraryPostDay)
+    .values(defaultItineraryPostDays)
+    .onConflict(`("id") do nothing`)
+    .execute();
+  await connection
+    .createQueryBuilder()
+    .insert()
+    .into(ItineraryPostDayActivity)
+    .values(defaultItineraryPostDayActivities)
+    .onConflict(`("id") do nothing`)
+    .execute();
+  await connection
+    .createQueryBuilder()
+    .insert()
+    .into(ItineraryPostImage)
+    .values(defaultItineraryPostImages)
+    .onConflict(`("id") do nothing`)
+    .execute();
+  await connection
+    .createQueryBuilder()
+    .insert()
+    .into(ProfileImage)
+    .values(defaultTourGuideAccountProfileImages)
+    .onConflict(`("id") do nothing`)
+    .execute();
+  await connection
+    .createQueryBuilder()
+    .insert()
+    .into(Profile)
+    .values(defaultTourGuideAccountProfiles)
+    .onConflict(`("id") do nothing`)
+    .execute();
+  await connection
+    .createQueryBuilder()
+    .insert()
+    .into(Account)
+    .values(defaultTourGuideAccounts)
     .onConflict(`("email") do nothing`)
     .execute();
 };
