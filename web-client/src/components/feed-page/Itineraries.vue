@@ -1,5 +1,5 @@
 <template>
-  <v-card outlined>
+  <v-card flat color="transparent">
     <v-card-title
       class="d-flex justify-center align-content-center align-center"
     >
@@ -7,7 +7,8 @@
       <v-spacer></v-spacer>
       <v-text-field
         dense
-        outlined
+        filled
+        rounded
         single-line
         hide-details
         label="Search"
