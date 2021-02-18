@@ -34,17 +34,93 @@
       >
     </v-app-bar>
     <v-main>
-      <home-page-header></home-page-header>
+      <home-page-header :tab.sync="tab"></home-page-header>
       <div :style="{ marginBottom: '3rem' }"></div>
       <v-container>
-        <v-row>
-          <v-col cols="12">
-            <!--            <home-page-featured-itineraries-card></home-page-featured-itineraries-card>-->
-          </v-col>
-          <v-col cols="12">
-            <!--            <home-page-top-tour-guides-card></home-page-top-tour-guides-card>-->
-          </v-col>
-        </v-row>
+        <v-tabs-items v-model="tab">
+          <v-tab-item>
+            <v-card outlined>
+              <v-card-title
+                class="d-flex justify-center align-content-center align-center"
+              >
+                <span class="font-weight-bold"> Discover our Itineraries </span>
+                <v-spacer></v-spacer>
+                <v-text-field
+                  dense
+                  filled
+                  rounded
+                  single-line
+                  hide-details
+                  label="Search"
+                  append-icon="mdi-magnify"
+                  v-model="search"
+                ></v-text-field>
+              </v-card-title>
+              <v-card-subtitle v-if="search">
+                Search results for: {{ search }}
+              </v-card-subtitle>
+              <div class="text-center" v-if="itinerariesLocal.length === 0">
+                <span class="font-italic caption">No data.</span>
+              </div>
+              <v-card-text>
+                <v-row dense v-if="itineraries.length > 0">
+                  <template v-for="(itinerary, index) in itinerariesLocal">
+                    <v-col cols="12" sm="6" md="4" lg="3" :key="index">
+                      <generic-itinerary-details-preview-card
+                        :postID="itinerary.id"
+                        :name="itinerary.name"
+                        :price="itinerary.price"
+                        :days="itinerary.days"
+                        :images="itinerary.images"
+                        :is-active="itinerary.isActive"
+                        :pax="itinerary.pax"
+                        :rating="itinerary.rating"
+                        :reviews-count="itinerary.reviewsCount"
+                        :transaction-count="itinerary.transactionCount"
+                      ></generic-itinerary-details-preview-card>
+                    </v-col>
+                  </template>
+                </v-row>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item>
+            <v-card outlined>
+              <v-card-title class="font-weight-bold"
+                >Travel Buddies</v-card-title
+              >
+              <v-card-text>
+                <v-row dense>
+                  <v-col cols="12" v-if="isGetTourGuidesStart">
+                    <div
+                      class="d-flex justify-center align-content-center align-center"
+                    >
+                      <v-progress-circular
+                        :width="3"
+                        indeterminate
+                        color="primary"
+                        :size="50"
+                      ></v-progress-circular>
+                    </div>
+                  </v-col>
+                  <template v-for="(tourGuide, index) in tourGuides">
+                    <v-col cols="12" md="6" lg="4" :key="index">
+                      <generic-tour-guide-profile-preview-card
+                        :id="tourGuide.id"
+                        :image="tourGuide.profile.image"
+                        :nationality="tourGuide.profile.nationality"
+                        :first-name="tourGuide.profile.firstName"
+                        :last-name="tourGuide.profile.lastName"
+                        :rating="tourGuide.rating"
+                        private
+                      ></generic-tour-guide-profile-preview-card>
+                    </v-col>
+                  </template>
+                </v-row>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+        </v-tabs-items>
       </v-container>
     </v-main>
     <generic-basic-footer></generic-basic-footer>
@@ -58,14 +134,65 @@ import HomePageTopTourGuidesCard from "@/components/home-page/TopTourGuidesCard"
 import GenericBasicFooter from "@/components/generic/footer/Basic";
 import commonUtilities from "@/common/utilities";
 import CustomRouterLink from "@/components/custom/RouterLink";
+import { FETCH_ITINERARIES } from "@/store/types/itinerary";
+import GenericItineraryDetailsPreviewCard from "@/components/generic/card/ItineraryDetailsPreview";
+import { FETCH_TOUR_GUIDE_ACCOUNTS } from "@/store/types/account";
+import GenericTourGuideProfilePreviewCard from "@/components/generic/card/TourGuideProfilePreview";
 export default {
   components: {
+    GenericTourGuideProfilePreviewCard,
+    GenericItineraryDetailsPreviewCard,
     CustomRouterLink,
     GenericBasicFooter,
     HomePageTopTourGuidesCard,
     HomePageFeaturedItinerariesCard,
     HomePageHeader,
   },
+
   mixins: [commonUtilities],
+
+  data() {
+    return {
+      tab: null,
+      itineraries: [],
+      isFetchItinerariesStart: false,
+      search: null,
+      isGetTourGuidesStart: false,
+      tourGuides: [],
+    };
+  },
+
+  computed: {
+    itinerariesLocal() {
+      const itineraries = this.itineraries;
+      if (!this.search) return itineraries;
+      return itineraries.filter((itinerary) => {
+        const keyword = this.search.toLowerCase().trim();
+        if (itinerary.name.toLowerCase().trim().includes(keyword))
+          return itinerary;
+      });
+    },
+  },
+
+  methods: {
+    async fetchItineraries() {
+      this.isFetchItinerariesStart = true;
+      this.itineraries = await this.$store.dispatch(FETCH_ITINERARIES);
+      this.isFetchItinerariesStart = false;
+    },
+    async getTourGuides() {
+      this.isGetTourGuidesStart = true;
+      this.tourGuides = await this.$store.dispatch(
+        FETCH_TOUR_GUIDE_ACCOUNTS,
+        this.query
+      );
+      this.isGetTourGuidesStart = false;
+    },
+  },
+
+  async created() {
+    await this.fetchItineraries();
+    await this.getTourGuides();
+  },
 };
 </script>

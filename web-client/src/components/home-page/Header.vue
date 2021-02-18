@@ -53,28 +53,6 @@
               </v-tab>
             </template>
           </v-tabs>
-          <v-card-text>
-            <v-row dense>
-              <v-col cols="12" md="10">
-                <v-text-field
-                  hide-details
-                  rounded
-                  filled
-                  label="Search by Destination or Tour Guide Name"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12" md="2">
-                <v-btn
-                  color="primary"
-                  block
-                  rounded
-                  class="text-capitalize"
-                  x-large
-                  >Search</v-btn
-                >
-              </v-col>
-            </v-row>
-          </v-card-text>
         </v-card>
       </v-container>
     </div>
@@ -87,15 +65,29 @@ import "@/style/global.css";
 
 export default {
   name: "home-page-header",
+
   components: { Carousel },
+
+  props: {
+    tab: {
+      required: false,
+    },
+  },
+
+  watch: {
+    tab(val) {
+      this.tabState = val;
+    },
+
+    tabState(val) {
+      this.$emit("update:tab", val);
+    },
+  },
+
   data() {
     return {
-      tabState: null,
+      tabState: this.tab,
       tabSelections: [
-        {
-          icon: "mdi-home-circle",
-          text: "All",
-        },
         {
           icon: "mdi-beach",
           text: "Itineraries",
@@ -129,7 +121,7 @@ export default {
   position: absolute;
   width: 100%;
   left: 0;
-  bottom: -10%;
+  bottom: -5%;
   z-index: 3;
 }
 </style>
