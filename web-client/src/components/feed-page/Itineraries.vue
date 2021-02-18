@@ -1,5 +1,5 @@
 <template>
-  <v-card flat color="transparent">
+  <v-card outlined>
     <v-card-title
       class="d-flex justify-center align-content-center align-center"
     >

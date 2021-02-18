@@ -1,5 +1,5 @@
 <template>
-  <v-card outlined>
+  <v-card class="elevation-1">
     <v-img
       class="white--text align-end"
       height="200px"
