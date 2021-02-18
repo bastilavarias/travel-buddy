@@ -23,6 +23,9 @@ import defaultItineraryPostDayActivities from "./modules/default-itineraries/act
 import ItineraryPostDayActivity from "../entities/ItineraryPostDayActivity";
 import defaultItineraryPostImages from "./modules/default-itineraries/images";
 import ItineraryPostImage from "../entities/ItineraryPostImage";
+import defaultTourGuideAccounts from "./modules/default-tour-guides/accounts";
+import defaultTourGuideAccountProfiles from "./modules/default-tour-guides/profiles";
+import defaultTourGuideAccountProfileImages from "./modules/default-tour-guides/profileImages";
 
 const generateSeeds = async () => {
   const connection = await Database.init();
@@ -109,6 +112,27 @@ const generateSeeds = async () => {
     .into(ItineraryPostImage)
     .values(defaultItineraryPostImages)
     .onConflict(`("id") do nothing`)
+    .execute();
+  await connection
+    .createQueryBuilder()
+    .insert()
+    .into(ProfileImage)
+    .values(defaultTourGuideAccountProfileImages)
+    .onConflict(`("id") do nothing`)
+    .execute();
+  await connection
+    .createQueryBuilder()
+    .insert()
+    .into(Profile)
+    .values(defaultTourGuideAccountProfiles)
+    .onConflict(`("id") do nothing`)
+    .execute();
+  await connection
+    .createQueryBuilder()
+    .insert()
+    .into(Account)
+    .values(defaultTourGuideAccounts)
+    .onConflict(`("email") do nothing`)
     .execute();
 };
 

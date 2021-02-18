@@ -14,6 +14,9 @@
         <v-col cols="12">
           <v-tabs-items v-model="headerTabState" class="transparent">
             <v-tab-item>
+              <feed-page-itineraries
+                :itineraries="itineraries"
+              ></feed-page-itineraries>
               <div
                 style="height: 30rem"
                 class="text-center"
@@ -26,9 +29,6 @@
                   color="secondary"
                 ></v-progress-circular>
               </div>
-              <feed-page-itineraries
-                :itineraries="itineraries"
-              ></feed-page-itineraries>
             </v-tab-item>
             <v-tab-item>
               <feed-page-tour-guides></feed-page-tour-guides>
