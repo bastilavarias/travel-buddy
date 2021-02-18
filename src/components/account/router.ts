@@ -31,11 +31,7 @@ accountRouter.get(
   passport.authenticate("jwt", { session: false }),
   accountController.fetchDetails
 );
-accountRouter.get(
-  "/tour-guides",
-  passport.authenticate("jwt", { session: false }),
-  accountController.fetchTourGuides
-);
+accountRouter.get("/tour-guides", accountController.fetchTourGuides);
 accountRouter.get(
   "/tour-guide/record/:id",
   passport.authenticate("jwt", { session: false }),
