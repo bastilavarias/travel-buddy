@@ -26,7 +26,8 @@ const commonUtilities = {
     },
     formatItineraryDetails(days) {
       const dayCount = [...new Set(days.map((day) => day.day))].length;
-      const destinationCount = days.map((day) => day.destination).length;
+      const destinationCount = [...new Set(days.map((day) => day.destination))]
+        .length;
       const activityCount = days
         .map((day) => day.activities)
         .map((activities) => activities.length)
