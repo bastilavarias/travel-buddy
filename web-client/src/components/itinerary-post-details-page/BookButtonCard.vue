@@ -66,7 +66,8 @@ export default {
       return this.$store.state.authentication.credentials;
     },
     daysCount() {
-      return this.days.length;
+      const days = this.days.map((day) => day.day);
+      return [...new Set(days)].length;
     },
     destinationsCount() {
       return [...new Set(this.days.map((day) => day.destination))].length;
