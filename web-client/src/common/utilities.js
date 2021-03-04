@@ -25,7 +25,7 @@ const commonUtilities = {
       return `${firstName} ${lastName}`;
     },
     formatItineraryDetails(days) {
-      const dayCount = days.length;
+      const dayCount = [...new Set(days.map((day) => day.day))].length;
       const destinationCount = days.map((day) => day.destination).length;
       const activityCount = days
         .map((day) => day.activities)
