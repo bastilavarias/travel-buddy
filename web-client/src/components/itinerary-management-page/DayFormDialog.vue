@@ -15,8 +15,7 @@
             <v-text-field
               outlined
               label="Day"
-              readonly
-              :value="dayCount"
+              v-model="form.day"
             ></v-text-field>
           </v-col>
           <v-col cols="12">
@@ -81,6 +80,7 @@ const defaultDayForm = {
   destination: "",
   transportation: "",
   activities: [],
+  day: null,
 };
 
 export default {
@@ -118,8 +118,16 @@ export default {
   mixins: [commonValidation],
   computed: {
     isFormValid() {
-      const { destination, transportation, lodging, activities } = this.form;
-      return destination && transportation && lodging && activities.length > 0;
+      const {
+        day,
+        destination,
+        transportation,
+        lodging,
+        activities,
+      } = this.form;
+      return (
+        day && destination && transportation && lodging && activities.length > 0
+      );
     },
     dayCount() {
       if (this.operation === "add") return this.daysLocal.length + 1;
@@ -150,7 +158,7 @@ export default {
   methods: {
     addDay() {
       const payload = {
-        day: this.dayCount,
+        day: this.form.day,
         destination: this.form.destination || "",
         transportation: this.form.transportation || "",
         lodging: this.form.lodging || "",
