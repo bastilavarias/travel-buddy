@@ -3,7 +3,7 @@
     <v-card-title class="subtitle-2">Itinerary</v-card-title>
     <v-data-table
       :headers="tableHeaders"
-      :items="days"
+      :items="sortedDays"
       hide-default-footer
       :items-per-page="-1"
     >
@@ -46,6 +46,13 @@ export default {
       required: false,
     },
   },
+
+  computed: {
+    sortedDays() {
+      return this.days.sort((a, b) => a.day - b.day);
+    },
+  },
+
   data() {
     return {
       tableHeaders: [
