@@ -334,7 +334,8 @@ export default {
     },
     "form.fromDate"(val) {
       if (val) {
-        const daysCount = this.postDetails.days.map((item) => item.day).length;
+        const days = this.postDetails.days.map((item) => item.day);
+        const daysCount = [...new Set(days)].length;
         const addedDate = moment(val).add(daysCount, "days");
         this.form.toDate = moment(addedDate).format("YYYY-MM-DD");
         this.availableTourGuidesAutocompleteLabel = "";
