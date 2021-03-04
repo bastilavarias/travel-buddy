@@ -348,7 +348,8 @@ export default {
         GET_ITINERARY_SOFT_DETAILS,
         id
       );
-      const days = itinerary.days.map((day) => {
+      const days = itinerary.days.map((day, index) => {
+        day.index = index;
         day.activities = day.activities.map((activity) => activity.name);
         return day;
       });

@@ -158,6 +158,7 @@ export default {
   methods: {
     addDay() {
       const payload = {
+        index: this.dayCount,
         day: this.form.day,
         destination: this.form.destination || "",
         transportation: this.form.transportation || "",
@@ -170,7 +171,7 @@ export default {
     },
     updateDay() {
       this.daysLocal = this.daysLocal.map((item) => {
-        if (item.day === this.selectedDay.day)
+        if (item.index === this.selectedDay.index)
           item = Object.assign({}, this.form);
         return item;
       });
